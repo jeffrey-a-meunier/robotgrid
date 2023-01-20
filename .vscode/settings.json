@@ -1,0 +1,14 @@
+{
+    "java.project.sourcePaths": [
+        "src/main",
+        "src/test",
+        "lib/junit",
+        "lib/processing",
+        "lib/zeromq"
+    ],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "java.dependency.packagePresentation": "hierarchical"
+}
