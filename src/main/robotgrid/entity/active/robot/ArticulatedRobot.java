@@ -136,13 +136,13 @@ public class ArticulatedRobot extends Robot {
     }
 
     public CommandResult gripperGrip() {
-        // TODO
+        // TODO complete this method
         System.out.println("ArticulatedRobot.gripperGrip() is not implemented");
         return CommandResult.SUCCESS;
     }
 
     public CommandResult gripperRelease() {
-        // TODO
+        // TODO complete this method
         System.out.println("ArticulatedRobot.gripperGrip() is not implemented");
         if (_payload != null) {
         }

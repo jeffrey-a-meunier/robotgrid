@@ -78,12 +78,24 @@ public class Cell implements IContainer {
         return false;
     }
 
-    public void draw(final PApplet applet) {
+    public void drawBackground(final PApplet applet) {
         _lineColor.applyStroke(applet);
         _fillColor.applyFill(applet);
         applet.strokeWeight(LINE_WIDTH);
         applet.rect(-WIDTH2, -HEIGHT2, WIDTH1, HEIGHT1);
+        // if (_entity != null) {
+        //     _lineColor.applyStroke(applet);
+        //     _fillColor.applyFill(applet);
+        //     applet.strokeWeight(LINE_WIDTH);
+        //     _entity.draw(applet);
+        // }
+    }
+    
+    public void drawContent(final PApplet applet) {
         if (_entity != null) {
+            _lineColor.applyStroke(applet);
+            _fillColor.applyFill(applet);
+            applet.strokeWeight(LINE_WIDTH);
             _entity.draw(applet);
         }
     }

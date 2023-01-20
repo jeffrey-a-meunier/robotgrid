@@ -37,24 +37,37 @@ public class Grid {
 
     // Instance methods =======================================================
 
-    public Cell getCell(final int rowNum, final int colNum) {
-        if (rowNum < 0 || rowNum >= _nRows || colNum < 0 || colNum >= _nCols) {
-            return null;
-        }
-        return _cells[rowNum][colNum];
-    }
-
     protected void draw(final PApplet applet, final int x, final int y) {
         applet.translate(Cell.WIDTH2, Cell.HEIGHT2);
+        applet.pushMatrix();
+        // draw the background of each cell
         for (int rowNum=0; rowNum < _nRows; rowNum++) {
             applet.pushMatrix();
             for (int colNum=0; colNum < _nCols; colNum++) {
-                _cells[rowNum][colNum].draw(applet);
+                _cells[rowNum][colNum].drawBackground(applet);
                 applet.translate(Cell.WIDTH, 0f);
             }
             applet.popMatrix();
             applet.translate(0f, Cell.HEIGHT);
         }
+        applet.popMatrix();
+        // draw the content of each cell
+        for (int rowNum=0; rowNum < _nRows; rowNum++) {
+            applet.pushMatrix();
+            for (int colNum=0; colNum < _nCols; colNum++) {
+                _cells[rowNum][colNum].drawContent(applet);
+                applet.translate(Cell.WIDTH, 0f);
+            }
+            applet.popMatrix();
+            applet.translate(0f, Cell.HEIGHT);
+        }
+    }
+
+    public Cell getCell(final int rowNum, final int colNum) {
+        if (rowNum < 0 || rowNum >= _nRows || colNum < 0 || colNum >= _nCols) {
+            return null;
+        }
+        return _cells[rowNum][colNum];
     }
 
     public void move(final Entity entity, final Direction direction) {
