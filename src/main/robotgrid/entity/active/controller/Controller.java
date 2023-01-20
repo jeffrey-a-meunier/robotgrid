@@ -66,7 +66,6 @@ public class Controller implements Runnable {
 
     public CommandResult execute(final String opcode) {
         ICommand command = _commands.get(opcode);
-        System.out.println("Controller.execute " + opcode + " got command " + command);
         if (command != null) {
             return execute(command);
         }
@@ -95,10 +94,8 @@ public class Controller implements Runnable {
 
     public void run() {
         _isOn = true;
-        System.out.println("Controller " + this.entity() + " waiting for message");
         while (!Thread.currentThread().isInterrupted()) {
             Message message = _msgq.deq();
-            System.out.println("Controller " + this.entity() + " got message " + message);
             _handleMessage(message);
         }
         _isOn = false;
