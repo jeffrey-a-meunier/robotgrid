@@ -29,7 +29,7 @@ public class MessageQ {
                     _msgq.wait();
                 }
                 catch (final InterruptedException exn) {
-                    return new Message(Message.Status.Interrupted);
+                    return new Message(null, Message.Status.Interrupted);
                 }
             }
             return _msgq.remove();

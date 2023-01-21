@@ -10,7 +10,7 @@ public class MobileRobotController extends Controller {
 
     protected class MoveForwardCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller) {
+        public CommandResult execute(final Controller controller, final String[] parts) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.moveForward());
         }
@@ -18,7 +18,7 @@ public class MobileRobotController extends Controller {
     
     protected class MoveBackwardCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller) {
+        public CommandResult execute(final Controller controller, final String[] parts) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.moveBackward());
         }
@@ -26,7 +26,7 @@ public class MobileRobotController extends Controller {
 
     protected class RotateRightCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller) {
+        public CommandResult execute(final Controller controller, final String[] parts) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.rotateRight());
         }
@@ -34,7 +34,7 @@ public class MobileRobotController extends Controller {
 
     protected class RotateLeftCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller) {
+        public CommandResult execute(final Controller controller, final String[] parts) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.rotateLeft());
         }

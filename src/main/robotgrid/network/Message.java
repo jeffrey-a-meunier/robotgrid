@@ -1,6 +1,6 @@
 package robotgrid.network;
 
-import java.util.Optional;
+import java.util.Arrays;
 
 public class Message {
 
@@ -23,19 +23,24 @@ public class Message {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    Optional<String> _payload = Optional.empty();
+    protected String[] _parts;
     protected Status _status = Status.Normal;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Message(final String payload) {
-        _payload = Optional.of(payload);
+    public Message(final String ... parts) {
+        this(parts, Status.Normal);
+    }
+
+    public Message(final String[] parts, final Status status) {
+        _parts = parts;
         _status = Status.Normal;
     }
 
-    public Message(final Status status) {
+    public Message setStatus(final Status status) {
         _status = status;
+        return this;
     }
 
     // Instance methods =======================================================
@@ -48,8 +53,8 @@ public class Message {
         return _status == Status.Normal;
     }
 
-    public Optional<String> payload() {
-        return _payload;
+    public String[] parts() {
+        return _parts;
     }
 
     public Status status() {
@@ -58,7 +63,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" + _payload + ", " + _status + '}';
+        return "Message{" + Arrays.toString(_parts) + ", " + _status + '}';
     }
 
 }

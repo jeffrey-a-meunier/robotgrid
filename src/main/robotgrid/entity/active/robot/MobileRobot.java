@@ -24,7 +24,7 @@ public class MobileRobot extends Robot {
     protected float _bodySize = Cell.SIZE * 0.9f;
     protected float _bodySize2 = _bodySize / 2f;
     protected Shape _body = new CircleShape(_bodySize);
-    protected float _indicatorSize = Cell.SIZE / 3.0f;
+    protected float _indicatorSize = Cell.SIZE / 5.0f;
     protected float _indicatorSize2 = _indicatorSize / 2f;
     protected Shape _indicator = new TriangleShape(_indicatorSize);
 

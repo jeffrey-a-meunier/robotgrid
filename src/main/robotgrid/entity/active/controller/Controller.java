@@ -64,16 +64,17 @@ public class Controller implements Runnable {
         return _entity;
     }
 
-    public CommandResult execute(final String opcode) {
+    public CommandResult execute(final String[] parts) {
+        String opcode = parts[0];
         ICommand command = _commands.get(opcode);
         if (command != null) {
-            return execute(command);
+            return execute(command, parts);
         }
         return new CommandResult.NotImplemented(opcode, this);
     }
 
-    public CommandResult execute(final ICommand command) {
-        return command.execute(this);
+    public CommandResult execute(final ICommand command, final String[] parts) {
+        return command.execute(this, parts);
     }
 
     public boolean isOn() {
@@ -102,7 +103,8 @@ public class Controller implements Runnable {
     }
 
     public Controller sendMessage(final String messageString) {
-        _msgq.enq(new Message(messageString));
+        String[] parts = messageString.split(" ", 0);
+        _msgq.enq(new Message(parts));
         return this;
     }
 
@@ -111,8 +113,10 @@ public class Controller implements Runnable {
     }
 
     protected void _handleMessage(final Message message) {
-        String payload = message.payload().get();
-        execute(payload);
+        String[] parts = message.parts();
+        if (parts != null && parts.length > 0) {
+            execute(parts);
+        }
     }
 
 }
