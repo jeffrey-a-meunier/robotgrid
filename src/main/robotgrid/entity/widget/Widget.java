@@ -2,6 +2,7 @@ package robotgrid.entity.widget;
 
 import processing.core.PApplet;
 import robotgrid.entity.Entity;
+import robotgrid.entity.Height;
 import robotgrid.scene.Color;
 import robotgrid.shape.Shape;
 
@@ -21,6 +22,7 @@ public abstract class Widget extends Entity {
 
     public Widget(final String name, final Shape shape) {
         super(name);
+        _height = Height.None;
         _shape = shape;
     }
 

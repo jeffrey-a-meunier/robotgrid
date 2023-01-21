@@ -3,7 +3,6 @@ package robotgrid.entity.active.robot;
 import processing.core.PApplet;
 import robotgrid.entity.Entity;
 import robotgrid.entity.active.controller.CommandResult;
-import robotgrid.entity.widget.Widget;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
 import robotgrid.shape.CircleShape;
@@ -39,8 +38,13 @@ public class MobileRobot extends Robot {
 
     // Instance methods =======================================================
 
-    public void addPayload(final Widget widget) {
-        _payload = widget;
+    @Override
+    public boolean addPayload(final Entity payload) {
+        if (_payload == null) {
+            _payload = payload;
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -55,6 +59,13 @@ public class MobileRobot extends Robot {
         if (_payload != null) {
             _payload.draw(applet);
         }
+    }
+
+    @Override
+    public Entity removePayload() {
+        Entity payload = _payload;
+        _payload = null;
+        return payload;
     }
 
     // Controller methods =====================================================

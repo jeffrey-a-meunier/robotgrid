@@ -75,7 +75,7 @@ public class Grid {
         Cell nextCell = cell.getAdjacent(direction);
         if (nextCell != null) {
             if (nextCell.add(entity)) {
-                cell.removeEntity(entity);
+                cell.remove(entity);
             }
         }
     }

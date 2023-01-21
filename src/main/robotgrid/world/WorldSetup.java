@@ -24,7 +24,7 @@ public class WorldSetup {
 
         // mobile robot
         MobileRobot robot1 = (MobileRobot)new MobileRobot("MobileRobot1");
-        grid1.addEntity(3, 3, robot1);
+        grid1.addEntity(3, 5, robot1);
 
         Widget squareWidget1 = new SquareWidget("SquareWidghet1")
             .setFillColor(0xFF_FF_00_00);
@@ -43,17 +43,17 @@ public class WorldSetup {
             .sendMessage("MoveForward")
             .sendMessage("MoveForward")
             ;
-        robot1.powerOn();
+        // robot1.powerOn();
 
         robot2.controller()
             .sendMessage("ArmExtend")
+            .sendMessage("GripperGrip")
             .sendMessage("ArmRetract")
             .sendMessage("RotateRight")
             .sendMessage("ArmExtend")
+            .sendMessage("GripperRelease")
             .sendMessage("ArmRetract")
             .sendMessage("RotateLeft")
-            .sendMessage("ArmExtend")
-            .sendMessage("ArmRetract")
             ;
         robot2.powerOn();
     }

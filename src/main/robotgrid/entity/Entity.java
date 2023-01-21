@@ -14,6 +14,7 @@ public abstract class Entity {
 
     protected String _name;
     protected Cell _cell = null;
+    protected Height _height = Height.Low;
 
     // These are values for drawing the Entity in the graphics window.
     protected float _x = 0.0f;
@@ -41,6 +42,18 @@ public abstract class Entity {
 
     public Cell getCell() {
         return _cell;
+    }
+
+    public Height height() {
+        return _height;
+    }
+
+    public boolean addPayload(final Entity entity) {
+        return false;
+    }
+
+    public Entity removePayload() {
+        return null;
     }
 
     public Entity setCell(final Cell cell) {

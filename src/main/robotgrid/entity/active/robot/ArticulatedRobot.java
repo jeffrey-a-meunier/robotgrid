@@ -2,6 +2,7 @@ package robotgrid.entity.active.robot;
 
 import processing.core.PApplet;
 import robotgrid.entity.Entity;
+import robotgrid.entity.Height;
 import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.entity.widget.Widget;
 import robotgrid.scene.Cell;
@@ -33,12 +34,14 @@ public class ArticulatedRobot extends Robot {
     protected Shape _indicator = new TriangleShape(_indicatorSize);
 
     protected boolean _isExtended = false;
+    protected boolean _isGripping = false;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
     public ArticulatedRobot(final String name) {
         super(name);
+        _height = Height.High;
         _controller = new ArticulatedRobotController().setEntity(this);
     }
 
@@ -53,9 +56,7 @@ public class ArticulatedRobot extends Robot {
         _drawBase(applet);
         _drawArm(applet);
         _drawGripper(applet);
-        if (_payload != null) {
-            _payload.draw(applet);
-        }
+        _drawPayload(applet);
     }
 
     protected Color _fillColor = new Color(0xFF_FF_FF_FF);
@@ -76,6 +77,7 @@ public class ArticulatedRobot extends Robot {
     }
 
     protected float _eoatPos;
+    protected float _payloadY = 0.0f;
 
     protected void _drawArm(final PApplet applet) {
         float armWidth = Cell.SIZE / 3.0f;
@@ -92,23 +94,43 @@ public class ArticulatedRobot extends Robot {
         }
         applet.rect(-armWidth2, armWidth2, armWidth, -armLength);
         _eoatPos = -armLength + armWidth2;
+        _payloadY = _eoatPos - armWidth;
     }
+
 
     protected void _drawGripper(final PApplet applet) {
         float armWidth = Cell.SIZE / 3.0f;
         float armWidth2 = armWidth / 2.0f;
-        float x1 = -armWidth2;
-        float y1 = _eoatPos;
-        float x2 = -armWidth;
-        float y2 = _eoatPos - armWidth2;
-        float x3 = x1;
-        float y3 = _eoatPos - armWidth;
+        float x1, y1, x2, y2, x3, y3;
+        if (_isGripping) {
+            x1 = -armWidth2;
+            y1 = _eoatPos;
+            x2 = -armWidth;
+            y2 = _eoatPos - armWidth2;
+            x3 = x1;
+            y3 = _eoatPos - armWidth;
+        }
+        else {
+            x1 = -armWidth2;
+            y1 = _eoatPos;
+            x2 = x1 - armWidth2;
+            y2 = y1;
+            x3 = x2;
+            y3 = y2 - armWidth2;
+        }
         _lineColor.applyStroke(applet);
         applet.strokeWeight(2.0f);
         applet.line(x1, y1, x2, y2);
         applet.line(x2, y2, x3, y3);
         applet.line(-x1, y1, -x2, y2);
         applet.line(-x2, y2, -x3, y3);
+    }
+
+    protected void _drawPayload(final PApplet applet) {
+        if (_payload != null) {
+            applet.translate(0.0f, _payloadY);
+            _payload.draw(applet);
+        }
     }
 
     // Controller methods =====================================================
@@ -126,6 +148,16 @@ public class ArticulatedRobot extends Robot {
     }
 
     public CommandResult armExtend() {
+        Cell adjacentCell = _cell.getAdjacent(_direction);
+        if (adjacentCell == null) {
+            return new CommandResult.Failure("Arm is blocked");
+        }
+        Entity entity = adjacentCell.entity();
+        if (entity != null) {
+            if (entity.height() == Height.High) {
+                return new CommandResult.Failure("Entity in adjacent cell is preventing arm extend");
+            }
+        }
         _isExtended = true;
         return CommandResult.SUCCESS;
     }
@@ -136,15 +168,23 @@ public class ArticulatedRobot extends Robot {
     }
 
     public CommandResult gripperGrip() {
-        // TODO complete this method
-        System.out.println("ArticulatedRobot.gripperGrip() is not implemented");
+        if (_isExtended && !_isGripping) {
+            if(_payload == null) {
+                Cell adjacentCell = _cell.getAdjacent(_direction);
+                _payload = adjacentCell.removePayload();
+            }
+        }
+        _isGripping = true;
         return CommandResult.SUCCESS;
     }
 
     public CommandResult gripperRelease() {
-        // TODO complete this method
-        System.out.println("ArticulatedRobot.gripperGrip() is not implemented");
-        if (_payload != null) {
+        if (_isExtended && _payload != null) {
+            Cell adjacentCell = _cell.getAdjacent(_direction);
+            if (adjacentCell.add(_payload)) {
+                _payload = null;
+                _isGripping = false;
+            }
         }
         return CommandResult.SUCCESS;
     }

@@ -3,6 +3,8 @@ package robotgrid.scene;
 import processing.core.PApplet;
 import robotgrid.entity.Entity;
 import robotgrid.entity.IContainer;
+import robotgrid.entity.active.robot.ArticulatedRobot;
+import robotgrid.entity.widget.Widget;
 
 public class Cell implements IContainer {
 
@@ -62,7 +64,7 @@ public class Cell implements IContainer {
     }
 
     @Override
-    public boolean remove(Entity entity) {
+    public boolean remove(final Entity entity) {
         if (entity == _entity) {
             remove();
             return true;
@@ -70,6 +72,7 @@ public class Cell implements IContainer {
         return false;
     }
 
+    @Deprecated
     public boolean removeEntity(final Entity entity) {
         if (_entity == entity) {
             _entity = null;
@@ -78,17 +81,34 @@ public class Cell implements IContainer {
         return false;
     }
 
+    public boolean addPayload(final Entity payload) {
+        if (_entity == null) {
+            _entity = payload;
+            return true;
+        }
+        return _entity.addPayload(payload);
+    }
+
+    public Entity removePayload() {
+        if (_entity == null) {
+            return null;
+        }
+        if (_entity instanceof Widget) {
+            Entity entity = _entity;
+            _entity = null;
+            return entity;
+        }
+        if (!(_entity instanceof ArticulatedRobot)) {
+            return _entity.removePayload();
+        }
+        return null;
+    }
+
     public void drawBackground(final PApplet applet) {
         _lineColor.applyStroke(applet);
         _fillColor.applyFill(applet);
         applet.strokeWeight(LINE_WIDTH);
         applet.rect(-WIDTH2, -HEIGHT2, WIDTH1, HEIGHT1);
-        // if (_entity != null) {
-        //     _lineColor.applyStroke(applet);
-        //     _fillColor.applyFill(applet);
-        //     applet.strokeWeight(LINE_WIDTH);
-        //     _entity.draw(applet);
-        // }
     }
     
     public void drawContent(final PApplet applet) {
@@ -100,16 +120,29 @@ public class Cell implements IContainer {
         }
     }
 
+    public Entity entity() {
+        return _entity;
+    }
+
     public Cell getAdjacent(final Direction direction) {
+        int rowNum = _rowNum;
+        int colNum = _colNum;
         switch (direction) {
             case North:
-                return _grid.getCell(_rowNum - 1, _colNum);
+                rowNum--;
+                break;
             case East:
-                return _grid.getCell(_rowNum, _colNum + 1);
+                colNum++;
+                break;
             case South:
-                return _grid.getCell(_rowNum + 1, _colNum);
+                rowNum++;
+                break;
             case West:
-                return _grid.getCell(_rowNum, _colNum - 1);
+                colNum--;
+                break;
+        }
+        if (rowNum >= 0 && rowNum < _grid._nRows && colNum >= 0 && colNum < _grid._nCols) {
+            return _grid.getCell(rowNum, colNum);
         }
         return null;
     }
