@@ -53,7 +53,9 @@ public class Cell implements IContainer {
             entity.setCell(this);
             return true;
         }
-        return false;
+        else {
+            return _entity.addPayload(entity);
+        }
     }
 
     @Override
@@ -72,16 +74,7 @@ public class Cell implements IContainer {
         return false;
     }
 
-    @Deprecated
-    public boolean removeEntity(final Entity entity) {
-        if (_entity == entity) {
-            _entity = null;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean addPayload(final Entity payload) {
+    public synchronized boolean addPayload(final Entity payload) {
         if (_entity == null) {
             _entity = payload;
             return true;
@@ -89,7 +82,7 @@ public class Cell implements IContainer {
         return _entity.addPayload(payload);
     }
 
-    public Entity removePayload() {
+    public synchronized Entity removePayload() {
         if (_entity == null) {
             return null;
         }

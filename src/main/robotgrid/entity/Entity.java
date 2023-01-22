@@ -1,7 +1,9 @@
 package robotgrid.entity;
 
 import processing.core.PApplet;
+import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.scene.Cell;
+import robotgrid.scene.Direction;
 
 public abstract class Entity {
 
@@ -15,6 +17,7 @@ public abstract class Entity {
     protected String _name;
     protected Cell _cell = null;
     protected Height _height = Height.Low;
+    protected Direction _direction = Direction.North;
 
     // These are values for drawing the Entity in the graphics window.
     protected float _x = 0.0f;
@@ -28,9 +31,31 @@ public abstract class Entity {
         _name = name;
     }
 
+    public Entity setDirection(final Direction direction) {
+        _direction = direction;
+        _angle = _direction.getAngle();
+        return this;
+    }
+
     // Instance methods =======================================================
 
     public abstract void draw_aux(final PApplet applet);
+
+    public boolean addPayload(final Entity payload) {
+        return false;
+    }
+
+    public Entity removePayload() {
+        return null;
+    }
+
+    public Entity payload() {
+        return null;
+    }
+
+    public Direction direction() {
+        return _direction;
+    }
 
     public void draw(final PApplet applet) {
         applet.pushMatrix();
@@ -48,14 +73,6 @@ public abstract class Entity {
         return _height;
     }
 
-    public boolean addPayload(final Entity entity) {
-        return false;
-    }
-
-    public Entity removePayload() {
-        return null;
-    }
-
     public Entity setCell(final Cell cell) {
         _cell = cell;
         return this;
@@ -64,6 +81,16 @@ public abstract class Entity {
     public void setXY(final float x, final float y) {
         _x = x;
         _y = y;
+    }
+
+    public CommandResult rotateLeft() {
+        setDirection(_direction.turnLeft());
+        return CommandResult.SUCCESS;
+    }
+
+    public CommandResult rotateRight() {
+        setDirection(_direction.turnRight());
+        return CommandResult.SUCCESS;
     }
 
     @Override

@@ -53,11 +53,6 @@ public class Controller implements Runnable {
         return this;
     }
 
-    // public Controller setNetwork(final Network network) {
-    //     _network = network;
-    //     return this;
-    // }
-
     // Instance methods =======================================================
 
     public ActiveEntity entity() {
@@ -102,6 +97,10 @@ public class Controller implements Runnable {
         _isOn = false;
     }
 
+    /**
+     * The messageString is allowed to contain arguments separated by spaces.
+     * "Opcode arg1 arg2"
+     */
     public Controller sendMessage(final String messageString) {
         String[] parts = messageString.split(" ", 0);
         _msgq.enq(new Message(parts));

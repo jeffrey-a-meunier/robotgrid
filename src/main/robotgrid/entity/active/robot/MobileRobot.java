@@ -2,14 +2,14 @@ package robotgrid.entity.active.robot;
 
 import processing.core.PApplet;
 import robotgrid.entity.Entity;
+import robotgrid.entity.active.ActiveEntity;
 import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.scene.Cell;
-import robotgrid.scene.Direction;
 import robotgrid.shape.CircleShape;
 import robotgrid.shape.Shape;
 import robotgrid.shape.TriangleShape;
 
-public class MobileRobot extends Robot {
+public class MobileRobot extends ActiveEntity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -19,7 +19,6 @@ public class MobileRobot extends Robot {
     // Instance variables =====================================================
 
     protected Entity _payload;
-    protected Direction _direction = Direction.North;
 
     protected float _bodySize = Cell.SIZE * 0.9f;
     protected float _bodySize2 = _bodySize / 2f;
@@ -39,7 +38,7 @@ public class MobileRobot extends Robot {
     // Instance methods =======================================================
 
     @Override
-    public boolean addPayload(final Entity payload) {
+    public synchronized boolean addPayload(final Entity payload) {
         if (_payload == null) {
             _payload = payload;
             return true;
@@ -69,18 +68,6 @@ public class MobileRobot extends Robot {
     }
 
     // Controller methods =====================================================
-
-    public CommandResult rotateLeft() {
-        _direction = _direction.turnLeft();
-        _angle = _direction.getAngle();
-        return CommandResult.SUCCESS;
-    }
-
-    public CommandResult rotateRight() {
-        _direction = _direction.turnRight();
-        _angle = _direction.getAngle();
-        return CommandResult.SUCCESS;
-    }
 
     public CommandResult moveForward() {
         _cell.grid().move(this, _direction);

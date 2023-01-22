@@ -1,4 +1,4 @@
-package robotgrid world;
+package robotgrid.world;
 
 public class WorldBuilder {
 
@@ -9,13 +9,13 @@ public class WorldBuilder {
     // a = articulated robot
     // ^>v< = conveyors
     // t = table
-    protected String[] map1 = [
+    protected String[] map1 = {
         "    a     ",
         "m   v     ",
         "    v     ",
         "    >>>t  ",
         "          "
-    ];
+    };
 
     // Static initializer =====================================================
     // Static methods =========================================================

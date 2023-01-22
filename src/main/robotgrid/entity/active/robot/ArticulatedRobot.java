@@ -3,16 +3,16 @@ package robotgrid.entity.active.robot;
 import processing.core.PApplet;
 import robotgrid.entity.Entity;
 import robotgrid.entity.Height;
+import robotgrid.entity.active.ActiveEntity;
 import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.entity.widget.Widget;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Color;
-import robotgrid.scene.Direction;
 import robotgrid.shape.CircleShape;
 import robotgrid.shape.Shape;
 import robotgrid.shape.TriangleShape;
 
-public class ArticulatedRobot extends Robot {
+public class ArticulatedRobot extends ActiveEntity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -22,10 +22,11 @@ public class ArticulatedRobot extends Robot {
     // Instance variables =====================================================
 
     protected Entity _payload;
-
-    protected Direction _direction = Direction.North;
     protected float _speed = (float)(Math.PI / 4.0);  // radians per second
 
+    protected Color _fillColor = new Color(0xFF_FF_FF_FF);
+    protected Color _lineColor = new Color(0xFF_00_00_00);
+    protected float _lineSize = 1.0f;
     protected float _bodySize = Cell.SIZE * 0.9f;
     protected float _bodySize2 = _bodySize / 2f;
     protected Shape _body = new CircleShape(_bodySize);
@@ -58,10 +59,6 @@ public class ArticulatedRobot extends Robot {
         _drawGripper(applet);
         _drawPayload(applet);
     }
-
-    protected Color _fillColor = new Color(0xFF_FF_FF_FF);
-    protected Color _lineColor = new Color(0xFF_00_00_00);
-    protected float _lineSize = 1.0f;
 
     protected void _drawBase(final PApplet applet) {
         float size = Cell.SIZE * 0.9f;
@@ -134,18 +131,6 @@ public class ArticulatedRobot extends Robot {
     }
 
     // Controller methods =====================================================
-
-    public CommandResult rotateLeft() {
-        _direction = _direction.turnLeft();
-        _angle = _direction.getAngle();
-        return CommandResult.SUCCESS;
-    }
-
-    public CommandResult rotateRight() {
-        _direction = _direction.turnRight();
-        _angle = _direction.getAngle();
-        return CommandResult.SUCCESS;
-    }
 
     public CommandResult armExtend() {
         Cell adjacentCell = _cell.getAdjacent(_direction);
