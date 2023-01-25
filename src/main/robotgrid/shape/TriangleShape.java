@@ -36,13 +36,10 @@ public class TriangleShape extends Shape {
     public TriangleShape(final float x, final float y, final float size) {
         _size = size;
         float size2 = _size / 2;
-        // x1 y1 are the tip
-        _x1 = x;
-        _y1 = y - size2;
-        // x2 y2 are the right corner
+         _x1 = x;
+        _y1 = y;
         _x2 = _x1 + size2;
         _y2 = _y1 + size;
-        // x3 y3 are the left corner
         _x3 = _x1 - size2;
         _y3 = _y2;
     }

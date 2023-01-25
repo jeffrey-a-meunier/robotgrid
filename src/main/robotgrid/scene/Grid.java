@@ -1,7 +1,5 @@
 package robotgrid.scene;
 
-import processing.core.PMatrix;
-import processing.core.PMatrix2D;
 import robotgrid.entity.Entity;
 import robotgrid.graphics.Graphics;
 
@@ -20,7 +18,6 @@ public class Grid {
     protected int _cellHeight;
 
     protected Cell[][] _cells;
-    protected PMatrix[][] _origins;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -31,29 +28,25 @@ public class Grid {
         _cellWidth = cellWidth;
         _cellHeight = cellHeight;
         _cells = new Cell[_nRows][_nCols];
-        _origins = new PMatrix[_nRows][_nCols];
-        float y = Cell.SIZE2;
         for (int rowNum=0; rowNum < _nRows; rowNum++) {
-            float x = Cell.SIZE2;
             for (int colNum=0; colNum < _nCols; colNum++) {
                 _cells[rowNum][colNum] = new Cell(this, rowNum, colNum);
-                PMatrix2D matrix = new PMatrix2D();
-                matrix.translate(x, y);
-                _origins[rowNum][colNum] = matrix;
-                x += Cell.SIZE;
             }
-            y += Cell.SIZE;
         }
     }
 
     // Instance methods =======================================================
 
     public void draw(final Graphics graphics) {
+        float y = Cell.SIZE2;
         for (int rowNum=0; rowNum < _nRows; rowNum++) {
+            float x = Cell.SIZE2;
             for (int colNum=0; colNum < _nCols; colNum++) {
-                graphics.setMatrix(_origins[rowNum][colNum]);
+                graphics.resetMatrix().translate(x, y);
                 _cells[rowNum][colNum].draw(graphics);
+                x += Cell.SIZE;
             }
+            y += Cell.SIZE;
         }
     }
 

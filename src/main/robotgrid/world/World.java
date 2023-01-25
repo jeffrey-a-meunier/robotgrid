@@ -16,7 +16,7 @@ public class World extends PApplet {
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-    public static final World THE_WORLD = new World();
+    public static World THE_WORLD;
     public static final Scanner KEYBOARD = new Scanner(System.in);
 
     protected Set<IUpdateSubscriber> _UPDATE_SUBSCRIBERS = new HashSet<>();
@@ -31,9 +31,6 @@ public class World extends PApplet {
     protected HashMap<String, Scene> _scenes = new HashMap<>();
     protected Scene _currentScene = null;
 
-    // protected int _windowWidth = 1024;
-    // protected int _windowHeight = 768;
-
     protected int _lastTickTime;
     protected int _dragOffsetX, _dragOffsetY;
 
@@ -41,6 +38,7 @@ public class World extends PApplet {
     // Constructors ===========================================================
 
     public World() {
+        THE_WORLD = this;
         WorldSetup.setup(this);
     }
 
@@ -111,7 +109,6 @@ public class World extends PApplet {
     }
 
     public void settings() {
-        // size(_windowWidth, _windowHeight);
         size(WorldSetup.getWorldWidth(), WorldSetup.getWorldHeight());
     }
 

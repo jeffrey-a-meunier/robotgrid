@@ -46,24 +46,33 @@ public class Graphics {
         for (PGraphics layer : _layers) {
             layer.endDraw();
             _applet.image(layer, x, y);
+            layer.clear();
             layer.beginDraw();
         }
     }
 
-    public void rotate(final float _angle) {
-        _matrix.rotate(_angle);
+    public Graphics resetMatrix() {
+        _matrix.reset();
+        return this;
     }
 
-    public void translate(final float x, final float y) {
+    public Graphics rotate(final float _angle) {
+        _matrix.rotate(_angle);
+        return this;
+    }
+
+    public Graphics translate(final float x, final float y) {
         _matrix.translate(x, y);
+        return this;
     }
 
     public PMatrix getMatrix() {
         return _matrix;
     }
 
-    public void setMatrix(final PMatrix matrix) {
+    public Graphics setMatrix(final PMatrix matrix) {
         _matrix = matrix;
+        return this;
     }
 
 }

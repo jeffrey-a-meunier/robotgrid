@@ -10,7 +10,7 @@ public abstract class Shape {
 
     protected static final int _FILL_COLOR = 0xFF_FF_FF_FF;
     protected static final int _LINE_COLOR = 0xFF_00_00_00;
-    protected static final float _LINE_WIDTH = 2;
+    protected static final float _LINE_WIDTH = 1;
 
     // Static initializer =====================================================
     // Static methods =========================================================

@@ -24,7 +24,7 @@ public class MobileRobot extends ActiveEntity {
     protected float _bodySize2 = _bodySize / 2f;
     protected Shape _body = new CircleShape(_bodySize);
     protected float _indicatorSize = _bodySize / 4.0f;
-    protected Shape _indicator = new TriangleShape(_indicatorSize);
+    protected Shape _indicator = new TriangleShape(0, -_bodySize2, _indicatorSize);
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -49,11 +49,7 @@ public class MobileRobot extends ActiveEntity {
     public void draw(final Graphics graphics, final int layerNum) {
         super.draw(graphics, layerNum);
         _body.draw(graphics.layer(layerNum));
-        // move the tip of the indicator so that it's tangent to the edge of the body
-        float indicatorOffset = _bodySize2;
-        graphics.translate(0, -indicatorOffset);
         _indicator.draw(graphics.layer(layerNum));
-        graphics.translate(0, indicatorOffset);
         if (_payload != null) {
             _payload.draw(graphics, layerNum + 1);
         }

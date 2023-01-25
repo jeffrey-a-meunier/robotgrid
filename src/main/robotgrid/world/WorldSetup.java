@@ -1,6 +1,5 @@
 package robotgrid.world;
 
-import processing.core.PApplet;
 import robotgrid.entity.active.conveyor.Conveyor;
 import robotgrid.entity.active.robot.ArticulatedRobot;
 import robotgrid.entity.active.robot.MobileRobot;
@@ -49,45 +48,48 @@ public class WorldSetup {
         MobileRobot robot1 = (MobileRobot)new MobileRobot("MobileRobot1");
         grid1.addEntity(3, 5, robot1);
 
-        // Widget squareWidget1 = new SquareWidget("SquareWidghet1")
-        //     .setFillColor(0xFF_FF_00_00);
-        // robot1.addPayload(squareWidget1);
+        Widget squareWidget1 = new SquareWidget("SquareWidghet1")
+            .setFillColor(0xFF_FF_00_00);
+        robot1.addPayload(squareWidget1);
 
-        // // articulated robot
-        // ArticulatedRobot robot2 = (ArticulatedRobot)new ArticulatedRobot("ArticulatedRobot1");
-        // grid1.addEntity(4, 5, robot2);
+        // articulated robot
+        ArticulatedRobot robot2 = (ArticulatedRobot)new ArticulatedRobot("ArticulatedRobot1")
+            .setDirection(Direction.North)
+            ;
+        grid1.addEntity(4, 5, robot2);
 
-        // Conveyor[] conveyors = new Conveyor[4];
-        // for (int n=0; n<4; n++) {
-        //     conveyors[n] = (Conveyor)new Conveyor("Conveyor" + n)
-        //         .setDirection(Direction.West);
-        //     grid1.addEntity(5, 5 - n, conveyors[n]);
-        //     conveyors[n].powerOn();
-        // }
+        Conveyor[] conveyors = new Conveyor[4];
+        for (int n=0; n<4; n++) {
+            conveyors[n] = (Conveyor)new Conveyor("Conveyor" + n)
+                .setDirection(Direction.West)
+                ;
+            grid1.addEntity(5, 5 - n, conveyors[n]);
+            conveyors[n].powerOn();
+        }
 
-        // // Send some instructions to the robots
+        // Send some instructions to the robots
 
-        // robot1.controller()
-        //     .sendMessage("MoveForward")
-        //     .sendMessage("MoveForward")
-        //     .sendMessage("RotateRight")
-        //     .sendMessage("MoveForward")
-        //     .sendMessage("MoveForward")
-        //     ;
-        // // robot1.powerOn();
+        robot1.controller()
+            .sendMessage("MoveForward")
+            .sendMessage("MoveForward")
+            .sendMessage("RotateRight")
+            .sendMessage("MoveForward")
+            .sendMessage("MoveForward")
+            ;
+        // robot1.powerOn();
 
-        // robot2.controller()
-        //     .sendMessage("ArmExtend")
-        //     .sendMessage("GripperGrip")
-        //     .sendMessage("ArmRetract")
-        //     .sendMessage("RotateRight")
-        //     .sendMessage("RotateRight")
-        //     .sendMessage("ArmExtend")
-        //     .sendMessage("GripperRelease")
-        //     .sendMessage("ArmRetract")
-        //     .sendMessage("RotateLeft")
-        //     ;
-        // robot2.powerOn();
+        robot2.controller()
+            .sendMessage("ArmExtend")
+            .sendMessage("GripperGrip")
+            .sendMessage("ArmRetract")
+            .sendMessage("RotateRight")
+            .sendMessage("RotateRight")
+            .sendMessage("ArmExtend")
+            .sendMessage("GripperRelease")
+            .sendMessage("ArmRetract")
+            .sendMessage("RotateLeft")
+            ;
+        robot2.powerOn();
     }
 
 }

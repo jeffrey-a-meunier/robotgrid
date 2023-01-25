@@ -102,6 +102,7 @@ public class ArticulatedRobot extends ActiveEntity {
         layer.line(x2, y2, x3, y3);
         layer.line(-x1, y1, -x2, y2);
         layer.line(-x2, y2, -x3, y3);
+        layer.strokeWeight(1.0f);
         _drawPayload(graphics, layerNum - 1);
     }
 
