@@ -1,9 +1,8 @@
 package robotgrid.entity.widget;
 
-import processing.core.PApplet;
 import robotgrid.entity.Entity;
 import robotgrid.entity.Height;
-import robotgrid.scene.Color;
+import robotgrid.graphics.Graphics;
 import robotgrid.shape.Shape;
 
 public abstract class Widget extends Entity {
@@ -26,15 +25,16 @@ public abstract class Widget extends Entity {
         _shape = shape;
     }
 
-    // Instance methods =======================================================
-
-    public void draw_aux(final PApplet applet) {
-        _shape.draw(applet);
+    public Widget setFillColor(final int color) {
+        _shape.setFillColor(color);
+        return this;
     }
 
-    public Widget setFillColor(final int color) {
-        _shape.setFillColor(new Color(color));
-        return this;
+    // Instance methods =======================================================
+
+    public void draw(final Graphics graphics, final int layerNum) {
+        super.draw(graphics, layerNum);
+        _shape.draw(graphics.layer(layerNum));
     }
 
 }

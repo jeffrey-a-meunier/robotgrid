@@ -1,7 +1,9 @@
 package robotgrid.scene;
 
-import processing.core.PApplet;
+import processing.core.PMatrix;
+import processing.core.PMatrix2D;
 import robotgrid.entity.Entity;
+import robotgrid.graphics.Graphics;
 
 public class Grid {
 
@@ -18,6 +20,7 @@ public class Grid {
     protected int _cellHeight;
 
     protected Cell[][] _cells;
+    protected PMatrix[][] _origins;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -28,38 +31,29 @@ public class Grid {
         _cellWidth = cellWidth;
         _cellHeight = cellHeight;
         _cells = new Cell[_nRows][_nCols];
+        _origins = new PMatrix[_nRows][_nCols];
+        float y = Cell.SIZE2;
         for (int rowNum=0; rowNum < _nRows; rowNum++) {
+            float x = Cell.SIZE2;
             for (int colNum=0; colNum < _nCols; colNum++) {
                 _cells[rowNum][colNum] = new Cell(this, rowNum, colNum);
+                PMatrix2D matrix = new PMatrix2D();
+                matrix.translate(x, y);
+                _origins[rowNum][colNum] = matrix;
+                x += Cell.SIZE;
             }
+            y += Cell.SIZE;
         }
     }
 
     // Instance methods =======================================================
 
-    protected void draw(final PApplet applet, final int x, final int y) {
-        applet.translate(Cell.WIDTH2, Cell.HEIGHT2);
-        applet.pushMatrix();
-        // draw the background of each cell
+    public void draw(final Graphics graphics) {
         for (int rowNum=0; rowNum < _nRows; rowNum++) {
-            applet.pushMatrix();
             for (int colNum=0; colNum < _nCols; colNum++) {
-                _cells[rowNum][colNum].drawBackground(applet);
-                applet.translate(Cell.WIDTH, 0f);
+                graphics.setMatrix(_origins[rowNum][colNum]);
+                _cells[rowNum][colNum].draw(graphics);
             }
-            applet.popMatrix();
-            applet.translate(0f, Cell.HEIGHT);
-        }
-        applet.popMatrix();
-        // draw the content of each cell
-        for (int rowNum=0; rowNum < _nRows; rowNum++) {
-            applet.pushMatrix();
-            for (int colNum=0; colNum < _nCols; colNum++) {
-                _cells[rowNum][colNum].drawContent(applet);
-                applet.translate(Cell.WIDTH, 0f);
-            }
-            applet.popMatrix();
-            applet.translate(0f, Cell.HEIGHT);
         }
     }
 

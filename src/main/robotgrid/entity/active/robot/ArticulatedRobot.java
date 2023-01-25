@@ -1,16 +1,13 @@
 package robotgrid.entity.active.robot;
 
-import processing.core.PApplet;
+import processing.core.PGraphics;
 import robotgrid.entity.Entity;
 import robotgrid.entity.Height;
 import robotgrid.entity.active.ActiveEntity;
 import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.entity.widget.Widget;
+import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
-import robotgrid.scene.Color;
-import robotgrid.shape.CircleShape;
-import robotgrid.shape.Shape;
-import robotgrid.shape.TriangleShape;
 
 public class ArticulatedRobot extends ActiveEntity {
 
@@ -23,16 +20,6 @@ public class ArticulatedRobot extends ActiveEntity {
 
     protected Entity _payload;
     protected float _speed = (float)(Math.PI / 4.0);  // radians per second
-
-    protected Color _fillColor = new Color(0xFF_FF_FF_FF);
-    protected Color _lineColor = new Color(0xFF_00_00_00);
-    protected float _lineSize = 1.0f;
-    protected float _bodySize = Cell.SIZE * 0.9f;
-    protected float _bodySize2 = _bodySize / 2f;
-    protected Shape _body = new CircleShape(_bodySize);
-    protected float _indicatorSize = 20f;
-    protected float _indicatorSize2 = _indicatorSize / 2f;
-    protected Shape _indicator = new TriangleShape(_indicatorSize);
 
     protected boolean _isExtended = false;
     protected boolean _isGripping = false;
@@ -53,35 +40,28 @@ public class ArticulatedRobot extends ActiveEntity {
     }
 
     @Override
-    public void draw_aux(final PApplet applet) {
-        _drawBase(applet);
-        _drawArm(applet);
-        _drawGripper(applet);
-        _drawPayload(applet);
+    public void draw(final Graphics graphics, final int layerNum) {
+        super.draw(graphics, layerNum);
+        _drawBase(graphics, layerNum);
+        _drawArm(graphics, layerNum + 2);
+
     }
 
-    protected void _drawBase(final PApplet applet) {
+    protected void _drawBase(final Graphics graphics, final int layerNum) {
+        PGraphics layer = graphics.layer(layerNum);
         float size = Cell.SIZE * 0.9f;
         float pos = -size / 2.0f;
-        _fillColor.applyFill(applet);
-        _lineColor.applyStroke(applet);
-        applet.strokeWeight(_lineSize);
-        applet.rect(pos, pos, size, size);
-        applet.fill(0x00_FF_FF_FF);
-        applet.stroke(0xFF_bf_bf_bf);
-        applet.strokeWeight(3.0f);
-        applet.circle(0.0f, 0.0f, Cell.SIZE * 0.7f);
+        layer.rect(pos, pos, size, size);
+        layer.circle(0.0f, 0.0f, Cell.SIZE * 0.7f);
     }
 
     protected float _eoatPos;
     protected float _payloadY = 0.0f;
 
-    protected void _drawArm(final PApplet applet) {
+    protected void _drawArm(final Graphics graphics, final int layerNum) {
+        PGraphics layer = graphics.layer(layerNum);
         float armWidth = Cell.SIZE / 3.0f;
         float armWidth2 = armWidth / 2.0f;
-        _fillColor.applyFill(applet);
-        _lineColor.applyStroke(applet);
-        applet.strokeWeight(_lineSize);
         float armLength;
         if (_isExtended) {
             armLength = Cell.SIZE - armWidth2;
@@ -89,13 +69,15 @@ public class ArticulatedRobot extends ActiveEntity {
         else {
             armLength = armWidth;
         }
-        applet.rect(-armWidth2, armWidth2, armWidth, -armLength);
+        layer.rect(-armWidth2, armWidth2, armWidth, -armLength);
         _eoatPos = -armLength + armWidth2;
         _payloadY = _eoatPos - armWidth;
+        _drawGripper(graphics, layerNum);
     }
 
 
-    protected void _drawGripper(final PApplet applet) {
+    protected void _drawGripper(final Graphics graphics, final int layerNum) {
+        PGraphics layer = graphics.layer(layerNum);
         float armWidth = Cell.SIZE / 3.0f;
         float armWidth2 = armWidth / 2.0f;
         float x1, y1, x2, y2, x3, y3;
@@ -115,18 +97,19 @@ public class ArticulatedRobot extends ActiveEntity {
             x3 = x2;
             y3 = y2 - armWidth2;
         }
-        _lineColor.applyStroke(applet);
-        applet.strokeWeight(2.0f);
-        applet.line(x1, y1, x2, y2);
-        applet.line(x2, y2, x3, y3);
-        applet.line(-x1, y1, -x2, y2);
-        applet.line(-x2, y2, -x3, y3);
+        layer.strokeWeight(2.0f);
+        layer.line(x1, y1, x2, y2);
+        layer.line(x2, y2, x3, y3);
+        layer.line(-x1, y1, -x2, y2);
+        layer.line(-x2, y2, -x3, y3);
+        _drawPayload(graphics, layerNum - 1);
     }
 
-    protected void _drawPayload(final PApplet applet) {
+    protected void _drawPayload(final Graphics graphics, final int layerNum) {
+        PGraphics layer = graphics.layer(layerNum);
         if (_payload != null) {
-            applet.translate(0.0f, _payloadY);
-            _payload.draw(applet);
+            layer.translate(0.0f, _payloadY);
+            _payload.draw(graphics, layerNum);
         }
     }
 

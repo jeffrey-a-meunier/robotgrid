@@ -1,7 +1,7 @@
 package robotgrid.entity;
 
-import processing.core.PApplet;
 import robotgrid.entity.active.controller.CommandResult;
+import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
 
@@ -39,8 +39,6 @@ public abstract class Entity {
 
     // Instance methods =======================================================
 
-    public abstract void draw_aux(final PApplet applet);
-
     public boolean addPayload(final Entity payload) {
         return false;
     }
@@ -57,12 +55,12 @@ public abstract class Entity {
         return _direction;
     }
 
-    public void draw(final PApplet applet) {
-        applet.pushMatrix();
-        applet.translate(_x, _y);
-        applet.rotate(_angle);
-        draw_aux(applet);
-        applet.popMatrix();
+    /**
+     * Subclasses should override, but also invoke this super-method.
+     */
+    public void draw(final Graphics graphics, final int layerNum) {
+        graphics.translate(_x, _y);
+        graphics.rotate(_angle);
     }
 
     public Cell getCell() {

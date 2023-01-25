@@ -1,6 +1,6 @@
 package robotgrid.shape;
 
-import processing.core.PApplet;
+import processing.core.PGraphics;
 
 public class CircleShape extends Shape {
 
@@ -22,9 +22,9 @@ public class CircleShape extends Shape {
     }
 
     @Override
-    public void draw(final PApplet applet) {
-        super.draw(applet);
-        applet.circle(0f, 0f, _diameter);
+    public void draw(final PGraphics graphics) {
+        super.draw(graphics);
+        graphics.circle(0f, 0f, _diameter);
     }
 
 }

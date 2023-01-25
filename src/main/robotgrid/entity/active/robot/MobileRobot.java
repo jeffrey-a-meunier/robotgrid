@@ -1,9 +1,9 @@
 package robotgrid.entity.active.robot;
 
-import processing.core.PApplet;
 import robotgrid.entity.Entity;
 import robotgrid.entity.active.ActiveEntity;
 import robotgrid.entity.active.controller.CommandResult;
+import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
 import robotgrid.shape.CircleShape;
 import robotgrid.shape.Shape;
@@ -23,8 +23,7 @@ public class MobileRobot extends ActiveEntity {
     protected float _bodySize = Cell.SIZE * 0.9f;
     protected float _bodySize2 = _bodySize / 2f;
     protected Shape _body = new CircleShape(_bodySize);
-    protected float _indicatorSize = Cell.SIZE / 5.0f;
-    protected float _indicatorSize2 = _indicatorSize / 2f;
+    protected float _indicatorSize = _bodySize / 4.0f;
     protected Shape _indicator = new TriangleShape(_indicatorSize);
 
     // Instance initializer ===================================================
@@ -47,16 +46,16 @@ public class MobileRobot extends ActiveEntity {
     }
 
     @Override
-    public void draw_aux(final PApplet applet) {
-        _body.draw(applet);
+    public void draw(final Graphics graphics, final int layerNum) {
+        super.draw(graphics, layerNum);
+        _body.draw(graphics.layer(layerNum));
         // move the tip of the indicator so that it's tangent to the edge of the body
-        applet.pushMatrix();
-        applet.translate(0, -_bodySize2 + _indicatorSize2);
-        _indicator.draw(applet);
-        // draw the payload
-        applet.popMatrix();
+        float indicatorOffset = _bodySize2;
+        graphics.translate(0, -indicatorOffset);
+        _indicator.draw(graphics.layer(layerNum));
+        graphics.translate(0, indicatorOffset);
         if (_payload != null) {
-            _payload.draw(applet);
+            _payload.draw(graphics, layerNum + 1);
         }
     }
 

@@ -2,6 +2,7 @@ package robotgrid.world;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 import processing.core.PApplet;
@@ -15,7 +16,8 @@ public class World extends PApplet {
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-    public static World THE_WORLD = null;
+    public static final World THE_WORLD = new World();
+    public static final Scanner KEYBOARD = new Scanner(System.in);
 
     protected Set<IUpdateSubscriber> _UPDATE_SUBSCRIBERS = new HashSet<>();
 
@@ -29,8 +31,8 @@ public class World extends PApplet {
     protected HashMap<String, Scene> _scenes = new HashMap<>();
     protected Scene _currentScene = null;
 
-    protected int _windowWidth = 1024;
-    protected int _windowHeight = 768;
+    // protected int _windowWidth = 1024;
+    // protected int _windowHeight = 768;
 
     protected int _lastTickTime;
     protected int _dragOffsetX, _dragOffsetY;
@@ -39,8 +41,6 @@ public class World extends PApplet {
     // Constructors ===========================================================
 
     public World() {
-        assert(THE_WORLD == null);
-        THE_WORLD = this;
         WorldSetup.setup(this);
     }
 
@@ -53,6 +53,7 @@ public class World extends PApplet {
     // This method gets called repeatedly by the Processing engine. We will
     // use this method call as a call to both the world update() method and the
     // world draw() method.
+    @Override
     public void draw() {
         int currentTime = millis();
         int elapsedTime = currentTime - _lastTickTime;
@@ -110,7 +111,8 @@ public class World extends PApplet {
     }
 
     public void settings() {
-        size(_windowWidth, _windowHeight);
+        // size(_windowWidth, _windowHeight);
+        size(WorldSetup.getWorldWidth(), WorldSetup.getWorldHeight());
     }
 
     public void setup() {

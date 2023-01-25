@@ -1,32 +1,35 @@
 package robotgrid.scene;
 
-import processing.core.PApplet;
+import processing.core.PGraphics;
 import robotgrid.entity.Entity;
 import robotgrid.entity.IContainer;
 import robotgrid.entity.active.robot.ArticulatedRobot;
 import robotgrid.entity.widget.Widget;
+import robotgrid.graphics.Graphics;
+import robotgrid.graphics.Pen;
 
 public class Cell implements IContainer {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-    public static final float SIZE = 80;
+    protected static final int _FILL_COLOR = 0xFF_a0_a0_a0;
+    protected static final int _LINE_COLOR = 0xFF_80_80_80;
+    protected static final float _LINE_WIDTH = 1;
 
-    protected static Color _fillColor = new Color(0xFF_a0_a0_a0);
-    protected static Color _lineColor = new Color(0xFF_80_80_80);
-
-    protected static final float LINE_WIDTH = 1;
-
-    protected static final float HEIGHT = SIZE;
-    protected static final float HEIGHT1 = HEIGHT - LINE_WIDTH;
-    protected static final float HEIGHT2 = HEIGHT / 2;
-    protected static final float WIDTH = SIZE;
-    protected static final float WIDTH1 = WIDTH - LINE_WIDTH;
-    protected static final float WIDTH2 = WIDTH / 2;
+    public static float SIZE;
+    public static float SIZE1 = SIZE - _LINE_WIDTH;
+    public static float SIZE2 = SIZE / 2.0f;
 
     // Static initializer =====================================================
     // Static methods =========================================================
+
+    public static void setSize(final float size) {
+        SIZE = size;
+        SIZE1 = SIZE - _LINE_WIDTH;
+        SIZE2 = SIZE / 2.0f;
+    }
+
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
@@ -34,6 +37,7 @@ public class Cell implements IContainer {
     protected int _colNum;
     protected Entity _entity;
     protected Grid _grid;
+    protected Pen _pen = new Pen(_FILL_COLOR, _LINE_COLOR, _LINE_WIDTH);
     
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -97,20 +101,16 @@ public class Cell implements IContainer {
         return null;
     }
 
-    public void drawBackground(final PApplet applet) {
-        _lineColor.applyStroke(applet);
-        _fillColor.applyFill(applet);
-        applet.strokeWeight(LINE_WIDTH);
-        applet.rect(-WIDTH2, -HEIGHT2, WIDTH1, HEIGHT1);
-    }
-    
-    public void drawContent(final PApplet applet) {
+    public void draw(final Graphics graphics) {
+        _drawBackground(graphics.layer(0));
         if (_entity != null) {
-            _lineColor.applyStroke(applet);
-            _fillColor.applyFill(applet);
-            applet.strokeWeight(LINE_WIDTH);
-            _entity.draw(applet);
+            _entity.draw(graphics, 1);
         }
+    }
+
+    protected void _drawBackground(final PGraphics graphics) {
+        _pen.applyTo(graphics);
+        graphics.square(-SIZE2, -SIZE2, SIZE1);
     }
 
     public Entity entity() {
