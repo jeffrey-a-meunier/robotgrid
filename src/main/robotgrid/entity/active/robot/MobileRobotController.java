@@ -49,16 +49,17 @@ public class MobileRobotController extends Controller {
     // Constructors ===========================================================
 
     public MobileRobotController() {
-        _installCommands();
-    }
-
-    // Instance methods =======================================================
-
-    protected void _installCommands() {
         installCommand("MoveForward", new MoveForwardCommand());
         installCommand("MoveBackward", new MoveForwardCommand());
         installCommand("RotateRight", new RotateRightCommand());
         installCommand("RotateLeft", new RotateRightCommand());
+    }
+
+    // Instance methods =======================================================
+
+    @Override
+    public String toString() {
+        return "MobileRobotController{" + _entity + '}';
     }
 
 }

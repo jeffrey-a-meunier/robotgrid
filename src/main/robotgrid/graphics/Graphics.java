@@ -20,6 +20,7 @@ public class Graphics {
     protected PApplet _applet;
     protected List<PGraphics> _layers = new ArrayList<>();
     protected PMatrix _matrix = new PMatrix2D();
+    protected Pen _pen = new Pen(0xFF_FF_FF_FF, 0xFF_00_00_00, 1.0f);
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -39,6 +40,7 @@ public class Graphics {
         }
         layer = _layers.get(layerNum);
         layer.setMatrix(_matrix);
+        _pen.applyTo(layer);
         return layer;
     }
 
@@ -72,6 +74,11 @@ public class Graphics {
 
     public Graphics setMatrix(final PMatrix matrix) {
         _matrix = matrix;
+        return this;
+    }
+
+    public Graphics setPen(final Pen pen) {
+        _pen = pen;
         return this;
     }
 

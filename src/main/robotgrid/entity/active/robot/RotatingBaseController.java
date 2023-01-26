@@ -1,0 +1,42 @@
+package robotgrid.entity.active.robot;
+
+import robotgrid.entity.active.controller.ICommand;
+import robotgrid.entity.active.controller.CommandResult;
+import robotgrid.entity.active.controller.Controller;
+
+public class RotatingBaseController extends Controller {
+
+    // Static inner classes ===================================================
+
+    protected static class RotateRightCommand implements ICommand {
+        @Override
+        public CommandResult execute(final Controller controller, final String[] parts) {
+            RotatingBase base = (RotatingBase)controller.entity();
+            return _afterDelay(1000, () -> base.rotateRight());
+        }
+    }
+
+    protected static class RotateLeftCommand implements ICommand {
+        @Override
+        public CommandResult execute(final Controller controller, final String[] parts) {
+            RotatingBase base = (RotatingBase)controller.entity();
+            return _afterDelay(1000, () -> base.rotateLeft());
+        }
+    }
+
+    // Static variables =======================================================
+    // Static initializer =====================================================
+    // Static methods =========================================================
+    // Instance inner classes =================================================
+    // Instance variables =====================================================
+    // Instance initializer ===================================================
+    // Constructors ===========================================================
+
+    public RotatingBaseController() {
+        installCommand("RotateRight", new RotateRightCommand());
+        installCommand("RotateLeft", new RotateLeftCommand());
+    }
+
+    // Instance methods =======================================================
+
+}

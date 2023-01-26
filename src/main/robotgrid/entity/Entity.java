@@ -4,6 +4,7 @@ import processing.core.PMatrix;
 import processing.core.PMatrix2D;
 import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.graphics.Graphics;
+import robotgrid.graphics.Pen;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
 
@@ -26,6 +27,7 @@ public abstract class Entity {
     protected float _y = 0.0f;
     protected float _angle = 0.0f;
     protected PMatrix _rotationMatrix = new PMatrix2D();
+    protected Pen _pen = new Pen(0xFF_FF_FF_FF, 0xFF_00_00_00, 1.0f);
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -34,7 +36,7 @@ public abstract class Entity {
         _name = name;
     }
 
-    public Entity setDirection(final Direction direction) {
+   public Entity setDirection(final Direction direction) {
         _direction = direction;
         _angle = _direction.getAngle();
         _rotationMatrix = new PMatrix2D();
@@ -64,6 +66,7 @@ public abstract class Entity {
      * Subclasses should override, but also invoke this super-method.
      */
     public void draw(final Graphics graphics, final int layerNum) {
+        graphics.setPen(_pen);
         if (_x != 0 || _y != 0) {
             graphics.translate(_x, _y);
         }
@@ -81,6 +84,10 @@ public abstract class Entity {
     public Entity setCell(final Cell cell) {
         _cell = cell;
         return this;
+    }
+
+    public void setAngle(final float angle) {
+        _angle = angle;
     }
 
     public void setXY(final float x, final float y) {

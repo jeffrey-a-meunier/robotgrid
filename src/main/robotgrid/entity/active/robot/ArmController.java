@@ -4,55 +4,39 @@ import robotgrid.entity.active.controller.ICommand;
 import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.entity.active.controller.Controller;
 
-public class ArticulatedRobotController extends Controller {
+public class ArmController extends Controller {
 
     // Static inner classes ===================================================
 
-    protected static class RotateRightCommand implements ICommand {
+     protected static class ArmExtendCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
-            ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.rotateRight());
-        }
-    }
-
-    protected static class RotateLeftCommand implements ICommand {
-        @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
-            ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.rotateLeft());
-        }
-    }
-
-    protected static class ArmExtendCommand implements ICommand {
-        @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
-            ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.armExtend());
+            Arm arm = (Arm)controller.entity();
+            return _afterDelay(1000, () -> arm.extend());
         }
     }
 
     protected static class ArmRetractCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
-            ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.armRetract());
+            Arm arm = (Arm)controller.entity();
+            return _afterDelay(1000, () -> arm.retract());
         }
     }
 
     protected static class GripperGripCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
-            ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.gripperGrip());
+            Arm arm = (Arm)controller.entity();
+            return _afterDelay(1000, () -> arm.grip());
         }
     }
 
     protected static class GripperReleaseCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
-            ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.gripperRelease());
+            Arm arm = (Arm)controller.entity();
+            return _afterDelay(1000, () -> arm.release());
         }
     }
 
@@ -64,9 +48,7 @@ public class ArticulatedRobotController extends Controller {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ArticulatedRobotController() {
-        installCommand("RotateRight", new RotateRightCommand());
-        installCommand("RotateLeft", new RotateLeftCommand());
+    public ArmController() {
         installCommand("ArmExtend", new ArmExtendCommand());
         installCommand("ArmRetract", new ArmRetractCommand());
         installCommand("GripperGrip", new GripperGripCommand());
@@ -74,10 +56,5 @@ public class ArticulatedRobotController extends Controller {
     }
 
     // Instance methods =======================================================
-
-    @Override
-    public String toString() {
-        return "ArticulatedRobotController{" + _entity + '}';
-    }
 
 }

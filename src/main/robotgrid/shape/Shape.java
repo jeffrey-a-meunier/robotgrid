@@ -27,7 +27,7 @@ public abstract class Shape {
     // Instance methods =======================================================
 
     /**
-     * Subclasses should override, but also invoke this as super(graphics).
+     * Subclasses should override, and also invoke this as super(graphics).
      */
     public void draw(final PGraphics graphics) {
         _pen.applyTo(graphics);

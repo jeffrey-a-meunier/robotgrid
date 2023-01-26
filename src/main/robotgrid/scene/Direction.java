@@ -32,19 +32,27 @@ public enum Direction {
     public float getAngle() {
         return (float)ordinal() * turnIncrement;
     }
+
+    /**
+     * Java's % operator is *remainder*, not *modulus*.
+     */
+    protected int modulus(final int dividend, final int divisor) {
+        int remainder = dividend % divisor;
+        return remainder < 0 ? (remainder + divisor) : remainder;
+    }
  
     public Direction turnLeft() {
-        int index = ordinal() - 1 % 4;
+        int index = modulus(ordinal() - 1, 4);
         return Direction.values()[index];
     }
 
     public Direction turnRight() {
-        int index = ordinal() + 1 % 4;
+        int index = modulus(ordinal() + 1, 4);
         return Direction.values()[index];
     }
 
     public Direction reverse() {
-        int index = ordinal() + 2 % 4;
+        int index = modulus(ordinal() + 2, 4);
         return Direction.values()[index];
     }
 

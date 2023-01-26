@@ -53,6 +53,7 @@ public class WorldSetup {
         robot1.addPayload(squareWidget1);
 
         // articulated robot
+//        ArticulatedRobot_old robot2 = (ArticulatedRobot_old)new ArticulatedRobot_old("ArticulatedRobot1")
         ArticulatedRobot robot2 = (ArticulatedRobot)new ArticulatedRobot("ArticulatedRobot1")
             .setDirection(Direction.North)
             ;
@@ -69,26 +70,28 @@ public class WorldSetup {
 
         // Send some instructions to the robots
 
-        robot1.controller()
-            .sendMessage("MoveForward")
-            .sendMessage("MoveForward")
-            .sendMessage("RotateRight")
-            .sendMessage("MoveForward")
-            .sendMessage("MoveForward")
-            ;
+        robot1.controller().sendMessages(
+            "MoveForward",
+            "MoveForward",
+            "RotateRight",
+            "MoveForward",
+            "MoveForward"
+        );
         // robot1.powerOn();
 
-        robot2.controller()
-            .sendMessage("ArmExtend")
-            .sendMessage("GripperGrip")
-            .sendMessage("ArmRetract")
-            .sendMessage("RotateRight")
-            .sendMessage("RotateRight")
-            .sendMessage("ArmExtend")
-            .sendMessage("GripperRelease")
-            .sendMessage("ArmRetract")
-            .sendMessage("RotateLeft")
-            ;
+        String[] program1 = {
+            "ArmExtend",
+            "GripperGrip",
+            "ArmRetract",
+            "RotateRight",
+            "RotateRight",
+            "ArmExtend",
+            "GripperRelease",
+            "ArmRetract",
+            "RotateLeft",
+            "RotateLeft",
+        };
+        robot2.controller().sendMessages(program1);
         robot2.powerOn();
     }
 
