@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import robotgrid.entity.active.ActiveEntity;
 import robotgrid.network.Message;
 import robotgrid.network.MessageQ;
+import robotgrid.zmqbus.ZmqBus;
 
 public class Controller implements Runnable {
     
@@ -32,16 +33,22 @@ public class Controller implements Runnable {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
+    protected String _name;
     protected Map<String, ICommand> _commands = new HashMap<>();
     protected ActiveEntity _entity;
     protected MessageQ _msgq = new MessageQ();
     protected boolean _isOn = false;
     protected Thread _thread;
+    protected ZmqBus _zmqBus;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Controller() {}
+    public Controller(final String name, final ZmqBus zmqBus) {
+        _name = name;
+        _zmqBus = zmqBus;
+        _zmqBus.subscribe(this);
+    }
 
     public Controller installCommand(final String opcode, final ICommand command) {
         _commands.put(opcode, command);
@@ -92,7 +99,7 @@ public class Controller implements Runnable {
         _isOn = true;
         while (!Thread.currentThread().isInterrupted()) {
             Message message = _msgq.deq();
-            _handleMessage(message);
+            _handleCommand(message);
         }
         _isOn = false;
     }
@@ -101,20 +108,20 @@ public class Controller implements Runnable {
      * The messageString is allowed to contain arguments separated by spaces.
      * "Command arg1 arg2"
      */
-    public Controller sendMessages(final String ... messageStrings) {
-        for (String messageString : messageStrings) {
-            String[] parts = messageString.split(" ", 0);
+    public synchronized Controller sendCommands(final String ... commandStrings) {
+        for (String commandString : commandStrings) {
+            String[] parts = commandString.split(" ", 0);
             _msgq.enq(new Message(parts));
         }
         return this;
     }
 
-    public void sendMessage(final Message message) {
-        _msgq.enq(message);
-    }
+    // public synchronized void sendMessage(final Message message) {
+    //     _msgq.enq(message);
+    // }
 
-    protected void _handleMessage(final Message message) {
-        String[] parts = message.parts();
+    protected void _handleCommand(final Message command) {
+        String[] parts = command.parts();
         if (parts != null && parts.length > 0) {
             execute(parts);
         }

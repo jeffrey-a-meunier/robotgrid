@@ -70,7 +70,7 @@ public class WorldSetup {
 
         // Send some instructions to the robots
 
-        robot1.controller().sendMessages(
+        robot1.controller().sendCommands(
             "MoveForward",
             "MoveForward",
             "RotateRight",
@@ -91,7 +91,7 @@ public class WorldSetup {
             "RotateLeft",
             "RotateLeft",
         };
-        robot2.controller().sendMessages(program1);
+        robot2.controller().sendCommands(program1);
         robot2.powerOn();
     }
 
