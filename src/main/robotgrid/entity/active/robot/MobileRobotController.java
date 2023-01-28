@@ -48,7 +48,8 @@ public class MobileRobotController extends Controller {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public MobileRobotController() {
+    public MobileRobotController(final String name) {
+        super(name);
         installCommand("MoveForward", new MoveForwardCommand());
         installCommand("MoveBackward", new MoveForwardCommand());
         installCommand("RotateRight", new RotateRightCommand());

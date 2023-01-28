@@ -48,7 +48,8 @@ public class ArmController extends Controller {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ArmController() {
+    public ArmController(final String name) {
+        super(name);
         installCommand("ArmExtend", new ArmExtendCommand());
         installCommand("ArmRetract", new ArmRetractCommand());
         installCommand("GripperGrip", new GripperGripCommand());

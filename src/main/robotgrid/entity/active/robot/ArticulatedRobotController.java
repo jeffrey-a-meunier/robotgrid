@@ -64,7 +64,8 @@ public class ArticulatedRobotController extends Controller {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ArticulatedRobotController() {
+    public ArticulatedRobotController(final String name) {
+        super(name);
         installCommand("RotateRight", new RotateRightCommand());
         installCommand("RotateLeft", new RotateLeftCommand());
         installCommand("ArmExtend", new ArmExtendCommand());

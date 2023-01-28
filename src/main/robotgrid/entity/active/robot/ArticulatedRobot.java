@@ -19,14 +19,11 @@ public class ArticulatedRobot extends ActiveEntity {
     protected RotatingBase _base;
     protected Arm _arm;
 
-    protected float _speed = (float)(Math.PI / 4.0);  // radians per second
-
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
     public ArticulatedRobot(final String name) {
-        super(name);
-        _controller = new ArticulatedRobotController().setEntity(this);
+        super(name, new ArticulatedRobotController(name));
         _arm = new Arm(name + ".Arm");
         _base = new RotatingBase(name + ".Base");
         _base.attachEntity(_arm);

@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 import robotgrid.entity.active.ActiveEntity;
 import robotgrid.network.Message;
 import robotgrid.network.MessageQ;
-import robotgrid.zmqbus.ZmqBus;
+import robotgrid.world.World;
 
 public class Controller implements Runnable {
     
@@ -39,15 +39,13 @@ public class Controller implements Runnable {
     protected MessageQ _msgq = new MessageQ();
     protected boolean _isOn = false;
     protected Thread _thread;
-    protected ZmqBus _zmqBus;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Controller(final String name, final ZmqBus zmqBus) {
+    public Controller(final String name) {
         _name = name;
-        _zmqBus = zmqBus;
-        _zmqBus.subscribe(this);
+        World.ZMQ_BUS.subscribe(_name);
     }
 
     public Controller installCommand(final String opcode, final ICommand command) {
@@ -81,6 +79,10 @@ public class Controller implements Runnable {
 
     public boolean isOn() {
         return _isOn;
+    }
+
+    public String name() {
+        return _name;
     }
 
     public void powerOn() {

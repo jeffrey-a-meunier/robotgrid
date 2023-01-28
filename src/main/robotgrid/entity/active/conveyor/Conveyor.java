@@ -24,8 +24,7 @@ public class Conveyor extends ActiveEntity {
     // Constructors ===========================================================
 
     public Conveyor(final String name) {
-        super(name);
-        _controller = new ConveyorController().setEntity(this);
+        super(name, new ConveyorController(name + ".Controller"));
     }
 
     // Instance methods =======================================================

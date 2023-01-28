@@ -18,7 +18,6 @@ public class Arm extends ActiveEntity {
     // Instance variables =====================================================
 
     protected Entity _payload;
-    protected float _speed = (float)(Math.PI / 4.0);  // radians per second
 
     protected boolean _isExtended = false;
     protected boolean _isGripping = false;
@@ -27,9 +26,8 @@ public class Arm extends ActiveEntity {
     // Constructors ===========================================================
 
     public Arm(final String name) {
-        super(name);
+        super(name, new ArmController(name + ".Controller"));
         _height = Height.High;
-        _controller = new ArmController().setEntity(this);
     }
 
     // Instance methods =======================================================

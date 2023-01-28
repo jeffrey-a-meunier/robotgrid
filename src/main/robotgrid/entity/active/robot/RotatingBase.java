@@ -18,18 +18,16 @@ public class RotatingBase extends ActiveEntity {
     // Instance variables =====================================================
 
     // A RotatingBase can have either a payload or an attached entity.
+    // Each is treated differently.
     protected Entity _payload;
     protected Entity _attachedEntity;
-
-    protected float _speed = (float)(Math.PI / 4.0);  // radians per second
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
     public RotatingBase(final String name) {
-        super(name);
+        super(name, new RotatingBaseController(name + ".Controller"));
         _height = Height.Low;
-        _controller = new RotatingBaseController().setEntity(this);
     }
 
     // Instance methods =======================================================

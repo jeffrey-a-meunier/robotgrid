@@ -4,9 +4,7 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
-import robotgrid.entity.active.controller.Controller;
-
-public class ZmqBus implements Runnable {
+public class ZmqBus {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -15,43 +13,32 @@ public class ZmqBus implements Runnable {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
+    protected int _port;
     protected ZContext _context;
-    protected ZMQ.Socket _socket;
+    protected ZMQ.Socket _pubSocket;
+    protected ZMQ.Socket _subSocket;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ZmqBus() {
+    public ZmqBus(final int port) {
+        _port = port;
         _context = new ZContext();
-        _socket = _context.createSocket(SocketType.REP);
+        _pubSocket = _context.createSocket(SocketType.PUB);
+        _pubSocket.bind("tcp://*:" + port);
+        _subSocket = _context.createSocket(SocketType.SUB);
+        _subSocket.bind("tcp://*:" + (port + 1));
     }
 
     // Instance methods =======================================================
 
-
-    public void test1() {
-        // Socket to talk to clients
-        _socket.bind("tcp://*:5555");
-        while (!Thread.currentThread().isInterrupted()) {
-            // Block until a message is received
-            byte[] reply = _socket.recv(0);
-
-            // Print the message
-            System.out.println("Received: [" + new String(reply, ZMQ.CHARSET) + "]");
-
-            // Send a response
-            String response = "Hello, world!";
-            _socket.send(response.getBytes(ZMQ.CHARSET), 0);
-        }
+    public void publish(final String name, final String message) {
+        _pubSocket.sendMore(name);
+        _pubSocket.send(message);
     }
 
-    @Override
-    public void run() {
-    }
-
-    public void subscribe(final Controller controller) {
-        // TODO
-        String name = controller.name();
+    public void subscribe(final String name) {
+        _subSocket.subscribe(name.getBytes(ZMQ.CHARSET));
     }
 
 }

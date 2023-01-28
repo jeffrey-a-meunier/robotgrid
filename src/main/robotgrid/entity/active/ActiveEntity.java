@@ -12,13 +12,19 @@ public abstract class ActiveEntity extends Entity {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    protected Controller _controller = new Controller().setEntity(this);
+    protected Controller _controller;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
     public ActiveEntity(final String name) {
+        this(name, new Controller(name + ".Controller"));
+    }
+
+    public ActiveEntity(final String name, final Controller controller) {
         super(name);
+        _controller = controller;
+        _controller.setEntity(this);
     }
 
     public ActiveEntity setController(final Controller controller) {

@@ -32,7 +32,8 @@ public class RotatingBaseController extends Controller {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public RotatingBaseController() {
+    public RotatingBaseController(final String name) {
+        super(name);
         installCommand("RotateRight", new RotateRightCommand());
         installCommand("RotateLeft", new RotateLeftCommand());
     }

@@ -18,6 +18,11 @@ public class ConveyorController extends Controller {
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
+
+    public ConveyorController(final String name) {
+        super(name);
+    }
+
     // Instance methods =======================================================
 
     protected enum State {
