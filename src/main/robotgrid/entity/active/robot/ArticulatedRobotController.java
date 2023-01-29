@@ -12,7 +12,7 @@ public class ArticulatedRobotController extends Controller {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.rotateRight());
+            return robot.rotateRight();
         }
     }
 
@@ -20,7 +20,7 @@ public class ArticulatedRobotController extends Controller {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.rotateLeft());
+            return robot.rotateLeft();
         }
     }
 
@@ -28,7 +28,7 @@ public class ArticulatedRobotController extends Controller {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.armExtend());
+            return robot.armExtend();
         }
     }
 
@@ -36,7 +36,7 @@ public class ArticulatedRobotController extends Controller {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.armRetract());
+            return robot.armRetract();
         }
     }
 
@@ -44,7 +44,7 @@ public class ArticulatedRobotController extends Controller {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.gripperGrip());
+            return robot.gripperGrip();
         }
     }
 
@@ -52,7 +52,7 @@ public class ArticulatedRobotController extends Controller {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
-            return _afterDelay(1000, () -> robot.gripperRelease());
+            return robot.gripperRelease();
         }
     }
 
@@ -78,7 +78,7 @@ public class ArticulatedRobotController extends Controller {
 
     @Override
     public String toString() {
-        return "ArticulatedRobotController{" + _entity + '}';
+        return this.getClass().getSimpleName() + '{' + _name + '}';
     }
 
 }

@@ -41,7 +41,19 @@ public class ArticulatedRobot extends ActiveEntity {
     public void draw(final Graphics graphics, final int layerNum) {
         super.draw(graphics, layerNum);
         _base.draw(graphics, layerNum);  // draws the arm automatically
-        // _arm.draw(graphics, layerNum + 1);
+    }
+
+
+    public void powerOn() {
+        super.powerOn();
+        _base.powerOn();
+        _arm.powerOn();
+    }
+
+    public void powerOff() {
+        super.powerOff();
+        _base.powerOff();
+        _arm.powerOff();
     }
 
     @Override

@@ -18,9 +18,11 @@ public class World extends PApplet {
     // Static variables =======================================================
 
     public static World THE_WORLD;
+    public static float SIMULATION_SPEED = 1.0f;
+    public static final Scanner KEYBOARD = new Scanner(System.in);  // for debugging
+
     protected static final int _ZMQ_BUS_PORT = 43210;
     public final static ZmqBus ZMQ_BUS = new ZmqBus(_ZMQ_BUS_PORT);
-    public static final Scanner KEYBOARD = new Scanner(System.in);  // for debugging
 
     protected static final Set<IUpdateSubscriber> _UPDATE_SUBSCRIBERS = new HashSet<>();
 

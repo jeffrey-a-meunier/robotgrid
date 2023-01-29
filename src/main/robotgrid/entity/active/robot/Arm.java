@@ -108,6 +108,7 @@ public class Arm extends ActiveEntity {
     // Controller methods =====================================================
 
     public CommandResult extend() {
+        delay();
         Cell adjacentCell = _cell.getAdjacent(_direction);
         if (adjacentCell == null) {
             return new CommandResult.Failure("Arm is blocked");
@@ -123,11 +124,13 @@ public class Arm extends ActiveEntity {
     }
 
     public CommandResult retract() {
+        delay();
         _isExtended = false;
         return CommandResult.SUCCESS;
     }
 
     public CommandResult grip() {
+        delay();
         if (_isExtended && !_isGripping) {
             if(_payload == null) {
                 Cell adjacentCell = _cell.getAdjacent(_direction);
@@ -139,6 +142,7 @@ public class Arm extends ActiveEntity {
     }
 
     public CommandResult release() {
+        delay();
         if (_isExtended && _payload != null) {
             Cell adjacentCell = _cell.getAdjacent(_direction);
             if (adjacentCell.add(_payload)) {

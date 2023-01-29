@@ -44,6 +44,7 @@ public class Controller implements Runnable {
      * This is a support method for the ArticulatedRobotController and the
      * MobileRobotController classes.
      */
+    @Deprecated
     protected static CommandResult _afterDelay(final int ms, Supplier<CommandResult> action) {
         try {
             Thread.sleep(ms);
@@ -70,7 +71,7 @@ public class Controller implements Runnable {
     public Controller(final String name) {
         _name = name;
         _ALL_CONTROLLERS.put(name, this);
-        _logger.info("created: '" + name + "'");
+        _logger.info("added new controller " + this);
     }
 
     public Controller installCommand(final String opcode, final ICommand command) {
@@ -149,6 +150,11 @@ public class Controller implements Runnable {
 
     public void terminate() {
         _thread.interrupt();
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + '{' + _name + '}';
     }
 
     protected void _handleCommand(final Message command) {

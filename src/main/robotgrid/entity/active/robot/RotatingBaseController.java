@@ -8,19 +8,19 @@ public class RotatingBaseController extends Controller {
 
     // Static inner classes ===================================================
 
-    protected static class RotateRightCommand implements ICommand {
-        @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
-            RotatingBase base = (RotatingBase)controller.entity();
-            return _afterDelay(1000, () -> base.rotateRight());
-        }
-    }
-
     protected static class RotateLeftCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
             RotatingBase base = (RotatingBase)controller.entity();
-            return _afterDelay(1000, () -> base.rotateLeft());
+            return base.rotateLeft();
+        }
+    }
+
+    protected static class RotateRightCommand implements ICommand {
+        @Override
+        public CommandResult execute(final Controller controller, final String[] parts) {
+            RotatingBase base = (RotatingBase)controller.entity();
+            return base.rotateRight();
         }
     }
 

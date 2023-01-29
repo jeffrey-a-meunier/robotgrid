@@ -47,7 +47,6 @@ public class ConveyorController extends Controller {
         _isOn = false;
     }
 
-
     protected boolean sleep(final int ms) {
         try {
             Thread.sleep(ms);
@@ -57,4 +56,10 @@ public class ConveyorController extends Controller {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + '{' + _name + '}';
+    }
+
 }

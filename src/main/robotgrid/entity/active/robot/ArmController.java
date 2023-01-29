@@ -12,7 +12,7 @@ public class ArmController extends Controller {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
             Arm arm = (Arm)controller.entity();
-            return _afterDelay(1000, () -> arm.extend());
+            return arm.extend();
         }
     }
 
@@ -20,7 +20,7 @@ public class ArmController extends Controller {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
             Arm arm = (Arm)controller.entity();
-            return _afterDelay(1000, () -> arm.retract());
+            return arm.retract();
         }
     }
 
@@ -28,7 +28,7 @@ public class ArmController extends Controller {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
             Arm arm = (Arm)controller.entity();
-            return _afterDelay(1000, () -> arm.grip());
+            return arm.grip();
         }
     }
 
@@ -36,7 +36,7 @@ public class ArmController extends Controller {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
             Arm arm = (Arm)controller.entity();
-            return _afterDelay(1000, () -> arm.release());
+            return arm.release();
         }
     }
 

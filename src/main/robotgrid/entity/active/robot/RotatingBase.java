@@ -12,6 +12,9 @@ public class RotatingBase extends ActiveEntity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
+
+    protected static float _STANDARD_DELAY = 1000.0f;
+
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
@@ -72,6 +75,7 @@ public class RotatingBase extends ActiveEntity {
 
     @Override
     public CommandResult rotateLeft() {
+        delay();
         if (_attachedEntity != null) {
             _attachedEntity.setDirection(_attachedEntity.direction().turnLeft());
         }
@@ -83,6 +87,7 @@ public class RotatingBase extends ActiveEntity {
 
     @Override
     public CommandResult rotateRight() {
+        delay();
         if (_attachedEntity != null) {
             _attachedEntity.setDirection(_attachedEntity.direction().turnRight());
         }
