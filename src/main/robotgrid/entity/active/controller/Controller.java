@@ -26,19 +26,17 @@ public class Controller implements Runnable {
     public static boolean deliverMessage(final String messageString) {
         String[] parts = messageString.split(" ");
         if (parts.length == 0) {
-            _logger.error("deliverMessage got an empty message");
+            _logger.error("deliverMessage() got an empty message");
             return false;
         }
         String controllerName = parts[0];
         Controller controller = _ALL_CONTROLLERS.get(controllerName);
         if (controller == null) {
-            _logger.error("deliverMessage could not find controller named '", controllerName, "'");
+            _logger.error("deliverMessage() could not find controller named '", controllerName, "'");
             return false;
         }
         Message message = new Message(Arrays.copyOfRange(parts, 1, parts.length));
-        System.out.println("Controller.deliverMessage delivering message " + message + " to " + controller);
         controller.sendMessage(message);
-        System.out.println("Controller.deliverMessage finished delivering message");
         return true;
     }
 
@@ -127,12 +125,9 @@ public class Controller implements Runnable {
     public void run() {
         _isOn = true;
         while (!Thread.currentThread().isInterrupted()) {
-            System.out.println("Controller.run " + this + " waiting for message");
             Message message = _msgq.deq();
-            System.out.println("Controller.run " + this + " dequeued message " + message);
             _handleCommand(message);
         }
-        System.out.println("Controller.run exited loop");
         _isOn = false;
     }
 
@@ -149,9 +144,11 @@ public class Controller implements Runnable {
     }
 
     public synchronized void sendMessage(final Message message) {
-        System.out.println("Controller " + this + " enqueueing message " + message);
         _msgq.enq(message);
-        System.out.println("Controller " + this + " enqueued message " + message);
+    }
+
+    public void terminate() {
+        _thread.interrupt();
     }
 
     protected void _handleCommand(final Message command) {

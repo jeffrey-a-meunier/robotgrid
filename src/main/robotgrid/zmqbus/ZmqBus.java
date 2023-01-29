@@ -43,10 +43,8 @@ public class ZmqBus {
             @Override
             public void run() {
                 while (!Thread.currentThread().isInterrupted()) {
-                    System.out.println("ZmqBus._startThread.run() waiting for message");
                     byte[] incoming = _socket.recv();
                     String messageString = new String(incoming, ZMQ.CHARSET);
-                    System.out.println("ZmqBus got '" + messageString + "'");
                     Controller.deliverMessage(messageString);
                 }
             }

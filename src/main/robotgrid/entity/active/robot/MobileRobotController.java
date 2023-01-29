@@ -11,6 +11,7 @@ public class MobileRobotController extends Controller {
     protected class MoveForwardCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
+            System.out.println("MobileRobotController moving forward");
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.moveForward());
         }
@@ -19,6 +20,7 @@ public class MobileRobotController extends Controller {
     protected class MoveBackwardCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
+            System.out.println("MobileRobotController moving backward");
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.moveBackward());
         }
@@ -27,6 +29,7 @@ public class MobileRobotController extends Controller {
     protected class RotateRightCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
+            System.out.println("MobileRobotController rotating right");
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.rotateRight());
         }
@@ -35,6 +38,7 @@ public class MobileRobotController extends Controller {
     protected class RotateLeftCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
+            System.out.println("MobileRobotController rotating left");
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.rotateLeft());
         }
@@ -51,9 +55,9 @@ public class MobileRobotController extends Controller {
     public MobileRobotController(final String name) {
         super(name);
         installCommand("MoveForward", new MoveForwardCommand());
-        installCommand("MoveBackward", new MoveForwardCommand());
+        installCommand("MoveBackward", new MoveBackwardCommand());
         installCommand("RotateRight", new RotateRightCommand());
-        installCommand("RotateLeft", new RotateRightCommand());
+        installCommand("RotateLeft", new RotateLeftCommand());
     }
 
     // Instance methods =======================================================
