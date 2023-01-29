@@ -70,14 +70,14 @@ public class WorldSetup {
 
         // Send some instructions to the robots
 
-        robot1.controller().sendCommands(
-            "MoveForward",
-            "MoveForward",
-            "RotateRight",
-            "MoveForward",
-            "MoveForward"
-        );
-        // robot1.powerOn();
+        // robot1.controller().sendCommands(
+        //     "MoveForward",
+        //     "MoveForward",
+        //     "RotateRight",
+        //     "MoveForward",
+        //     "MoveForward"
+        // );
+        robot1.powerOn();
 
         String[] program1 = {
             "ArmExtend",
@@ -91,7 +91,7 @@ public class WorldSetup {
             "RotateLeft",
             "RotateLeft",
         };
-        robot2.controller().sendCommands(program1);
+        //robot2.controller().sendCommands(program1);
         robot2.powerOn();
     }
 

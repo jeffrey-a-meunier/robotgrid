@@ -27,6 +27,10 @@ public class Conveyor extends ActiveEntity {
         super(name, new ConveyorController(name + ".Controller"));
     }
 
+    public Conveyor(final String name, final ConveyorController controller) {
+        super(name, controller);
+    }
+
     // Instance methods =======================================================
 
     @Override

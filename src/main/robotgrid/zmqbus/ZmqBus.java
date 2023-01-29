@@ -4,10 +4,16 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
+import robotgrid.entity.active.controller.Controller;
+import robotgrid.logger.Logger;
+
 public class ZmqBus {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
+
+    private static Logger _logger = new Logger(ZmqBus.class, Logger.Level.Info);
+
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
@@ -15,8 +21,8 @@ public class ZmqBus {
 
     protected int _port;
     protected ZContext _context;
-    protected ZMQ.Socket _pubSocket;
-    protected ZMQ.Socket _subSocket;
+    protected ZMQ.Socket _socket;
+    protected Thread _thread;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -24,21 +30,29 @@ public class ZmqBus {
     public ZmqBus(final int port) {
         _port = port;
         _context = new ZContext();
-        _pubSocket = _context.createSocket(SocketType.PUB);
-        _pubSocket.bind("tcp://*:" + port);
-        _subSocket = _context.createSocket(SocketType.SUB);
-        _subSocket.bind("tcp://*:" + (port + 1));
+        _socket = _context.createSocket(SocketType.PAIR);
+        _socket.bind("tcp://*:" + port);
+        _logger.info("ZmqBus listening on port " + port + " for socket type PAIR");
+        _startThread();
     }
 
     // Instance methods =======================================================
 
-    public void publish(final String name, final String message) {
-        _pubSocket.sendMore(name);
-        _pubSocket.send(message);
-    }
-
-    public void subscribe(final String name) {
-        _subSocket.subscribe(name.getBytes(ZMQ.CHARSET));
+    protected void _startThread() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                while (!Thread.currentThread().isInterrupted()) {
+                    System.out.println("ZmqBus._startThread.run() waiting for message");
+                    byte[] incoming = _socket.recv();
+                    String messageString = new String(incoming, ZMQ.CHARSET);
+                    System.out.println("ZmqBus got '" + messageString + "'");
+                    Controller.deliverMessage(messageString);
+                }
+            }
+        };
+        Thread _thread = new Thread(runnable);
+        _thread.start();
     }
 
 }

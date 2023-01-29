@@ -1,20 +1,46 @@
 package robotgrid.entity.active.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
 import robotgrid.entity.active.ActiveEntity;
+import robotgrid.logger.Logger;
 import robotgrid.network.Message;
 import robotgrid.network.MessageQ;
-import robotgrid.world.World;
 
 public class Controller implements Runnable {
     
     // Static inner classes ===================================================
     // Static variables =======================================================
+
+    protected static Map<String, Controller> _ALL_CONTROLLERS = new HashMap<>();
+
+
+    private static Logger _logger = new Logger(Controller.class, Logger.Level.Info);
+
     // Static initializer =====================================================
     // Static methods =========================================================
+
+    public static boolean deliverMessage(final String messageString) {
+        String[] parts = messageString.split(" ");
+        if (parts.length == 0) {
+            _logger.error("deliverMessage got an empty message");
+            return false;
+        }
+        String controllerName = parts[0];
+        Controller controller = _ALL_CONTROLLERS.get(controllerName);
+        if (controller == null) {
+            _logger.error("deliverMessage could not find controller named '", controllerName, "'");
+            return false;
+        }
+        Message message = new Message(Arrays.copyOfRange(parts, 1, parts.length));
+        System.out.println("Controller.deliverMessage delivering message " + message + " to " + controller);
+        controller.sendMessage(message);
+        System.out.println("Controller.deliverMessage finished delivering message");
+        return true;
+    }
 
     /**
      * This is a support method for the ArticulatedRobotController and the
@@ -45,7 +71,8 @@ public class Controller implements Runnable {
 
     public Controller(final String name) {
         _name = name;
-        World.ZMQ_BUS.subscribe(_name);
+        _ALL_CONTROLLERS.put(name, this);
+        _logger.info("Controller created: '" + name + "'");
     }
 
     public Controller installCommand(final String opcode, final ICommand command) {
@@ -100,9 +127,12 @@ public class Controller implements Runnable {
     public void run() {
         _isOn = true;
         while (!Thread.currentThread().isInterrupted()) {
+            System.out.println("Controller.run " + this + " waiting for message");
             Message message = _msgq.deq();
+            System.out.println("Controller.run " + this + " dequeued message " + message);
             _handleCommand(message);
         }
+        System.out.println("Controller.run exited loop");
         _isOn = false;
     }
 
@@ -118,9 +148,11 @@ public class Controller implements Runnable {
         return this;
     }
 
-    // public synchronized void sendMessage(final Message message) {
-    //     _msgq.enq(message);
-    // }
+    public synchronized void sendMessage(final Message message) {
+        System.out.println("Controller " + this + " enqueueing message " + message);
+        _msgq.enq(message);
+        System.out.println("Controller " + this + " enqueued message " + message);
+    }
 
     protected void _handleCommand(final Message command) {
         String[] parts = command.parts();
