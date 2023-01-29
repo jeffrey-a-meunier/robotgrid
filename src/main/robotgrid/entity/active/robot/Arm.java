@@ -26,7 +26,7 @@ public class Arm extends ActiveEntity {
     // Constructors ===========================================================
 
     public Arm(final String name) {
-        super(name, new ArmController(name + ".Controller"));
+        super(name, new ArmController(name));
         _height = Height.High;
     }
 

@@ -32,7 +32,7 @@ public class ZmqBus {
         _context = new ZContext();
         _socket = _context.createSocket(SocketType.PAIR);
         _socket.bind("tcp://*:" + port);
-        _logger.info("ZmqBus listening on port " + port + " for socket type PAIR");
+        _logger.info("listening on port " + port + " for socket type PAIR");
         _startThread();
     }
 

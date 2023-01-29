@@ -1,6 +1,7 @@
 package robotgrid.entity.active.robot;
 
 import robotgrid.entity.active.controller.ICommand;
+import robotgrid.logger.Logger;
 import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.entity.active.controller.Controller;
 
@@ -11,7 +12,7 @@ public class MobileRobotController extends Controller {
     protected class MoveForwardCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
-            System.out.println("MobileRobotController moving forward");
+            _logger.debug("moving forward");
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.moveForward());
         }
@@ -20,7 +21,7 @@ public class MobileRobotController extends Controller {
     protected class MoveBackwardCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
-            System.out.println("MobileRobotController moving backward");
+            _logger.debug("moving backward");
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.moveBackward());
         }
@@ -29,7 +30,7 @@ public class MobileRobotController extends Controller {
     protected class RotateRightCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
-            System.out.println("MobileRobotController rotating right");
+            _logger.debug("rotating right");
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.rotateRight());
         }
@@ -38,13 +39,16 @@ public class MobileRobotController extends Controller {
     protected class RotateLeftCommand implements ICommand {
         @Override
         public CommandResult execute(final Controller controller, final String[] parts) {
-            System.out.println("MobileRobotController rotating left");
+            _logger.debug("rotating left");
             MobileRobot robot = (MobileRobot)controller.entity();
             return _afterDelay(1000, () -> robot.rotateLeft());
         }
     }
 
     // Static variables =======================================================
+
+    private static Logger _logger = new Logger(MobileRobotController.class, Logger.Level.Debug);
+
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================

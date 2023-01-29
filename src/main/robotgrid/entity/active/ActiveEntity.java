@@ -18,7 +18,7 @@ public abstract class ActiveEntity extends Entity {
     // Constructors ===========================================================
 
     public ActiveEntity(final String name) {
-        this(name, new Controller(name + ".Controller"));
+        this(name, new Controller(name));
     }
 
     public ActiveEntity(final String name, final Controller controller) {

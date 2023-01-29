@@ -30,7 +30,7 @@ public class MobileRobot extends ActiveEntity {
     // Constructors ===========================================================
 
     public MobileRobot(final String name) {
-        super(name, new MobileRobotController(name + ".Controller"));
+        super(name, new MobileRobotController(name));
     }
 
     // Instance methods =======================================================

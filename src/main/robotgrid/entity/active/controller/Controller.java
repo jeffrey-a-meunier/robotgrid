@@ -70,7 +70,7 @@ public class Controller implements Runnable {
     public Controller(final String name) {
         _name = name;
         _ALL_CONTROLLERS.put(name, this);
-        _logger.info("Controller created: '" + name + "'");
+        _logger.info("created: '" + name + "'");
     }
 
     public Controller installCommand(final String opcode, final ICommand command) {

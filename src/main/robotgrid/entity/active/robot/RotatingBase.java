@@ -26,7 +26,7 @@ public class RotatingBase extends ActiveEntity {
     // Constructors ===========================================================
 
     public RotatingBase(final String name) {
-        super(name, new RotatingBaseController(name + ".Controller"));
+        super(name, new RotatingBaseController(name));
         _height = Height.Low;
     }
 
