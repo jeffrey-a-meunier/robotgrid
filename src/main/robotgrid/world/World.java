@@ -1,13 +1,10 @@
 package robotgrid.world;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 import processing.core.PApplet;
 import processing.event.MouseEvent;
-import robotgrid.entity.active.IUpdateSubscriber;
 import robotgrid.logger.Logger;
 import robotgrid.scene.Scene;
 import robotgrid.zmqbus.ZmqBus;
@@ -24,7 +21,7 @@ public class World extends PApplet {
     protected static final int _ZMQ_BUS_PORT = 43210;
     public final static ZmqBus ZMQ_BUS = new ZmqBus(_ZMQ_BUS_PORT);
 
-    protected static final Set<IUpdateSubscriber> _UPDATE_SUBSCRIBERS = new HashSet<>();
+    // protected static final Set<IUpdateSubscriber> _UPDATE_SUBSCRIBERS = new HashSet<>();
 
     private static Logger _logger = new Logger(World.class);
 
@@ -36,7 +33,6 @@ public class World extends PApplet {
     protected HashMap<String, Scene> _scenes = new HashMap<>();
     protected Scene _currentScene = null;
 
-    protected int _lastTickTime;
     protected int _dragOffsetX, _dragOffsetY;
 
     // Instance initializer ===================================================
@@ -53,18 +49,11 @@ public class World extends PApplet {
         _scenes.put(sceneName, scene);
     }
     
-    // This method gets called repeatedly by the Processing engine. We will
-    // use this method call as a call to both the world update() method and the
-    // world draw() method.
     @Override
     public void draw() {
-        int currentTime = millis();
-        int elapsedTime = currentTime - _lastTickTime;
-        update(elapsedTime);
         if (_currentScene != null) {
             _currentScene.draw(this);
         }
-        _lastTickTime = currentTime;
     }
 
     @Override
@@ -121,13 +110,6 @@ public class World extends PApplet {
         background(0, 0, 0);
         stroke(255);
         strokeWeight(10);
-        //frame.setResizable(true);
-    }
-
-    protected void update(final int elapsedTime) {
-        for (IUpdateSubscriber subscriber : _UPDATE_SUBSCRIBERS) {
-            subscriber.update(elapsedTime);
-        }
     }
 
 }

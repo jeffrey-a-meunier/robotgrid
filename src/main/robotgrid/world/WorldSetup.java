@@ -1,6 +1,7 @@
 package robotgrid.world;
 
 import robotgrid.entity.active.conveyor.Conveyor;
+import robotgrid.entity.active.conveyor.ConveyorController;
 import robotgrid.entity.active.robot.ArticulatedRobot;
 import robotgrid.entity.active.robot.MobileRobot;
 import robotgrid.entity.widget.SquareWidget;
@@ -59,9 +60,10 @@ public class WorldSetup {
             ;
         grid1.addEntity(4, 5, robot2);
 
+        ConveyorController conveyorController1 = new ConveyorController("Conveyor1");
         Conveyor[] conveyors = new Conveyor[4];
         for (int n=0; n<4; n++) {
-            conveyors[n] = (Conveyor)new Conveyor("Conveyor" + n)
+            conveyors[n] = (Conveyor)new Conveyor("Conveyor" + n, conveyorController1)
                 .setDirection(Direction.West)
                 ;
             grid1.addEntity(5, 5 - n, conveyors[n]);
@@ -91,7 +93,7 @@ public class WorldSetup {
             "RotateLeft",
             "RotateLeft",
         };
-        //robot2.controller().sendCommands(program1);
+        robot2.controller().sendCommands(program1);
         robot2.powerOn();
     }
 
