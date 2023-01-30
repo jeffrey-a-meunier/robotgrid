@@ -1,4 +1,4 @@
-package robotgrid.network;
+package robotgrid.entity.active.controller;
 
 import java.util.LinkedList;
 import java.util.Optional;

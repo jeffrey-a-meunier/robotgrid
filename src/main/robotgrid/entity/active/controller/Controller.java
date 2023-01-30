@@ -7,8 +7,6 @@ import java.util.function.Supplier;
 
 import robotgrid.entity.active.ActiveEntity;
 import robotgrid.logger.Logger;
-import robotgrid.network.Message;
-import robotgrid.network.MessageQ;
 
 public class Controller implements Runnable {
     
