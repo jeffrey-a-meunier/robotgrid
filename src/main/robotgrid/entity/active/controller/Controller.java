@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 
 import robotgrid.entity.active.ActiveEntity;
 import robotgrid.logger.Logger;
+import robotgrid.server.Server;
 
 public class Controller implements Runnable {
     
@@ -24,12 +25,14 @@ public class Controller implements Runnable {
         String[] parts = messageString.split(" ");
         if (parts.length == 0) {
             _logger.error("deliverMessage() got an empty message");
+            Server.THE_SERVER.sendInfo("Command string is empty");
             return false;
         }
         String controllerName = parts[0];
         Controller controller = _ALL_CONTROLLERS.get(controllerName);
         if (controller == null) {
             _logger.error("deliverMessage() could not find controller named '", controllerName, "'");
+            Server.THE_SERVER.sendInfo("ERROR controller not found: " + controllerName);
             return false;
         }
         Message message = new Message(Arrays.copyOfRange(parts, 1, parts.length));
@@ -122,10 +125,13 @@ public class Controller implements Runnable {
 
     public void run() {
         _isOn = true;
+        String commandCompleteString = _name + " command complete";
         while (!Thread.currentThread().isInterrupted()) {
             Message message = _msgq.deq();
             _handleCommand(message);
+            Server.THE_SERVER.sendInfo(commandCompleteString);
         }
+        Server.THE_SERVER.sendInfo(_name + " program complete");
         _isOn = false;
     }
 

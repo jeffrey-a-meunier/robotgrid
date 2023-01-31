@@ -2,10 +2,14 @@ package robotgrid.server;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
+import robotgrid.entity.active.controller.Controller;
 import robotgrid.logger.Logger;
 
 public class Server {
@@ -29,6 +33,7 @@ public class Server {
     protected ServerSocket _infoServerSocket;
     protected Thread _commandThread;
     protected Thread _infoThread;
+    protected Queue<String> _infoStringQueue = new LinkedBlockingQueue<>();
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -45,6 +50,17 @@ public class Server {
     }
 
     // Instance methods =======================================================
+
+    public void sendInfo(final String infoString) {
+        synchronized (_infoStringQueue) {
+            if (_infoStringQueue.offer(infoString)) {
+                _infoStringQueue.notify();
+            }
+            else {
+                _logger.error("_infoStringQueue has reached its capacity");
+            }
+        }
+    }
 
     public void terminate() {
         try {
@@ -113,7 +129,6 @@ public class Server {
             BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             while (true) {
                 String line = br.readLine();
-                System.out.println("got line " + line);
                 if (line == null) {
                     break;
                 }
@@ -121,6 +136,7 @@ public class Server {
                 if (line.length() == 0) {
                     continue;
                 }
+                Controller.deliverMessage(line);
             }
             clientSocket.close();
         }
@@ -131,10 +147,26 @@ public class Server {
 
     protected void _handleInfoSocket(final Socket clientSocket) {
         try {
+            PrintWriter pw = new PrintWriter(clientSocket.getOutputStream());
+            while (!_infoThread.isInterrupted()) {
+                synchronized (_infoStringQueue) {
+                    while (_infoStringQueue.isEmpty()) {
+                        _infoStringQueue.wait();
+                    }
+                    String string = _infoStringQueue.poll();
+                    if (string != null) {
+                        pw.println(string);
+                        pw.flush();
+                    }
+                }
+            }
             clientSocket.close();
         }
         catch (final IOException exn) {
-            _logger.error("exception while closing client info socket ", exn);
+            _logger.error("exception while handling client info socket ", exn);
+        }
+        catch (final InterruptedException exn) {
+            _logger.error("exception while waiting on input queue ", exn);
         }
     }
 
