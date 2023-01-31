@@ -15,7 +15,6 @@ public class Controller implements Runnable {
 
     protected static Map<String, Controller> _ALL_CONTROLLERS = new HashMap<>();
 
-
     private static Logger _logger = new Logger(Controller.class, Logger.Level.Info);
 
     // Static initializer =====================================================

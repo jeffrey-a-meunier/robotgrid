@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 import processing.core.PApplet;
 import processing.event.MouseEvent;
+import robotgrid.hub.Hub;
 import robotgrid.logger.Logger;
 import robotgrid.scene.Scene;
-import robotgrid.zmqbus.ZmqBus;
 
 public class World extends PApplet {
 
@@ -15,13 +15,13 @@ public class World extends PApplet {
     // Static variables =======================================================
 
     public static World THE_WORLD;
+    public static Hub THE_HUB = new Hub(true);
+
     public static float SIMULATION_SPEED = 1.0f;
     public static final Scanner KEYBOARD = new Scanner(System.in);  // for debugging
 
-    protected static final int _ZMQ_BUS_PORT = 43210;
-    public final static ZmqBus ZMQ_BUS = new ZmqBus(_ZMQ_BUS_PORT);
-
-    // protected static final Set<IUpdateSubscriber> _UPDATE_SUBSCRIBERS = new HashSet<>();
+    protected static final int _COMMAND_PORT = 43210;
+    protected static final int _INFO_PORT = _COMMAND_PORT + 1;
 
     private static Logger _logger = new Logger(World.class);
 
