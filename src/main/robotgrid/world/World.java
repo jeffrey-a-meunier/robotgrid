@@ -8,6 +8,7 @@ import processing.event.MouseEvent;
 import robotgrid.hub.Hub;
 import robotgrid.logger.Logger;
 import robotgrid.scene.Scene;
+import robotgrid.server.Server;
 
 public class World extends PApplet {
 
@@ -19,9 +20,6 @@ public class World extends PApplet {
 
     public static float SIMULATION_SPEED = 1.0f;
     public static final Scanner KEYBOARD = new Scanner(System.in);  // for debugging
-
-    protected static final int _COMMAND_PORT = 43210;
-    protected static final int _INFO_PORT = _COMMAND_PORT + 1;
 
     private static Logger _logger = new Logger(World.class);
 
@@ -41,6 +39,7 @@ public class World extends PApplet {
     public World() {
         THE_WORLD = this;
         WorldSetup.setup(this);
+        _logger.info("Server created: ", Server.THE_SERVER);
     }
 
     // Instance methods =======================================================
