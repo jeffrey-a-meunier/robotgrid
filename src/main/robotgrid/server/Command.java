@@ -1,7 +1,8 @@
 package robotgrid.server;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+
+import robotgrid.utils.UID;
 
 /**
  * Every command must be a string of the form
@@ -16,37 +17,32 @@ public class Command {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    protected CommandUID _uid = new CommandUID();
-    protected String _receiver;
-    protected String _verb;
-    protected List<String> _arguments = new ArrayList<>();
+    protected UID _uid = new UID();
+    protected String[] _parts;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
     public Command(final String string) {
-        _parse(string);
+        _parts = string.split(" ");
     }
 
     // Instance methods =======================================================
 
-    public String receiver() {
-        return _receiver;
-    }
-
-    public String verb() {
-        return _verb;
-    }
-
-    public List<String> arguments() {
-        return _arguments;
-    }
-
     final void execute() {
-        CommandHandler handler = CommandHandlerReistry.THE_REGISTRY.get(_receiver, _verb);
+        CommandHandler handler = CommandHandlerRegistry.THE_REGISTRY.get(_parts);
         // handleCommand should not return until the command is complete
         handler.handleCommand(this);
         _complete();
+    }
+
+    public String[] parts() {
+        return _parts;
+    }
+
+    @Override
+    public String toString() {
+        return "Command{" + Arrays.toString(_parts) + ", " + _uid + '}';
     }
 
     /**
@@ -54,22 +50,9 @@ public class Command {
      * method is called.
      */
     protected void _complete() {
-        String message = "Command complete " + _uid;
+        String message = "Command complete " + this;
         Server.THE_SERVER.sendInfo(message);
         _clearMemberVariables();
-    }
-
-    protected boolean _parse(final String commandString) {
-        String[] parts = commandString.split(" ");
-        if (parts.length < 2) {
-            return false;
-        }
-        _receiver = parts[0];
-        _verb = parts[1];
-        for (int n=2; n<parts.length; n++) {
-            _arguments.add(parts[n]);
-        }
-        return true;
     }
 
     /**
@@ -77,9 +60,7 @@ public class Command {
      */
     protected void _clearMemberVariables() {
         _uid = null;
-        _receiver = null;
-        _verb = null;
-        _arguments = null;
+        _parts = null;
     }
 
 }

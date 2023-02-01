@@ -1,16 +1,14 @@
 package robotgrid.world;
 
 import java.util.HashMap;
-import java.util.Scanner;
 
 import processing.core.PApplet;
 import processing.event.MouseEvent;
 import robotgrid.scene.Scene;
-import robotgrid.server.Server;
 import robotgrid.server.commands.WorldCreate;
 import robotgrid.server.commands.WorldCreateGrid;
 import robotgrid.utils.Logger;
-import robotgrid.server.CommandHandlerReistry;
+import robotgrid.server.CommandHandlerRegistry;
 
 public class World extends PApplet {
 
@@ -20,7 +18,7 @@ public class World extends PApplet {
     public static World THE_WORLD;
 
     public static float SIMULATION_SPEED = 1.0f;
-    public static final Scanner KEYBOARD = new Scanner(System.in);  // for debugging
+    // public static final Scanner KEYBOARD = new Scanner(System.in);  // for debugging
 
     private static Logger _logger = new Logger(World.class);
 
@@ -32,17 +30,14 @@ public class World extends PApplet {
     protected HashMap<String, Scene> _scenes = new HashMap<>();
     protected Scene _currentScene = null;
 
-    protected int _dragOffsetX, _dragOffsetY;
-
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
     public World() {
         THE_WORLD = this;
-        WorldSetup.setup(this);
-        CommandHandlerReistry.THE_REGISTRY.register(new WorldCreate(this), "World", "Create");
-        CommandHandlerReistry.THE_REGISTRY.register(new WorldCreateGrid(this), "World", "Create", "Grid");
-        _logger.info("Server created: ", Server.THE_SERVER);
+        // WorldSetup.setup(this);
+        CommandHandlerRegistry.THE_REGISTRY.register(new WorldCreate(this), "World", "Create");
+        CommandHandlerRegistry.THE_REGISTRY.register(new WorldCreateGrid(this), "World", "Create", "Grid");
     }
 
     // Instance methods =======================================================

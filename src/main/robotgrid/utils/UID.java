@@ -1,9 +1,9 @@
-package robotgrid.server;
+package robotgrid.utils;
 
 /**
  * Unique identifier for commands.
  */
-public class CommandUID {
+public class UID {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -20,7 +20,7 @@ public class CommandUID {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public CommandUID() {}
+    public UID() {}
 
     // Instance methods =======================================================
 

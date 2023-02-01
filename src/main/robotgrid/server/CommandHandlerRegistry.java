@@ -1,13 +1,18 @@
 package robotgrid.server;
 
+import java.util.Arrays;
+
+import robotgrid.utils.Logger;
 import robotgrid.utils.PrefixTree;
 
-public class CommandHandlerReistry {
+public class CommandHandlerRegistry {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-    public static final CommandHandlerReistry THE_REGISTRY = new CommandHandlerReistry();
+    public static final CommandHandlerRegistry THE_REGISTRY = new CommandHandlerRegistry();
+
+    private static Logger _logger = new Logger(CommandHandlerRegistry.class);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -22,6 +27,7 @@ public class CommandHandlerReistry {
 
     public void register(final CommandHandler handler, final String ... commandParts) {
         _registry.insert(handler, commandParts);
+        _logger.info("Command added: ", Arrays.toString(commandParts));
     }
 
     public CommandHandler get(final String ... commandParts) {

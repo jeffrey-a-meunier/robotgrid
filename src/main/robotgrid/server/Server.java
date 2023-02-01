@@ -6,10 +6,7 @@ import java.io.PrintWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
 
-import robotgrid.entity.active.controller.Controller;
 import robotgrid.utils.Logger;
 
 public class Server {
@@ -30,10 +27,13 @@ public class Server {
     // Instance variables =====================================================
 
     protected ServerSocket _commandServerSocket;
-    protected ServerSocket _infoServerSocket;
     protected Thread _commandThread;
+    protected PrintWriter _commandSocketPrintWriter;
+
+    protected ServerSocket _infoServerSocket;
     protected Thread _infoThread;
-    protected Queue<String> _infoStringQueue = new LinkedBlockingQueue<>();
+    protected PrintWriter _infoSocketPrintWriter;
+    // protected Queue<String> _infoStringQueue = new LinkedBlockingQueue<>();
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -51,13 +51,24 @@ public class Server {
 
     // Instance methods =======================================================
 
+    public void sendCommandReply(final String replyString) {
+        synchronized (_commandSocketPrintWriter) {
+            _commandSocketPrintWriter.println(replyString);
+        }
+    }
+
     public void sendInfo(final String infoString) {
-        synchronized (_infoStringQueue) {
-            if (_infoStringQueue.offer(infoString)) {
-                _infoStringQueue.notify();
-            }
-            else {
-                _logger.error("_infoStringQueue has reached its capacity");
+        // synchronized (_infoStringQueue) {
+        //     if (_infoStringQueue.offer(infoString)) {
+        //         _infoStringQueue.notify();
+        //     }
+        //     else {
+        //         _logger.error("_infoStringQueue has reached its capacity");
+        //     }
+        // }
+        if (_infoSocketPrintWriter != null) {
+            synchronized (_infoSocketPrintWriter) {
+                _infoSocketPrintWriter.println(infoString);
             }
         }
     }
@@ -87,6 +98,8 @@ public class Server {
             }
         };
         _commandThread.start();
+        // TODO I think the infoThread is no longer needed; the _infoSocketPrintWriter can be used
+        // to write directly to the client.
         _infoThread = new Thread() {
             @Override
             public void run() {
@@ -127,6 +140,7 @@ public class Server {
     protected void _handleCommandSocket(final Socket clientSocket) {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            _commandSocketPrintWriter = new PrintWriter(clientSocket.getOutputStream());
             while (true) {
                 String line = br.readLine();
                 if (line == null) {
@@ -136,7 +150,8 @@ public class Server {
                 if (line.length() == 0) {
                     continue;
                 }
-                Controller.deliverMessage(line);
+                Command command = new Command(line);
+                command.execute();
             }
             clientSocket.close();
         }
@@ -147,18 +162,20 @@ public class Server {
 
     protected void _handleInfoSocket(final Socket clientSocket) {
         try {
-            PrintWriter pw = new PrintWriter(clientSocket.getOutputStream());
+            // PrintWriter pw = new PrintWriter(clientSocket.getOutputStream());
+            _infoSocketPrintWriter = new PrintWriter(clientSocket.getOutputStream());
             while (!_infoThread.isInterrupted()) {
-                synchronized (_infoStringQueue) {
-                    while (_infoStringQueue.isEmpty()) {
-                        _infoStringQueue.wait();
-                    }
-                    String string = _infoStringQueue.poll();
-                    if (string != null) {
-                        pw.println(string);
-                        pw.flush();
-                    }
-                }
+                this.wait();
+                // synchronized (_infoStringQueue) {
+                //     while (_infoStringQueue.isEmpty()) {
+                //         _infoStringQueue.wait();
+                //     }
+                //     String string = _infoStringQueue.poll();
+                //     if (string != null) {
+                //         pw.println(string);
+                //         pw.flush();
+                //     }
+                // }
             }
             clientSocket.close();
         }
