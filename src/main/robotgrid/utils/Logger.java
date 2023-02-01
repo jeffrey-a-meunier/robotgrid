@@ -1,4 +1,4 @@
-package robotgrid.logger;
+package robotgrid.utils;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;

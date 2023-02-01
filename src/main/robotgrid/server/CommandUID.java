@@ -1,28 +1,32 @@
-package robotgrid.world;
+package robotgrid.server;
 
-public class WorldBuilder {
+/**
+ * Unique identifier for commands.
+ */
+public class CommandUID {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-    // m = mobile robot
-    // a = articulated robot
-    // ^>v< = conveyors
-    // t = table
-    protected String[] map1 = {
-        "    a     ",
-        "m   v     ",
-        "    v     ",
-        "    >>>t  ",
-        "          "
-    };
+    protected static int _NEXT_ID = 0;
 
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
+
+    protected int _id = _NEXT_ID++;
+
     // Instance initializer ===================================================
     // Constructors ===========================================================
+
+    public CommandUID() {}
+
     // Instance methods =======================================================
+
+    @Override
+    public String toString() {
+        return "" + _id;
+    }
 
 }

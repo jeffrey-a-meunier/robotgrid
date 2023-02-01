@@ -10,7 +10,7 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import robotgrid.entity.active.controller.Controller;
-import robotgrid.logger.Logger;
+import robotgrid.utils.Logger;
 
 public class Server {
 

@@ -1,4 +1,4 @@
-package robotgrid.logger;
+package robotgrid.utils;
 
 public class ANSIColor {
 

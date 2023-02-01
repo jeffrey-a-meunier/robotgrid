@@ -2,7 +2,7 @@ package robotgrid.entity.active;
 
 import robotgrid.entity.Entity;
 import robotgrid.entity.active.controller.Controller;
-import robotgrid.logger.Logger;
+import robotgrid.utils.Logger;
 import robotgrid.world.World;
 
 public abstract class ActiveEntity extends Entity {

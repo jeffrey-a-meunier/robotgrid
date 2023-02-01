@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import robotgrid.entity.active.ActiveEntity;
-import robotgrid.logger.Logger;
 import robotgrid.server.Server;
+import robotgrid.utils.Logger;
 
 public class Controller implements Runnable {
     

@@ -8,8 +8,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import robotgrid.logger.Logger;
+import robotgrid.utils.Logger;
 
+@Deprecated
 public class Hub implements Runnable {
 
     // Static inner classes ===================================================

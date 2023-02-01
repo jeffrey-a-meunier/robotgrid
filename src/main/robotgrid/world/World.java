@@ -5,10 +5,12 @@ import java.util.Scanner;
 
 import processing.core.PApplet;
 import processing.event.MouseEvent;
-import robotgrid.hub.Hub;
-import robotgrid.logger.Logger;
 import robotgrid.scene.Scene;
 import robotgrid.server.Server;
+import robotgrid.server.commands.WorldCreate;
+import robotgrid.server.commands.WorldCreateGrid;
+import robotgrid.utils.Logger;
+import robotgrid.server.CommandHandlerReistry;
 
 public class World extends PApplet {
 
@@ -16,7 +18,6 @@ public class World extends PApplet {
     // Static variables =======================================================
 
     public static World THE_WORLD;
-    public static Hub THE_HUB = new Hub(true);
 
     public static float SIMULATION_SPEED = 1.0f;
     public static final Scanner KEYBOARD = new Scanner(System.in);  // for debugging
@@ -39,6 +40,8 @@ public class World extends PApplet {
     public World() {
         THE_WORLD = this;
         WorldSetup.setup(this);
+        CommandHandlerReistry.THE_REGISTRY.register(new WorldCreate(this), "World", "Create");
+        CommandHandlerReistry.THE_REGISTRY.register(new WorldCreateGrid(this), "World", "Create", "Grid");
         _logger.info("Server created: ", Server.THE_SERVER);
     }
 
