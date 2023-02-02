@@ -3,6 +3,7 @@ package robotgrid.hub;
 /**
  * Implementers are encouraged to override and specialize this class.
  */
+@Deprecated
 public class Message {
 
     // Static inner classes ===================================================

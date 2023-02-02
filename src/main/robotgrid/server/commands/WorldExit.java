@@ -6,7 +6,7 @@ import robotgrid.server.CommandResult;
 import robotgrid.utils.Logger;
 import robotgrid.world.World;
 
-public class WorldCreate implements CommandHandler {
+public class WorldExit implements CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -23,7 +23,7 @@ public class WorldCreate implements CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public WorldCreate(final World world) {
+    public WorldExit(final World world) {
         _world = world;
     }
 
@@ -31,10 +31,9 @@ public class WorldCreate implements CommandHandler {
 
     @Override
     public CommandResult handleCommand(final Command command) {
-        // TODO Auto-generated method stub
-        String message = "handleCommand() is incomplete";
-        _logger.warn(message);
-        return CommandResult.failure(message);
+        _logger.warn("World exiting");
+        _world.exit();
+        return CommandResult.success();
     }
 
 }

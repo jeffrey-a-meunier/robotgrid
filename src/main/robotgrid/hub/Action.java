@@ -1,5 +1,6 @@
 package robotgrid.hub;
 
+@Deprecated
 public enum Action {
 
     Read, Write, Trigger;

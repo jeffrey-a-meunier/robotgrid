@@ -1,5 +1,6 @@
 package robotgrid.hub;
 
+@Deprecated
 public interface Subscriber {
 
     // Static inner classes ===================================================

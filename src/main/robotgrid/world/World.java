@@ -5,10 +5,8 @@ import java.util.HashMap;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
 import robotgrid.scene.Scene;
-import robotgrid.server.commands.WorldCreate;
-import robotgrid.server.commands.WorldCreateGrid;
 import robotgrid.utils.Logger;
-import robotgrid.server.CommandHandlerRegistry;
+import robotgrid.server.Server;
 
 public class World extends PApplet {
 
@@ -35,9 +33,9 @@ public class World extends PApplet {
 
     public World() {
         THE_WORLD = this;
-        // WorldSetup.setup(this);
-        CommandHandlerRegistry.THE_REGISTRY.register(new WorldCreate(this), "World", "Create");
-        CommandHandlerRegistry.THE_REGISTRY.register(new WorldCreateGrid(this), "World", "Create", "Grid");
+        // WorldSetup.setup(this);  // old code
+        CommandSetup.setup(this);
+        Server.setup();
     }
 
     // Instance methods =======================================================

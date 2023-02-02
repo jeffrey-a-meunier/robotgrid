@@ -29,11 +29,17 @@ public class Command {
 
     // Instance methods =======================================================
 
-    final void execute() {
+    public CommandHandler getHandler() {
+        return CommandHandlerRegistry.THE_REGISTRY.get(_parts);
+    }
+
+    @Deprecated
+    final CommandResult execute() {
         CommandHandler handler = CommandHandlerRegistry.THE_REGISTRY.get(_parts);
-        // handleCommand should not return until the command is complete
-        handler.handleCommand(this);
+        // handleCommand does not return until the command is complete
+        CommandResult res = handler.handleCommand(this);
         _complete();
+        return res;
     }
 
     public String[] parts() {
@@ -45,10 +51,15 @@ public class Command {
         return "Command{" + Arrays.toString(_parts) + ", " + _uid + '}';
     }
 
+    public UID uid() {
+        return _uid;
+    }
+
     /**
      * Under no circumstances should a Command instance be used after this
      * method is called.
      */
+    @Deprecated
     protected void _complete() {
         String message = "Command complete " + this;
         Server.THE_SERVER.sendInfo(message);
@@ -58,6 +69,7 @@ public class Command {
     /**
      * Assist the memory manager.
      */
+    @Deprecated
     protected void _clearMemberVariables() {
         _uid = null;
         _parts = null;

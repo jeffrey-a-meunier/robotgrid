@@ -5,6 +5,8 @@ import robotgrid.scene.Grid;
 import robotgrid.scene.Scene;
 import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
+import robotgrid.server.CommandResult;
+import robotgrid.utils.Logger;
 import robotgrid.world.World;
 
 public class WorldCreateGrid implements CommandHandler {
@@ -17,6 +19,8 @@ public class WorldCreateGrid implements CommandHandler {
     protected static int _NCOLS = 9;
 
     protected static int _NEXT_INDEX = 0;
+
+    private Logger _logger = new Logger(WorldCreateGrid.class);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -35,22 +39,25 @@ public class WorldCreateGrid implements CommandHandler {
     // Instance methods =======================================================
 
     @Override
-    public void handleCommand(final Command command) {
+    public CommandResult handleCommand(final Command command) {
         int cellSize = _CELL_SIZE;
         int nRows = _NROWS;
         int nCols = _NCOLS;
         int n = 0;
         for (String argString : command.parts()) {
-            int argVal = Integer.parseInt(argString);
             switch (n++) {
                 case 3:
-                    nRows = argVal;
+                    nRows = Integer.parseInt(argString);
+                    _logger.info("handleCommand() nRows = ", nRows);
                     break;
                 case 4:
-                    nCols = argVal;
+                    nCols = Integer.parseInt(argString);
+                    _logger.info("handleCommand() nCols = ", nCols);
                     break;
                 case 5:
-                    cellSize = argVal;
+                    cellSize = Integer.parseInt(argString);
+                    _logger.info("handleCommand() cellSize = ", cellSize);
+                    break;
             }
         }
         Cell.setSize(cellSize);
@@ -61,6 +68,7 @@ public class WorldCreateGrid implements CommandHandler {
         String name = "Grid" + (_NEXT_INDEX++);
         _world.addScene(name, scene);
         _world.setCurrentScene(name);
+        return CommandResult.success();
     }
 
 }

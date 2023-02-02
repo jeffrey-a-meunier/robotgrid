@@ -23,6 +23,12 @@ public class Server {
 
     // Static initializer =====================================================
     // Static methods =========================================================
+
+    public static void setup() {
+        // Do nothing. This is here to force the static THE_SERVER variable to
+        // be initialized.
+    }
+
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
@@ -54,21 +60,15 @@ public class Server {
     public void sendCommandReply(final String replyString) {
         synchronized (_commandSocketPrintWriter) {
             _commandSocketPrintWriter.println(replyString);
+            _commandSocketPrintWriter.flush();
         }
     }
 
     public void sendInfo(final String infoString) {
-        // synchronized (_infoStringQueue) {
-        //     if (_infoStringQueue.offer(infoString)) {
-        //         _infoStringQueue.notify();
-        //     }
-        //     else {
-        //         _logger.error("_infoStringQueue has reached its capacity");
-        //     }
-        // }
         if (_infoSocketPrintWriter != null) {
             synchronized (_infoSocketPrintWriter) {
                 _infoSocketPrintWriter.println(infoString);
+                _infoSocketPrintWriter.flush();
             }
         }
     }
@@ -151,7 +151,20 @@ public class Server {
                     continue;
                 }
                 Command command = new Command(line);
-                command.execute();
+                CommandHandler handler = command.getHandler();
+                if (handler == null) {
+                    sendCommandReply("ERROR illegal command '" + command + "'");
+                }
+                else {
+                    sendCommandReply("OK command " + command.uid() + " started");
+                    CommandResult res = handler.handleCommand(command);
+                    if (res.isSuccess) {
+                        sendInfo("OK command " + command.uid() + " complete");
+                    }
+                    else {
+                        sendInfo("ERROR command " + command.uid() + ": " + ((CommandResult.Failure)res).reason);
+                    }
+                }
             }
             clientSocket.close();
         }
@@ -162,28 +175,10 @@ public class Server {
 
     protected void _handleInfoSocket(final Socket clientSocket) {
         try {
-            // PrintWriter pw = new PrintWriter(clientSocket.getOutputStream());
             _infoSocketPrintWriter = new PrintWriter(clientSocket.getOutputStream());
-            while (!_infoThread.isInterrupted()) {
-                this.wait();
-                // synchronized (_infoStringQueue) {
-                //     while (_infoStringQueue.isEmpty()) {
-                //         _infoStringQueue.wait();
-                //     }
-                //     String string = _infoStringQueue.poll();
-                //     if (string != null) {
-                //         pw.println(string);
-                //         pw.flush();
-                //     }
-                // }
-            }
-            clientSocket.close();
         }
         catch (final IOException exn) {
             _logger.error("exception while handling client info socket ", exn);
-        }
-        catch (final InterruptedException exn) {
-            _logger.error("exception while waiting on input queue ", exn);
         }
     }
 

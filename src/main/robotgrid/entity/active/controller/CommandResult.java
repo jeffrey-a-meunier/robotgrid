@@ -5,7 +5,7 @@ public abstract class CommandResult {
     public static final Success SUCCESS = new Success();
 
     public static class Success extends CommandResult {
-        final boolean isFailure = false;
+        public final boolean isFailure = false;
     }
 
     public static class Failure extends CommandResult {
