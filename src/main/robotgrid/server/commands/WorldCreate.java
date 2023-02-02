@@ -6,6 +6,7 @@ import robotgrid.server.CommandResult;
 import robotgrid.utils.Logger;
 import robotgrid.world.World;
 
+@Deprecated
 public class WorldCreate implements CommandHandler {
 
     // Static inner classes ===================================================

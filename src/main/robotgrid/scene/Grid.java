@@ -7,11 +7,15 @@ public class Grid {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
+
+    protected static int _NEXT_INDEX = 0;
+
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
+    protected String _name;
     protected int _nRows;
     protected int _nCols;
     protected int _cellWidth;
@@ -23,6 +27,7 @@ public class Grid {
     // Constructors ===========================================================
 
     public Grid(final int nRows, final int nCols, int cellWidth, int cellHeight) {
+        _name = "Grid-" + (_NEXT_INDEX++);
         _nRows = nRows;
         _nCols = nCols;
         _cellWidth = cellWidth;
@@ -36,6 +41,14 @@ public class Grid {
     }
 
     // Instance methods =======================================================
+
+    public boolean addEntity(final int rowNum, final int colNum, final Entity entity) {
+        Cell cell = getCell(rowNum, colNum);
+        if (cell != null) {
+            return cell.add(entity);
+        }
+        return false;
+    }
 
     public void draw(final Graphics graphics) {
         float y = Cell.SIZE2;
@@ -67,12 +80,8 @@ public class Grid {
         }
     }
 
-    public boolean addEntity(final int rowNum, final int colNum, final Entity entity) {
-        Cell cell = getCell(rowNum, colNum);
-        if (cell != null) {
-            return cell.add(entity);
-        }
-        return false;
+    public String name() {
+        return _name;
     }
 
 }

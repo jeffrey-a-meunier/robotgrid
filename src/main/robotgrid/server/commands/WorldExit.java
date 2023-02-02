@@ -11,7 +11,7 @@ public class WorldExit implements CommandHandler {
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-    private Logger _logger = new Logger(WorldCreate.class);
+    private Logger _logger = new Logger(WorldExit.class);
 
     // Static initializer =====================================================
     // Static methods =========================================================

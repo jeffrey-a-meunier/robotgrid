@@ -14,11 +14,10 @@ public class WorldCreateGrid implements CommandHandler {
     // Static inner classes ===================================================
     // Static variables =======================================================
 
+    // default values
     protected static int _CELL_SIZE = 50;
     protected static int _NROWS = 9;
     protected static int _NCOLS = 9;
-
-    protected static int _NEXT_INDEX = 0;
 
     private Logger _logger = new Logger(WorldCreateGrid.class);
 
@@ -48,26 +47,24 @@ public class WorldCreateGrid implements CommandHandler {
             switch (n++) {
                 case 3:
                     nRows = Integer.parseInt(argString);
-                    _logger.info("handleCommand() nRows = ", nRows);
                     break;
                 case 4:
                     nCols = Integer.parseInt(argString);
-                    _logger.info("handleCommand() nCols = ", nCols);
                     break;
                 case 5:
                     cellSize = Integer.parseInt(argString);
-                    _logger.info("handleCommand() cellSize = ", cellSize);
                     break;
             }
         }
+        _logger.info("nRows = ", nRows, ", nCols = ", nCols, " cellSize = ", cellSize);
         Cell.setSize(cellSize);
         // TODO is cellSize really needed in this constructor call?
         Grid grid = new Grid(nRows, nCols, cellSize, cellSize);
         Scene scene = new Scene(_world);
         scene.setGrid(grid);
-        String name = "Grid" + (_NEXT_INDEX++);
-        _world.addScene(name, scene);
-        _world.setCurrentScene(name);
+        String gridName = grid.name();
+        _world.addScene(gridName, scene);
+        _world.setCurrentScene(gridName);
         return CommandResult.success();
     }
 

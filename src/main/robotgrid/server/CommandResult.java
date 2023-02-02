@@ -4,6 +4,7 @@ package robotgrid.server;
  * Use the static methods success() and failure(String) to construct result
  * instances.
  */
+@Deprecated  // use utils.Result
 public abstract class CommandResult {
 
     // Static inner classes ===================================================

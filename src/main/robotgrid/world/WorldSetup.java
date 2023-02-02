@@ -11,6 +11,7 @@ import robotgrid.scene.Direction;
 import robotgrid.scene.Grid;
 import robotgrid.scene.Scene;
 
+@Deprecated
 public class WorldSetup {
 
     // Static inner classes ===================================================
@@ -24,7 +25,7 @@ public class WorldSetup {
     static {
         _NCOLS = 10;
         _NROWS = 10;
-        Cell.setSize(80.0f);
+        //Cell.setSize(80.0f);
     }
 
     // Static methods =========================================================
@@ -33,7 +34,7 @@ public class WorldSetup {
         return (int)Cell.SIZE * _NROWS;
     }
 
-    public static int getWorldWidth() {
+    public static int getWorldWidth_() {
         return (int)Cell.SIZE * _NCOLS;
     }
 

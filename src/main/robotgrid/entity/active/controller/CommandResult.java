@@ -1,5 +1,6 @@
 package robotgrid.entity.active.controller;
 
+@Deprecated  // use utils.Result
 public abstract class CommandResult {
 
     public static final Success SUCCESS = new Success();
