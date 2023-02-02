@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 import robotgrid.entity.active.ActiveEntity;
 import robotgrid.server.Server;
 import robotgrid.utils.Logger;
+import robotgrid.utils.Result;
 
 public class Controller implements Runnable {
     
@@ -45,12 +46,12 @@ public class Controller implements Runnable {
      * MobileRobotController classes.
      */
     @Deprecated
-    protected static CommandResult _afterDelay(final int ms, Supplier<CommandResult> action) {
+    protected static Result<Void, String> _afterDelay(final int ms, Supplier<Result.Failure<Void, String>> action) {
         try {
             Thread.sleep(ms);
         }
         catch (final InterruptedException exn) {
-            return new CommandResult.Failure("Robot motion interrupted");
+            return new Result.Failure<Void, String>("Robot motion interrupted");
         }
         return action.get();
     }
@@ -90,16 +91,16 @@ public class Controller implements Runnable {
         return _entity;
     }
 
-    public CommandResult execute(final String[] parts) {
-        String opcode = parts[0];
-        ICommand command = _commands.get(opcode);
+    public Result<Void, String> execute(final String[] parts) {
+        String commandName = parts[0];
+        ICommand command = _commands.get(commandName);
         if (command != null) {
             return execute(command, parts);
         }
-        return new CommandResult.NotImplemented(opcode, this);
+        return new Result.Failure<>("Command '" + commandName + " not implemented in controller " + this);
     }
 
-    public CommandResult execute(final ICommand command, final String[] parts) {
+    public Result<Void, String> execute(final ICommand command, final String[] parts) {
         return command.execute(this, parts);
     }
 

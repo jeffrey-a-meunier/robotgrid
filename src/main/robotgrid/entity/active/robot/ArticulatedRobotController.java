@@ -1,7 +1,7 @@
 package robotgrid.entity.active.robot;
 
 import robotgrid.entity.active.controller.ICommand;
-import robotgrid.entity.active.controller.CommandResult;
+import robotgrid.utils.Result;
 import robotgrid.entity.active.controller.Controller;
 
 public class ArticulatedRobotController extends Controller {
@@ -10,7 +10,7 @@ public class ArticulatedRobotController extends Controller {
 
     protected static class RotateRightCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.rotateRight();
         }
@@ -18,7 +18,7 @@ public class ArticulatedRobotController extends Controller {
 
     protected static class RotateLeftCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.rotateLeft();
         }
@@ -26,7 +26,7 @@ public class ArticulatedRobotController extends Controller {
 
     protected static class ArmExtendCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.armExtend();
         }
@@ -34,7 +34,7 @@ public class ArticulatedRobotController extends Controller {
 
     protected static class ArmRetractCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.armRetract();
         }
@@ -42,7 +42,7 @@ public class ArticulatedRobotController extends Controller {
 
     protected static class GripperGripCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.gripperGrip();
         }
@@ -50,7 +50,7 @@ public class ArticulatedRobotController extends Controller {
 
     protected static class GripperReleaseCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.gripperRelease();
         }

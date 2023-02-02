@@ -1,7 +1,7 @@
 package robotgrid.entity.active.robot;
 
 import robotgrid.entity.active.controller.ICommand;
-import robotgrid.entity.active.controller.CommandResult;
+import robotgrid.utils.Result;
 import robotgrid.entity.active.controller.Controller;
 
 public class ArmController extends Controller {
@@ -10,7 +10,7 @@ public class ArmController extends Controller {
 
      protected static class ArmExtendCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             Arm arm = (Arm)controller.entity();
             return arm.extend();
         }
@@ -18,7 +18,7 @@ public class ArmController extends Controller {
 
     protected static class ArmRetractCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             Arm arm = (Arm)controller.entity();
             return arm.retract();
         }
@@ -26,7 +26,7 @@ public class ArmController extends Controller {
 
     protected static class GripperGripCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             Arm arm = (Arm)controller.entity();
             return arm.grip();
         }
@@ -34,7 +34,7 @@ public class ArmController extends Controller {
 
     protected static class GripperReleaseCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             Arm arm = (Arm)controller.entity();
             return arm.release();
         }

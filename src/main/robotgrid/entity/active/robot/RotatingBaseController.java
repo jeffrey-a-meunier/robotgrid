@@ -1,7 +1,7 @@
 package robotgrid.entity.active.robot;
 
 import robotgrid.entity.active.controller.ICommand;
-import robotgrid.entity.active.controller.CommandResult;
+import robotgrid.utils.Result;
 import robotgrid.entity.active.controller.Controller;
 
 public class RotatingBaseController extends Controller {
@@ -10,7 +10,7 @@ public class RotatingBaseController extends Controller {
 
     protected static class RotateLeftCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             RotatingBase base = (RotatingBase)controller.entity();
             return base.rotateLeft();
         }
@@ -18,7 +18,7 @@ public class RotatingBaseController extends Controller {
 
     protected static class RotateRightCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             RotatingBase base = (RotatingBase)controller.entity();
             return base.rotateRight();
         }

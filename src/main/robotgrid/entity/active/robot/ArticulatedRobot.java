@@ -3,9 +3,9 @@ package robotgrid.entity.active.robot;
 import robotgrid.entity.Entity;
 import robotgrid.entity.Height;
 import robotgrid.entity.active.ActiveEntity;
-import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
+import robotgrid.utils.Result;
 
 public class ArticulatedRobot extends ActiveEntity {
 
@@ -66,27 +66,27 @@ public class ArticulatedRobot extends ActiveEntity {
 
     // Controller methods =====================================================
 
-    public CommandResult rotateLeft() {
+    public Result<Void, String> rotateLeft() {
         return _base.rotateLeft();
     }
 
-    public CommandResult rotateRight() {
+    public Result<Void, String> rotateRight() {
         return _base.rotateRight();
     }
 
-    public CommandResult armExtend() {
+    public Result<Void, String> armExtend() {
         return _arm.extend();
     }
 
-    public CommandResult armRetract() {
+    public Result<Void, String> armRetract() {
         return _arm.retract();
     }
 
-    public CommandResult gripperGrip() {
+    public Result<Void, String> gripperGrip() {
         return _arm.grip();
     }
 
-    public CommandResult gripperRelease() {
+    public Result<Void, String> gripperRelease() {
         return _arm.release();
     }
 

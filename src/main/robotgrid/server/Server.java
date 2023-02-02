@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import robotgrid.utils.Logger;
+import robotgrid.utils.Result;
 
 public class Server {
 
@@ -157,12 +158,12 @@ public class Server {
                 }
                 else {
                     sendCommandReply("OK command " + command.uid() + " started");
-                    CommandResult res = handler.handleCommand(command);
-                    if (res.isSuccess) {
+                    Result<Void, String> res = handler.handleCommand(command);
+                    if (res.isSuccess()) {
                         sendInfo("OK command " + command.uid() + " complete");
                     }
                     else {
-                        sendInfo("ERROR command " + command.uid() + ": " + ((CommandResult.Failure)res).reason);
+                        sendInfo("ERROR command " + command.uid() + ": " + res.failureValue());
                     }
                 }
             }

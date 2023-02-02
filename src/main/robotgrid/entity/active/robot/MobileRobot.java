@@ -2,12 +2,12 @@ package robotgrid.entity.active.robot;
 
 import robotgrid.entity.Entity;
 import robotgrid.entity.active.ActiveEntity;
-import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
 import robotgrid.shape.CircleShape;
 import robotgrid.shape.Shape;
 import robotgrid.shape.TriangleShape;
+import robotgrid.utils.Result;
 
 public class MobileRobot extends ActiveEntity {
 
@@ -63,14 +63,14 @@ public class MobileRobot extends ActiveEntity {
 
     // Controller methods =====================================================
 
-    public CommandResult moveForward() {
+    public Result<Void, String> moveForward() {
         _cell.grid().move(this, _direction);
-        return CommandResult.SUCCESS;
+        return new Result.Success<>();
     }
 
-    public CommandResult moveBackward() {
+    public Result<Void, String> moveBackward() {
         _cell.grid().move(this, _direction.turnRight().turnRight());
-        return CommandResult.SUCCESS;
+        return new Result.Success<>();
     }
 
 }

@@ -4,9 +4,9 @@ import processing.core.PGraphics;
 import robotgrid.entity.Entity;
 import robotgrid.entity.Height;
 import robotgrid.entity.active.ActiveEntity;
-import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
+import robotgrid.utils.Result;
 
 public class Arm extends ActiveEntity {
 
@@ -107,29 +107,29 @@ public class Arm extends ActiveEntity {
 
     // Controller methods =====================================================
 
-    public CommandResult extend() {
+    public Result<Void, String> extend() {
         delay();
         Cell adjacentCell = _cell.getAdjacent(_direction);
         if (adjacentCell == null) {
-            return new CommandResult.Failure("Arm is blocked");
+            return new Result.Failure<>("Arm is blocked");
         }
         Entity entity = adjacentCell.entity();
         if (entity != null) {
             if (entity.height() == Height.High) {
-                return new CommandResult.Failure("Entity in adjacent cell is preventing arm extend");
+                return new Result.Failure<>("Entity in adjacent cell is preventing arm extend");
             }
         }
         _isExtended = true;
-        return CommandResult.SUCCESS;
+        return new Result.Success<>();
     }
 
-    public CommandResult retract() {
+    public Result<Void, String> retract() {
         delay();
         _isExtended = false;
-        return CommandResult.SUCCESS;
+        return new Result.Success<>();
     }
 
-    public CommandResult grip() {
+    public Result<Void, String> grip() {
         delay();
         if (_isExtended && !_isGripping) {
             if(_payload == null) {
@@ -138,10 +138,10 @@ public class Arm extends ActiveEntity {
             }
         }
         _isGripping = true;
-        return CommandResult.SUCCESS;
+        return new Result.Success<>();
     }
 
-    public CommandResult release() {
+    public Result<Void, String> release() {
         delay();
         if (_isExtended && _payload != null) {
             Cell adjacentCell = _cell.getAdjacent(_direction);
@@ -150,7 +150,7 @@ public class Arm extends ActiveEntity {
                 _isGripping = false;
             }
         }
-        return CommandResult.SUCCESS;
+        return new Result.Success<>();
     }
 
 }

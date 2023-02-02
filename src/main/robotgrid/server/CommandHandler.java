@@ -1,5 +1,7 @@
 package robotgrid.server;
 
+import robotgrid.utils.Result;
+
 public interface CommandHandler {
 
     // Static inner classes ===================================================
@@ -12,6 +14,7 @@ public interface CommandHandler {
     // Constructors ===========================================================
     // Instance methods =======================================================
 
-    public CommandResult handleCommand(final Command command);
+    //public CommandResult handleCommand(final Command command);
+    public Result<Void, String> handleCommand(final Command command);
 
 }

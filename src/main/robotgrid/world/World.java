@@ -30,6 +30,7 @@ public class World extends PApplet {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
+    protected String _name;
     protected HashMap<String, Scene> _scenes = new HashMap<>();
     protected Scene _currentScene = null;
     protected int _worldWidth;
@@ -85,9 +86,11 @@ public class World extends PApplet {
         background(0, 0, 0);
         stroke(255);
         strokeWeight(10);
+        surface.setTitle(_name);
     }
 
     protected Grid _createGridFromProperties(final Properties properties) {
+        _name = properties.getProperty("name", "World");
         int nRows = Integer.parseInt(properties.getProperty("nRows", "9"));
         int nCols = Integer.parseInt(properties.getProperty("nCols", "9"));
         int cellSize = Integer.parseInt(properties.getProperty("cellSize", "50"));

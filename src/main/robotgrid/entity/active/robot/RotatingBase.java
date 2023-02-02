@@ -4,9 +4,9 @@ import processing.core.PGraphics;
 import robotgrid.entity.Entity;
 import robotgrid.entity.Height;
 import robotgrid.entity.active.ActiveEntity;
-import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
+import robotgrid.utils.Result;
 
 public class RotatingBase extends ActiveEntity {
 
@@ -74,7 +74,7 @@ public class RotatingBase extends ActiveEntity {
     // Controller methods =====================================================
 
     @Override
-    public CommandResult rotateLeft() {
+    public Result<Void, String> rotateLeft() {
         delay();
         if (_attachedEntity != null) {
             _attachedEntity.setDirection(_attachedEntity.direction().turnLeft());
@@ -82,11 +82,11 @@ public class RotatingBase extends ActiveEntity {
         else if (_payload != null) {
             _payload.setDirection(_payload.direction().turnLeft());
         }
-        return CommandResult.SUCCESS;
+        return new Result.Success<>();
     }
 
     @Override
-    public CommandResult rotateRight() {
+    public Result<Void, String> rotateRight() {
         delay();
         if (_attachedEntity != null) {
             _attachedEntity.setDirection(_attachedEntity.direction().turnRight());
@@ -94,7 +94,7 @@ public class RotatingBase extends ActiveEntity {
         else if (_payload != null) {
             _payload.setDirection(_payload.direction().turnRight());
         }
-        return CommandResult.SUCCESS;
+        return new Result.Success<>();
     }
 
 }

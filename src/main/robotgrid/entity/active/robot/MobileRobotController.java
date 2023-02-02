@@ -1,7 +1,7 @@
 package robotgrid.entity.active.robot;
 
 import robotgrid.entity.active.controller.ICommand;
-import robotgrid.entity.active.controller.CommandResult;
+import robotgrid.utils.Result;
 import robotgrid.entity.active.controller.Controller;
 
 public class MobileRobotController extends Controller {
@@ -10,7 +10,7 @@ public class MobileRobotController extends Controller {
 
     protected class MoveForwardCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.moveForward();
         }
@@ -18,7 +18,7 @@ public class MobileRobotController extends Controller {
     
     protected class MoveBackwardCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.moveBackward();
         }
@@ -26,7 +26,7 @@ public class MobileRobotController extends Controller {
 
     protected class RotateRightCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.rotateRight();
         }
@@ -34,7 +34,7 @@ public class MobileRobotController extends Controller {
 
     protected class RotateLeftCommand implements ICommand {
         @Override
-        public CommandResult execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller, final String[] parts) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.rotateLeft();
         }

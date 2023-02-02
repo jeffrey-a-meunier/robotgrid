@@ -1,8 +1,6 @@
 package robotgrid.world;
 
 import robotgrid.server.CommandHandlerRegistry;
-import robotgrid.server.commands.WorldCreate;
-import robotgrid.server.commands.WorldCreateGrid;
 import robotgrid.server.commands.WorldExit;
 
 public class CommandSetup {
@@ -13,8 +11,6 @@ public class CommandSetup {
     // Static methods =========================================================
 
     public static void setup(final World world) {
-        CommandHandlerRegistry.THE_REGISTRY.register(new WorldCreate(world), "World", "Create");
-        CommandHandlerRegistry.THE_REGISTRY.register(new WorldCreateGrid(world), "World", "Create", "Grid");
         CommandHandlerRegistry.THE_REGISTRY.register(new WorldExit(world), "World", "Exit");
     }
 

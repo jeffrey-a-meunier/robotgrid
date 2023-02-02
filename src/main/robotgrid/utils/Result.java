@@ -7,18 +7,20 @@ public class Result<S, F> {
     // Static inner classes ===================================================
 
     public static class Success<S, F> extends Result<S, F> {
-        public final S value;
+        public Success() {
+            super(Optional.of(null), Optional.empty());
+        }
         public Success(final S value) {
             super(Optional.of(value), Optional.empty());
-            this.value = value;
         }
     }
 
     public static class Failure<S, F> extends Result<S, F> {
-        public final F value;
+        public Failure() {
+            super(Optional.empty(), Optional.empty());
+        }
         public Failure(final F value) {
-            super(Optional.empty(), Optional.of(value));
-            this.value = value;
+            super(Optional.empty(), Optional.of(null));
         }
     }
 

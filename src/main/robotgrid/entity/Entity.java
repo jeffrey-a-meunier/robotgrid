@@ -2,11 +2,11 @@ package robotgrid.entity;
 
 import processing.core.PMatrix;
 import processing.core.PMatrix2D;
-import robotgrid.entity.active.controller.CommandResult;
 import robotgrid.graphics.Graphics;
 import robotgrid.graphics.Pen;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
+import robotgrid.utils.Result;
 
 public abstract class Entity {
 
@@ -95,14 +95,14 @@ public abstract class Entity {
         _y = y;
     }
 
-    public CommandResult rotateLeft() {
+    public Result<Void, String> rotateLeft() {
         setDirection(_direction.turnLeft());
-        return CommandResult.SUCCESS;
+        return new Result.Success<>();
     }
 
-    public CommandResult rotateRight() {
+    public Result<Void, String> rotateRight() {
         setDirection(_direction.turnRight());
-        return CommandResult.SUCCESS;
+        return new Result.Success<>();
     }
 
     @Override

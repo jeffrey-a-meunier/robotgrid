@@ -2,6 +2,7 @@ package robotgrid.server;
 
 import java.util.Arrays;
 
+import robotgrid.utils.Result;
 import robotgrid.utils.UID;
 
 /**
@@ -34,10 +35,10 @@ public class Command {
     }
 
     @Deprecated
-    final CommandResult execute() {
+    final Result<Void, String> execute() {
         CommandHandler handler = CommandHandlerRegistry.THE_REGISTRY.get(_parts);
         // handleCommand does not return until the command is complete
-        CommandResult res = handler.handleCommand(this);
+        Result<Void, String> res = handler.handleCommand(this);
         _complete();
         return res;
     }
