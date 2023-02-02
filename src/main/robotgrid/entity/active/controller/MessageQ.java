@@ -43,6 +43,12 @@ public class MessageQ {
         }
     }
 
+    public boolean isEmpty() {
+        synchronized (_msgq) {
+            return _msgq.size() == 0;
+        }
+    }
+
     public synchronized Optional<Message> poll() {
         Message message = null;;
         synchronized (_msgq) {

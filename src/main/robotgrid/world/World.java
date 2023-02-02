@@ -42,7 +42,7 @@ public class World extends PApplet {
     public World() {
         THE_WORLD = this;
         Result<Properties, String> result = ConfigFile.read(CONFIG_FILE);
-        if (result.isSuccess()) {
+        if (result.isSuccess) {
             Grid grid = _createGridFromProperties(result.successValue());
             Scene scene1 = new Scene(this);
             scene1.setGrid(grid);
@@ -50,7 +50,7 @@ public class World extends PApplet {
             addScene(grid.name(), scene1);
             setCurrentScene(gridName);
         }
-        // WorldSetup.setup(this);  // old code
+        WorldSetup.setup(this);  // old code
         CommandSetup.setup(this);
         Server.setup();
     }

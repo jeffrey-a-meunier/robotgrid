@@ -8,19 +8,19 @@ public class Result<S, F> {
 
     public static class Success<S, F> extends Result<S, F> {
         public Success() {
-            super(Optional.of(null), Optional.empty());
+            super(true, Optional.empty(), Optional.empty());
         }
         public Success(final S value) {
-            super(Optional.of(value), Optional.empty());
+            super(true, Optional.of(value), Optional.empty());
         }
     }
 
     public static class Failure<S, F> extends Result<S, F> {
-        public Failure() {
-            super(Optional.empty(), Optional.empty());
+        public Failure() { 
+            super(false, Optional.empty(), Optional.empty());
         }
         public Failure(final F value) {
-            super(Optional.empty(), Optional.of(null));
+            super(false, Optional.empty(), Optional.of(null));
         }
     }
 
@@ -30,26 +30,22 @@ public class Result<S, F> {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
+    public final boolean isSuccess;
+    public final boolean isFailure;
     protected final Optional<S> _successValue;
     protected final Optional<F> _failureValue;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Result(final Optional<S> successValue, final Optional<F> failureValue) {
+    public Result(final boolean isSuccess, final Optional<S> successValue, final Optional<F> failureValue) {
+        this.isSuccess = isSuccess;
+        this.isFailure = !isSuccess;
         this._successValue = successValue;
         this._failureValue = failureValue;
     }
 
     // Instance methods =======================================================
-
-    public boolean isSuccess() {
-        return _successValue.isPresent();
-    }
-
-    public boolean isFailure() {
-        return _failureValue.isPresent();
-    }
 
     public S successValue() {
         return _successValue.get();

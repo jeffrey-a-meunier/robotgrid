@@ -127,7 +127,11 @@ public class Controller implements Runnable {
     public void run() {
         _isOn = true;
         String commandCompleteString = _name + " command complete";
+        String programCompleteString = _name + " program complete";
         while (!Thread.currentThread().isInterrupted()) {
+            if (_msgq.isEmpty()) {
+                Server.THE_SERVER.sendInfo(programCompleteString);
+            }
             Message message = _msgq.deq();
             _handleCommand(message);
             Server.THE_SERVER.sendInfo(commandCompleteString);

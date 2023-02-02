@@ -98,7 +98,7 @@ public class WorldSetup {
             "RotateLeft",
             "RotateLeft",
         };
-        // robot2.controller().sendCommands(program2);
+        robot2.controller().sendCommands(program2);
         robot2.powerOn();
     }
 

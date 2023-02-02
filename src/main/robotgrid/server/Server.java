@@ -159,7 +159,7 @@ public class Server {
                 else {
                     sendCommandReply("OK command " + command.uid() + " started");
                     Result<Void, String> res = handler.handleCommand(command);
-                    if (res.isSuccess()) {
+                    if (res.isSuccess) {
                         sendInfo("OK command " + command.uid() + " complete");
                     }
                     else {
