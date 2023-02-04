@@ -20,7 +20,7 @@ public class Result<S, F> {
             super(false, Optional.empty(), Optional.empty());
         }
         public Failure(final F value) {
-            super(false, Optional.empty(), Optional.of(null));
+            super(false, Optional.empty(), Optional.of(value));
         }
     }
 

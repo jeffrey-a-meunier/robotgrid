@@ -1,0 +1,14 @@
+new MobileRobot 3 5 north MobileRobot1
+
+new ArticulatedRobot 4 5 north Arm1
+
+new Conveyor 5 5 west Conveyor1
+new Conveyor 5 4 west Conveyor2
+new Conveyor 5 3 west Conveyor3
+new Conveyor 5 2 west Conveyor4
+new ControllerGroup ConveyorGroup1
+ConveyorGroup1 add Conveyor1 Conveyor2 Conveyor3 Conveyor4
+
+MobileRobot1 power on
+Arm1 power on
+ConveyorGroup1 power on

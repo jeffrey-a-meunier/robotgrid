@@ -17,7 +17,8 @@ public class World extends PApplet {
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-    public static String CONFIG_FILE = "config.props";
+    public static final String CONFIG_FILE = "config.props";
+    public static final String STARTUP_SCRIPT_FILE = "startup.txt";
     public static World THE_WORLD;
 
     public static float SIMULATION_SPEED = 1.0f;
@@ -42,8 +43,10 @@ public class World extends PApplet {
     public World() {
         THE_WORLD = this;
         Result<Properties, String> result = ConfigFile.read(CONFIG_FILE);
+        Properties properties;
         if (result.isSuccess) {
-            Grid grid = _createGridFromProperties(result.successValue());
+            properties = result.successValue();
+            Grid grid = _createGridFromProperties(properties);
             Scene scene1 = new Scene(this);
             scene1.setGrid(grid);
             String gridName = grid.name();
@@ -53,6 +56,7 @@ public class World extends PApplet {
         // WorldSetup.setup(this);
         CommandSetup.setup();
         Server.setup();
+        ScriptFile.run(STARTUP_SCRIPT_FILE);
     }
 
     // Instance methods =======================================================

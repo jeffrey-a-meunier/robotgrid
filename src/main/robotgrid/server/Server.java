@@ -59,9 +59,14 @@ public class Server {
     // Instance methods =======================================================
 
     public void sendCommandReply(final String replyString) {
-        synchronized (_commandSocketPrintWriter) {
-            _commandSocketPrintWriter.println(replyString);
-            _commandSocketPrintWriter.flush();
+        if (_commandSocketPrintWriter == null) {
+            _logger.debug("Command reply: ", replyString);
+        }
+        else {
+            synchronized (_commandSocketPrintWriter) {
+                _commandSocketPrintWriter.println(replyString);
+                _commandSocketPrintWriter.flush();
+            }
         }
     }
 
@@ -138,6 +143,24 @@ public class Server {
         }
     }
 
+    public void executeCommandString(final String commandString) {
+        Command command = new Command(commandString);
+        CommandHandler handler = command.getHandler();
+        if (handler == null) {
+            sendCommandReply("ERROR illegal command '" + command + "'");
+        }
+        else {
+            sendCommandReply("OK command " + command.uid() + " started");
+            Result<Void, String> res = handler.handleCommand(command);
+            if (res.isSuccess) {
+                sendInfo("OK command " + command.uid() + " complete");
+            }
+            else {
+                sendInfo("ERROR command " + command.uid() + ": " + res.failureValue());
+            }
+        }
+    }
+
     protected void _handleCommandSocket(final Socket clientSocket) {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -151,21 +174,22 @@ public class Server {
                 if (line.length() == 0) {
                     continue;
                 }
-                Command command = new Command(line);
-                CommandHandler handler = command.getHandler();
-                if (handler == null) {
-                    sendCommandReply("ERROR illegal command '" + command + "'");
-                }
-                else {
-                    sendCommandReply("OK command " + command.uid() + " started");
-                    Result<Void, String> res = handler.handleCommand(command);
-                    if (res.isSuccess) {
-                        sendInfo("OK command " + command.uid() + " complete");
-                    }
-                    else {
-                        sendInfo("ERROR command " + command.uid() + ": " + res.failureValue());
-                    }
-                }
+                executeCommandString(line);
+                // Command command = new Command(line);
+                // CommandHandler handler = command.getHandler();
+                // if (handler == null) {
+                //     sendCommandReply("ERROR illegal command '" + command + "'");
+                // }
+                // else {
+                //     sendCommandReply("OK command " + command.uid() + " started");
+                //     Result<Void, String> res = handler.handleCommand(command);
+                //     if (res.isSuccess) {
+                //         sendInfo("OK command " + command.uid() + " complete");
+                //     }
+                //     else {
+                //         sendInfo("ERROR command " + command.uid() + ": " + res.failureValue());
+                //     }
+                // }
             }
             clientSocket.close();
         }
