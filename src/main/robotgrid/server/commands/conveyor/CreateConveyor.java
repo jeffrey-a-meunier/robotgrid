@@ -6,6 +6,7 @@ import robotgrid.scene.Grid;
 import robotgrid.scene.Scene;
 import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
+import robotgrid.server.CommandHandlerRegistry;
 import robotgrid.utils.Result;
 import robotgrid.world.World;
 
@@ -43,7 +44,15 @@ public class CreateConveyor extends CommandHandler {
         Scene scene = World.THE_WORLD.currentScene();
         Grid grid = scene.grid();
         grid.addEntity(x, y, conveyor);
+        _registerCommands(conveyor);
         return new Result.Success<Void, String>();
+    }
+
+    protected void _registerCommands(final Conveyor conveyor) {
+        CommandHandlerRegistry registry = CommandHandlerRegistry.THE_REGISTRY;
+        String name = conveyor.name;
+        registry.register(new PowerOn(conveyor, name, "power", "on"));
+        registry.register(new PowerOff(conveyor, name, "power", "off"));
     }
 
 }

@@ -16,7 +16,7 @@ public class ScriptFile {
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-    private static final Logger _logger = new Logger(ScriptFile.class);
+    private static final Logger _logger = new Logger(ScriptFile.class, Logger.Level.Debug);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -39,7 +39,7 @@ public class ScriptFile {
             if (line1.startsWith("#")) {
                 continue;
             }
-            _logger.debug("Executing command " + line);
+            _logger.debug("Executing command '" + line + '\'');
             Server.THE_SERVER.executeCommandString(line);
         }
         return new Result.Success<>();

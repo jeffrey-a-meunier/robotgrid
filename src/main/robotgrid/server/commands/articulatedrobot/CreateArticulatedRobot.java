@@ -57,6 +57,8 @@ public class CreateArticulatedRobot extends CommandHandler {
         registry.register(new GripperRelease(robot, name, "gripper", "release"));
         registry.register(new RotateRight(robot, name, "rotate", "right"));
         registry.register(new RotateLeft(robot, name, "rotate", "left"));
+        registry.register(new PowerOn(robot, name, "power", "on"));
+        registry.register(new PowerOff(robot, name, "power", "off"));
     }
 
 }

@@ -1,13 +1,11 @@
-package robotgrid.server.commands.controller;
+package robotgrid.server.commands.articulatedrobot;
 
-import robotgrid.entity.active.controller.Controller;
-import robotgrid.entity.active.controller.ControllerGroup;
+import robotgrid.entity.active.robot.ArticulatedRobot;
 import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
-import robotgrid.server.Server;
 import robotgrid.utils.Result;
 
-public class ControllerGroupAdd extends CommandHandler {
+public class PowerOn extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -16,38 +14,22 @@ public class ControllerGroupAdd extends CommandHandler {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    protected ControllerGroup _group;
+    protected final ArticulatedRobot _robot;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ControllerGroupAdd(final ControllerGroup group, final String ... commandParts) {
+    public PowerOn(final ArticulatedRobot robot, final String ... commandParts) {
         super(commandParts);
-        _group = group;
+        _robot = robot;
     }
 
     // Instance methods =======================================================
 
     @Override
     public Result<Void, String> handleCommand(Command command) {
-        for (int n=0; ; n++) {
-            String controllerName = getArg(command, n, null);
-            if (controllerName == null) {
-                break;
-            }
-            _addController(controllerName);
-        }
+        _robot.powerOn();
         return new Result.Success<Void, String>();
-    }
-
-    protected void _addController(final String controllerName) {
-        Controller controller = Controller.lookup(controllerName);
-        if (controller != null) {
-            _group.add(controller);
-        }
-        else {
-            Server.THE_SERVER.sendCommandReply("Controller not found: '" + controllerName + '\'');
-        }
     }
 
 }

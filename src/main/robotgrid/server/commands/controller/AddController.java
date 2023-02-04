@@ -1,55 +1,53 @@
 package robotgrid.server.commands.controller;
 
+import robotgrid.entity.active.controller.Controller;
 import robotgrid.entity.active.controller.ControllerGroup;
 import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
-import robotgrid.server.CommandHandlerRegistry;
+import robotgrid.server.Server;
 import robotgrid.utils.Result;
-import robotgrid.world.World;
 
-/**
- * Command:
- * new MobileRobot <x> <y> <heading> <name>
- */
-public class CreateControllerGroup extends CommandHandler {
+public class AddController extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
-
-    protected static int _NEXT_ID = 1;
-
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    protected World _world;
+    protected ControllerGroup _group;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public CreateControllerGroup(String ... commandParts) {
+    public AddController(final ControllerGroup group, final String ... commandParts) {
         super(commandParts);
+        _group = group;
     }
 
     // Instance methods =======================================================
 
     @Override
-    public Result<Void, String> handleCommand(final Command command) {
-        String name = getArg(command, 0, null);
-        if (name == null) {
-            name = ControllerGroup.class.getSimpleName() + (_NEXT_ID++);
+    public Result<Void, String> handleCommand(Command command) {
+        for (int n=0; ; n++) {
+            String controllerName = getArg(command, n, null);
+            if (controllerName == null) {
+                break;
+            }
+            _addController(controllerName);
         }
-        ControllerGroup group = new ControllerGroup(name);
-        _registerCommands(group);
         return new Result.Success<Void, String>();
     }
 
-    protected void _registerCommands(final ControllerGroup group) {
-        CommandHandlerRegistry registry = CommandHandlerRegistry.THE_REGISTRY;
-        String name = group.name();
-        registry.register(new AddController(group, name, "add"));
-        registry.register(new PowerOn(group, name, "power", "on"));
-        registry.register(new PowerOff(group, name, "power", "off"));
+    protected void _addController(final String controllerName) {
+        Controller controller = Controller.lookup(controllerName);
+        if (controller != null) {
+            _group.add(controller);
+        }
+        else {
+            Server.THE_SERVER.sendCommandReply("Controller not found: '" + controllerName + '\'');
+        }
     }
+
 }
