@@ -1,11 +1,10 @@
-package robotgrid.server.commands.articulatedrobot;
+package robotgrid.entity.active.controller;
 
-import robotgrid.entity.active.robot.ArticulatedRobot;
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
+import robotgrid.entity.active.ActiveEntity;
 import robotgrid.utils.Result;
+import robotgrid.utils.UID;
 
-public class PowerOff extends CommandHandler {
+public abstract class Command2 {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -14,22 +13,12 @@ public class PowerOff extends CommandHandler {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    protected final ArticulatedRobot _robot;
+    public UID uid = new UID();
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
-
-    public PowerOff(final ArticulatedRobot robot, final String ... commandParts) {
-        super(commandParts);
-        _robot = robot;
-    }
-
     // Instance methods =======================================================
 
-    @Override
-    public Result<Void, String> handleCommand(Command command) {
-        _robot.powerOff();
-        return new Result.Success<Void, String>();
-    }
+    public abstract Result<Void, String> execute(final ActiveEntity entity);
 
 }

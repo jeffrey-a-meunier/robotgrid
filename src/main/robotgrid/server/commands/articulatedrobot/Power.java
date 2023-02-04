@@ -3,9 +3,10 @@ package robotgrid.server.commands.articulatedrobot;
 import robotgrid.entity.active.robot.ArticulatedRobot;
 import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
+import robotgrid.server.Server;
 import robotgrid.utils.Result;
 
-public class PowerOff extends CommandHandler {
+public class Power extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -19,7 +20,7 @@ public class PowerOff extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public PowerOff(final ArticulatedRobot robot, final String ... commandParts) {
+    public Power(final ArticulatedRobot robot, final String ... commandParts) {
         super(commandParts);
         _robot = robot;
     }
@@ -28,7 +29,7 @@ public class PowerOff extends CommandHandler {
 
     @Override
     public Result<Void, String> handleCommand(Command command) {
-        _robot.powerOff();
+        Server.THE_SERVER.sendCommandReply(_robot.isOn() ? "ON" : "OFF");
         return new Result.Success<Void, String>();
     }
 

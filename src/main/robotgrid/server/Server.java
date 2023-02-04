@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import robotgrid.entity.active.controller.Command2;
+import robotgrid.entity.active.controller.Controller2;
 import robotgrid.utils.Logger;
 import robotgrid.utils.Result;
 
@@ -57,6 +59,14 @@ public class Server {
     }
 
     // Instance methods =======================================================
+
+    public void commandComplete(final Controller2 controller, final Command2 command, final Result<Void, String> result) {
+        sendInfo("Command complete " + controller + " " + command + " " + result);
+    }
+
+    public void programComplete(final Controller2 controller) {
+        sendInfo("Program complete " + controller);
+    }
 
     public void sendCommandReply(final String replyString) {
         if (_commandSocketPrintWriter == null) {

@@ -29,7 +29,7 @@ public class CommandHandlerRegistry {
 
     public void register(final CommandHandler handler) {
         _registry.insert(handler, handler.commandParts);
-        _logger.info("Command added: ", Arrays.toString(handler.commandParts));
+        _logger.info("Command added ", Arrays.toString(handler.commandParts));
     }
 
     public CommandHandler get(final String ... commandParts) {

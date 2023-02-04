@@ -15,7 +15,7 @@ public class UID {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    protected int _id = _NEXT_ID++;
+    public final int id = _NEXT_ID++;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -26,7 +26,7 @@ public class UID {
 
     @Override
     public String toString() {
-        return "" + _id;
+        return "" + id;
     }
 
 }
