@@ -1,48 +1,43 @@
-package robotgrid.scene;
+package robotgrid.server.commands.world;
 
-import processing.core.PApplet;
-import robotgrid.graphics.Graphics;
+import robotgrid.server.Command;
+import robotgrid.server.CommandHandler;
+import robotgrid.utils.Logger;
+import robotgrid.utils.Result;
+import robotgrid.world.World;
 
-public class Scene {
+/**
+ * Command:
+ * World exit
+ */
+public class Exit implements CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
+
+    private Logger _logger = new Logger(Exit.class);
+
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    protected Grid _grid;
-    protected Graphics _graphics;
-
-    protected int _lastMouseX = -1;
-    protected int _lastMouseY = -1;
-    
-    protected int _lastKeyPressed = -1;
+    protected World _world;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Scene(final PApplet applet) {
-        _graphics = new Graphics(applet);
+    public Exit(final World world) {
+        _world = world;
     }
 
     // Instance methods =======================================================
 
-    public void setGrid(final Grid grid) {
-        _grid = grid;
-    }
-
-    public Grid grid() {
-        return _grid;
-    }
-
-    public void draw(final PApplet applet) {
-        applet.background(0, 0, 0);
-        if (_grid != null) {
-            _grid.draw(_graphics);
-            _graphics.drawAllLayers(0, 0);
-        }
+    @Override
+    public Result<Void, String> handleCommand(final Command command) {
+        _logger.warn("World exiting");
+        _world.exit();
+        return new Result.Success<Void, String>();
     }
 
 }

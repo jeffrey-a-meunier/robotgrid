@@ -1,7 +1,10 @@
 package robotgrid.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * AKA Trie
@@ -21,6 +24,29 @@ public class PrefixTree<T> {
     // Instance initializer ===================================================
     // Constructors ===========================================================
     // Instance methods =======================================================
+
+    public List<String> allKeys() {
+        List<String> keys = new ArrayList<>();
+        _allKeys("", _nodes, keys);
+        return keys;
+    }
+
+    protected void _allKeys(final String prefix, final Map<String, PrefixTree<T>> nodes, final List<String> allKeys) {
+        Set<String> keys = nodes.keySet();
+        for (String key : keys) {
+            PrefixTree<T> tree = nodes.get(key);
+            if (tree._value == null) {
+                String prefix1 = prefix;
+                if (prefix1.length() > 0) {
+                    prefix1 += ' ';
+                }
+                _allKeys(prefix1 + key, tree._nodes, allKeys);
+            }
+            else {
+                allKeys.add(prefix + ' ' + key);
+            }
+        }
+    }
 
     public void insert(T value, final String ... keys) {
         PrefixTree<T> root = this;

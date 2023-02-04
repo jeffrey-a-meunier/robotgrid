@@ -2,22 +2,11 @@ package robotgrid.entity.active;
 
 import robotgrid.entity.Entity;
 import robotgrid.entity.active.controller.Controller;
-import robotgrid.utils.Logger;
-import robotgrid.world.World;
 
 public abstract class ActiveEntity extends Entity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
-
-    /**
-     * Any device that does not override the deviceLatency() method will use this
-     * value for its latency.
-     */
-    protected static float _STANDARD_LATENCY = 1000.0f;
-
-    private static Logger _logger = new Logger(ActiveEntity.class, Logger.Level.Debug);
-
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
@@ -47,24 +36,6 @@ public abstract class ActiveEntity extends Entity {
 
     public Controller controller() {
         return _controller;
-    }
-
-    /**
-     * This method is used by subclasses to simulate real-world latency of motion.
-     * I guess that's called inertia.
-     */
-    public void delay() {
-        long delay = (long)(deviceLatency() * World.SIMULATION_SPEED);
-        try {
-            Thread.sleep(delay);
-        }
-        catch (InterruptedException exn) {
-            _logger.warn("delay(", delay, "): thread interrupted for object " + this);
-        }
-    }
-
-    public float deviceLatency() {
-        return _STANDARD_LATENCY;
     }
 
     public String name() {

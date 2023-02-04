@@ -50,7 +50,7 @@ public class World extends PApplet {
             addScene(grid.name(), scene1);
             setCurrentScene(gridName);
         }
-        WorldSetup.setup(this);  // old code
+        // WorldSetup.setup(this);
         CommandSetup.setup(this);
         Server.setup();
     }
@@ -76,6 +76,10 @@ public class World extends PApplet {
         else {
             _currentScene = scene;
         }
+    }
+
+    public Scene currentScene() {
+        return _currentScene;
     }
 
     public void settings() {

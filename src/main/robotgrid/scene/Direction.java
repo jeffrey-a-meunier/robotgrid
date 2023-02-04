@@ -15,6 +15,18 @@ public enum Direction {
 
     // Static initializer =====================================================
     // Static methods =========================================================
+
+    public static Direction parse(final String directionString, final Direction deflt) {
+        String directionString1 = directionString.toLowerCase();
+        switch (directionString1) {
+            case "north": return North;
+            case "east": return East;
+            case "south": return South;
+            case "west": return West;
+        }
+        return deflt;
+    }
+
     // Instance inner classes =================================================
     // Instance variables =====================================================
 

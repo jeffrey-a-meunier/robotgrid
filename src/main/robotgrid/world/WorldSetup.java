@@ -11,7 +11,7 @@ import robotgrid.scene.Direction;
 import robotgrid.scene.Grid;
 import robotgrid.scene.Scene;
 
-@Deprecated
+@Deprecated  // TODO read a JSON file for setup instructions
 public class WorldSetup {
 
     // Static inner classes ===================================================
@@ -55,7 +55,6 @@ public class WorldSetup {
         robot1.addPayload(squareWidget1);
 
         // articulated robot
-//        ArticulatedRobot_old robot2 = (ArticulatedRobot_old)new ArticulatedRobot_old("ArticulatedRobot1")
         ArticulatedRobot robot2 = (ArticulatedRobot)new ArticulatedRobot("ArticulatedRobot1")
             .setDirection(Direction.North)
             ;

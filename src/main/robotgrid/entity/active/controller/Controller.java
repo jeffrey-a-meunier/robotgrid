@@ -3,7 +3,7 @@ package robotgrid.entity.active.controller;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.Set;
 
 import robotgrid.entity.active.ActiveEntity;
 import robotgrid.server.Server;
@@ -41,19 +41,8 @@ public class Controller implements Runnable {
         return true;
     }
 
-    /**
-     * This is a support method for the ArticulatedRobotController and the
-     * MobileRobotController classes.
-     */
-    @Deprecated
-    protected static Result<Void, String> _afterDelay(final int ms, Supplier<Result.Failure<Void, String>> action) {
-        try {
-            Thread.sleep(ms);
-        }
-        catch (final InterruptedException exn) {
-            return new Result.Failure<Void, String>("Robot motion interrupted");
-        }
-        return action.get();
+    public static Set<String> names() {
+        return _ALL_CONTROLLERS.keySet();
     }
 
     // Instance inner classes =================================================

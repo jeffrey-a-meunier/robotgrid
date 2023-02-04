@@ -64,11 +64,13 @@ public class MobileRobot extends ActiveEntity {
     // Controller methods =====================================================
 
     public Result<Void, String> moveForward() {
+        delay();
         _cell.grid().move(this, _direction);
         return new Result.Success<>();
     }
 
     public Result<Void, String> moveBackward() {
+        delay();
         _cell.grid().move(this, _direction.turnRight().turnRight());
         return new Result.Success<>();
     }

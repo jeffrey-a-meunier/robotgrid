@@ -1,6 +1,8 @@
 package robotgrid.server;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import robotgrid.utils.Logger;
 import robotgrid.utils.PrefixTree;
@@ -32,6 +34,12 @@ public class CommandHandlerRegistry {
 
     public CommandHandler get(final String ... commandParts) {
         return _registry.lookupLongest(commandParts);
+    }
+
+    public List<String> allCommands() {
+        List<String> commands = _registry.allKeys();
+        Collections.sort(commands);
+        return commands;
     }
 
 }

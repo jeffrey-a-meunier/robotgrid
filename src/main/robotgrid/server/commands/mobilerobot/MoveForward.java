@@ -1,39 +1,33 @@
-package robotgrid.server.commands;
+package robotgrid.server.commands.mobilerobot;
 
+import robotgrid.entity.active.robot.MobileRobot;
 import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
-import robotgrid.utils.Logger;
 import robotgrid.utils.Result;
-import robotgrid.world.World;
 
-public class WorldExit implements CommandHandler {
+public class MoveForward implements CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
-
-    private Logger _logger = new Logger(WorldExit.class);
-
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    protected World _world;
+    protected final MobileRobot _robot;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public WorldExit(final World world) {
-        _world = world;
+    public MoveForward(final MobileRobot robot) {
+        _robot = robot;
     }
 
-    // Instance methods =======================================================
+    // Instance methods =======================================================t
 
     @Override
     public Result<Void, String> handleCommand(final Command command) {
-        _logger.warn("World exiting");
-        _world.exit();
-        return new Result.Success<Void, String>();
+        return _robot.moveForward();
     }
 
 }

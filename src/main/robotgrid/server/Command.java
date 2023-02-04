@@ -20,7 +20,7 @@ public class Command {
 
     protected UID _uid = new UID();
     protected String[] _parts;
-
+    
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
