@@ -50,7 +50,7 @@ public class CreateArticulatedRobot extends CommandHandler {
 
     protected void _registerCommands(final ArticulatedRobot robot) {
         CommandHandlerRegistry registry = CommandHandlerRegistry.THE_REGISTRY;
-        String name = robot.name();
+        String name = robot.name;
         registry.register(new ArmExtend(robot, name, "arm", "extend"));
         registry.register(new ArmRetract(robot, name, "arm", "retract"));
         registry.register(new GripperGrip(robot, name, "gripper", "grip"));

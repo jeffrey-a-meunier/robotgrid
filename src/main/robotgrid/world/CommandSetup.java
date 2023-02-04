@@ -7,6 +7,7 @@ import robotgrid.server.commands.conveyor.CreateConveyor;
 import robotgrid.server.commands.mobilerobot.CreateMobileRobot;
 import robotgrid.server.commands.server.ListCommands;
 import robotgrid.server.commands.server.ListControllers;
+import robotgrid.server.commands.table.CreateTable;
 import robotgrid.server.commands.widget.CreateWidget;
 import robotgrid.server.commands.world.WorldExit;
 
@@ -31,6 +32,7 @@ public class CommandSetup {
         registry.register(new CreateConveyor("new", "Conveyor"));
         registry.register(new CreateWidget("new", "Widget"));
         registry.register(new CreateControllerGroup("new", "ControllerGroup"));
+        registry.register(new CreateTable("new", "Table"));
     }
 
     // Instance inner classes =================================================

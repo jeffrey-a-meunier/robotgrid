@@ -28,7 +28,8 @@ public abstract class Entity {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    protected String _name;
+    public final String name;
+
     protected Cell _cell = null;
     protected Height _height = Height.Low;
     protected Direction _direction = Direction.North;
@@ -44,7 +45,7 @@ public abstract class Entity {
     // Constructors ===========================================================
 
     public Entity(final String name) {
-        _name = name;
+        this.name = name;
     }
 
    public Entity setDirection(final Direction direction) {
@@ -138,7 +139,7 @@ public abstract class Entity {
 
     @Override
     public String toString() {
-        return _name;
+        return name;
     }
 
 }

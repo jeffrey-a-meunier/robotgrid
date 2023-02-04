@@ -1,16 +1,15 @@
-package robotgrid.server.commands.mobilerobot;
+package robotgrid.server.commands.table;
 
 import robotgrid.entity.active.robot.MobileRobot;
-import robotgrid.scene.Direction;
+import robotgrid.entity.fixture.Table;
 import robotgrid.scene.Grid;
 import robotgrid.scene.Scene;
 import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
-import robotgrid.server.CommandHandlerRegistry;
 import robotgrid.utils.Result;
 import robotgrid.world.World;
 
-public class CreateMobileRobot extends CommandHandler {
+public class CreateTable extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -24,7 +23,7 @@ public class CreateMobileRobot extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public CreateMobileRobot(final String ... commandParts) {
+    public CreateTable(final String ... commandParts) {
         super(commandParts);
     }
 
@@ -34,26 +33,20 @@ public class CreateMobileRobot extends CommandHandler {
     public Result<Void, String> handleCommand(final Command command) {
         int x = Integer.parseInt(getArg(command, 0, "0"));
         int y = Integer.parseInt(getArg(command, 1, "0"));
-        Direction direction = Direction.parse(getArg(command, 2, "North"), Direction.North);
-        String name = getArg(command, 3, null);
+        String name = getArg(command, 2, null);
         if (name == null) {
             name = MobileRobot.class.getSimpleName() + (_NEXT_ID++);
         }
-        MobileRobot robot = new MobileRobot(name);
-        robot.setDirection(direction);
+        Table table = new Table(name);
         Scene scene = World.THE_WORLD.currentScene();
         Grid grid = scene.grid();
-        grid.addEntity(x, y, robot);
-        _registerCommands(robot);
+        grid.addEntity(x, y, table);
+        _registerCommands(table);
         return new Result.Success<Void, String>();
     }
 
-    protected void _registerCommands(final MobileRobot robot) {
-        CommandHandlerRegistry registry = CommandHandlerRegistry.THE_REGISTRY;
-        String name = robot.name;
-        registry.register(new MoveForward(robot, name, "move", "forward"));
-        registry.register(new MoveBackward(robot, name, "move", "backward"));
-        registry.register(new RotateRight(robot, name, "rotate", "right"));
-        registry.register(new RotateLeft(robot, name, "rotate", "left"));
+    protected void _registerCommands(final Table table) {
+        // CommandHandlerRegistry registry = CommandHandlerRegistry.THE_REGISTRY;
+        // String name = table.name;
     }
 }

@@ -38,10 +38,6 @@ public abstract class ActiveEntity extends Entity {
         return _controller;
     }
 
-    public String name() {
-        return _name;
-    }
-
     public boolean isOn() {
         return _controller.isOn();
     }
