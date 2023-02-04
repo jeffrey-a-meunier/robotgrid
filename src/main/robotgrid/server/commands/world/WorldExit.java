@@ -1,34 +1,40 @@
-package robotgrid.server.commands.articulatedrobot;
+package robotgrid.server.commands.world;
 
-import robotgrid.entity.active.robot.ArticulatedRobot;
 import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
+import robotgrid.utils.Logger;
 import robotgrid.utils.Result;
+import robotgrid.world.World;
 
-public class RotateLeft extends CommandHandler {
+/**
+ * Command:
+ * World exit
+ */
+public class WorldExit extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
+
+    private Logger _logger = new Logger(WorldExit.class);
+
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
-
-    protected final ArticulatedRobot _robot;
-
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public RotateLeft(final ArticulatedRobot robot, final String ... commandParts) {
+    public WorldExit(final String ... commandParts) {
         super(commandParts);
-        _robot = robot;
     }
 
-    // Instance methods =======================================================t
+    // Instance methods =======================================================
 
     @Override
     public Result<Void, String> handleCommand(final Command command) {
-        return _robot.rotateLeft();
+        _logger.warn("World exiting");
+        World.THE_WORLD.exit();
+        return new Result.Success<Void, String>();
     }
 
 }

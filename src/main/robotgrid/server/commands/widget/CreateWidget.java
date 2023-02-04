@@ -1,6 +1,5 @@
 package robotgrid.server.commands.widget;
 
-import robotgrid.entity.active.robot.MobileRobot;
 import robotgrid.entity.widget.SquareWidget;
 import robotgrid.entity.widget.Widget;
 import robotgrid.scene.Grid;
@@ -10,11 +9,7 @@ import robotgrid.server.CommandHandler;
 import robotgrid.utils.Result;
 import robotgrid.world.World;
 
-/**
- * Command:
- * new Conveyor <x> <y> <heading> <name>
- */
-public class CreateWidget implements CommandHandler {
+public class CreateWidget extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -25,45 +20,27 @@ public class CreateWidget implements CommandHandler {
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
-
-    protected World _world;
-
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public CreateWidget(final World world) {
-        _world = world;
+    public CreateWidget(final String ... commandParts) {
+        super(commandParts);
     }
 
     // Instance methods =======================================================
 
     @Override
     public Result<Void, String> handleCommand(final Command command) {
-        int x = 0;
-        int y = 0;
-        String name = null;
-        String[] parts = command.parts();
-        for (int n=2; n<parts.length; n++) {
-            String part = parts[n];
-            switch (n) {
-                case 2:
-                    x = Integer.parseInt(part);
-                    break;
-                case 3:
-                    y = Integer.parseInt(part);
-                    break;
-                case 4:
-                    name = part;
-                    break;
-            }
-        }
+        int x = Integer.parseInt(getArg(command, 0, "0"));
+        int y = Integer.parseInt(getArg(command, 1, "0"));
+        String name = getArg(command, 2, null);
         if (name == null) {
-            name = MobileRobot.class.getSimpleName() + (_NEXT_ID++);
+            name = Widget.class.getSimpleName() + (_NEXT_ID++);
         }
         Widget widget = new SquareWidget(name)
             .setFillColor(0xFF_FF_00_00)
             ;
-        Scene scene = _world.currentScene();
+        Scene scene = World.THE_WORLD.currentScene();
         Grid grid = scene.grid();
         grid.addEntity(x, y, widget);
         return new Result.Success<Void, String>();

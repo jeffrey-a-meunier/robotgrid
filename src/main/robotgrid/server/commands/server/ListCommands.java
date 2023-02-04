@@ -8,13 +8,12 @@ import robotgrid.server.CommandHandler;
 import robotgrid.server.CommandHandlerRegistry;
 import robotgrid.server.Server;
 import robotgrid.utils.Result;
-import robotgrid.world.World;
 
 /**
  * Command:
  * World exit
  */
-public class ListCommands implements CommandHandler {
+public class ListCommands extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -22,22 +21,19 @@ public class ListCommands implements CommandHandler {
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
-
-    protected World _world;
-
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ListCommands(final World world) {
-        _world = world;
-    }
+    public ListCommands(final String ... commandParts) {
+        super(commandParts);
+   }
 
     // Instance methods =======================================================
 
     @Override
     public Result<Void, String> handleCommand(final Command command) {
-        System.out.flush();
-        List<String> commandNameList = CommandHandlerRegistry.THE_REGISTRY.allCommands();
+        String prefix = getArg(command, 0, null);
+        List<String> commandNameList = CommandHandlerRegistry.THE_REGISTRY.allCommands(prefix);
         Collections.sort(commandNameList);
         Server.THE_SERVER.sendCommandReply("" + commandNameList.size());
         for (String name : commandNameList) {

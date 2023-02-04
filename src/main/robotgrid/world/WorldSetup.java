@@ -1,6 +1,6 @@
 package robotgrid.world;
 
-import robotgrid.entity.active.controller.GroupController;
+import robotgrid.entity.active.controller.ControllerGroup;
 import robotgrid.entity.active.conveyor.Conveyor;
 import robotgrid.entity.active.robot.ArticulatedRobot;
 import robotgrid.entity.active.robot.MobileRobot;
@@ -60,7 +60,7 @@ public class WorldSetup {
             ;
         grid1.addEntity(4, 5, robot2);
 
-        GroupController conveyorGroup1 = new GroupController("ConveyorGroup1");
+        ControllerGroup conveyorGroup1 = new ControllerGroup("ConveyorGroup1");
         Conveyor[] conveyors = new Conveyor[4];
         for (int n=0; n<4; n++) {
             Conveyor conveyor = (Conveyor)new Conveyor("Conveyor" + n)

@@ -25,9 +25,17 @@ public class PrefixTree<T> {
     // Constructors ===========================================================
     // Instance methods =======================================================
 
-    public List<String> allKeys() {
+    public List<String> allKeys(final String ... prefixParts) {
+        Map<String, PrefixTree<T>> nodes = _nodes;
         List<String> keys = new ArrayList<>();
-        _allKeys("", _nodes, keys);
+        for (final String prefixPart : prefixParts) {
+            PrefixTree<T> subtree = nodes.get(prefixPart);
+            if (subtree == null) {
+                return keys;
+            }
+            nodes = subtree._nodes;
+        }
+        _allKeys("", nodes, keys);
         return keys;
     }
 

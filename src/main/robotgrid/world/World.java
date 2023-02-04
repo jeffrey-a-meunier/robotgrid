@@ -51,7 +51,7 @@ public class World extends PApplet {
             setCurrentScene(gridName);
         }
         // WorldSetup.setup(this);
-        CommandSetup.setup(this);
+        CommandSetup.setup();
         Server.setup();
     }
 

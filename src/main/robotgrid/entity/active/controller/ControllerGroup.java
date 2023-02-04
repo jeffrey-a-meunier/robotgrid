@@ -5,7 +5,7 @@ import java.util.Set;
 
 import robotgrid.entity.active.ActiveEntity;
 
-public class GroupController extends Controller {
+public class ControllerGroup extends Controller {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -19,16 +19,16 @@ public class GroupController extends Controller {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public GroupController(String name) {
+    public ControllerGroup(String name) {
         super(name);
     }
 
-    public GroupController add(final Controller controller) {
+    public ControllerGroup add(final Controller controller) {
         _controllers.add(controller);
         return this;
     }
 
-    public GroupController add(final ActiveEntity entity) {
+    public ControllerGroup add(final ActiveEntity entity) {
         return add(entity.controller());
     }
 

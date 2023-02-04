@@ -9,11 +9,7 @@ import robotgrid.server.CommandHandler;
 import robotgrid.utils.Result;
 import robotgrid.world.World;
 
-/**
- * Command:
- * new Conveyor <x> <y> <heading> <name>
- */
-public class CreateConveyor implements CommandHandler {
+public class CreateConveyor extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -24,50 +20,29 @@ public class CreateConveyor implements CommandHandler {
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
-
-    protected World _world;
-
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public CreateConveyor(final World world) {
-        _world = world;
+    public CreateConveyor(final String ... commandParts) {
+        super(commandParts);
     }
 
     // Instance methods =======================================================
 
     @Override
     public Result<Void, String> handleCommand(final Command command) {
-        int x = 0;
-        int y = 0;
-        Direction direction = Direction.North;
-        String name = null;
-        String[] parts = command.parts();
-        for (int n=2; n<parts.length; n++) {
-            String part = parts[n];
-            switch (n) {
-                case 2:
-                    x = Integer.parseInt(part);
-                    break;
-                case 3:
-                    y = Integer.parseInt(part);
-                    break;
-                case 4:
-                    direction = Direction.parse(part, Direction.North);
-                    break;
-                case 5:
-                    name = part;
-                    break;
-            }
-        }
+        int x = Integer.parseInt(getArg(command, 0, "0"));
+        int y = Integer.parseInt(getArg(command, 1, "0"));
+        Direction direction = Direction.parse(getArg(command, 2, "North"), Direction.North);
+        String name = getArg(command, 3, null);
         if (name == null) {
             name = Conveyor.class.getSimpleName() + (_NEXT_ID++);
         }
-        Conveyor robot = new Conveyor(name);
-        robot.setDirection(direction);
-        Scene scene = _world.currentScene();
+        Conveyor conveyor = new Conveyor(name);
+        conveyor.setDirection(direction);
+        Scene scene = World.THE_WORLD.currentScene();
         Grid grid = scene.grid();
-        grid.addEntity(x, y, robot);
+        grid.addEntity(x, y, conveyor);
         return new Result.Success<Void, String>();
     }
 

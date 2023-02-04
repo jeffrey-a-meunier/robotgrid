@@ -5,7 +5,7 @@ import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
 import robotgrid.utils.Result;
 
-public class RotateRight implements CommandHandler {
+public class RotateRight extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -19,7 +19,8 @@ public class RotateRight implements CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public RotateRight(final MobileRobot robot) {
+    public RotateRight(final MobileRobot robot, final String ... commandParts) {
+        super(commandParts);
         _robot = robot;
     }
 

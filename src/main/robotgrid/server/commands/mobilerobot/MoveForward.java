@@ -5,7 +5,7 @@ import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
 import robotgrid.utils.Result;
 
-public class MoveForward implements CommandHandler {
+public class MoveForward extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -19,7 +19,8 @@ public class MoveForward implements CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public MoveForward(final MobileRobot robot) {
+    public MoveForward(final MobileRobot robot, final String ... commandParts) {
+        super(commandParts);
         _robot = robot;
     }
 

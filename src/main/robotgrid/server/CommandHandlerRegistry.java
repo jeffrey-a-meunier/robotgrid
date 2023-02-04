@@ -27,16 +27,16 @@ public class CommandHandlerRegistry {
     // Constructors ===========================================================
     // Instance methods =======================================================t
 
-    public void register(final CommandHandler handler, final String ... commandParts) {
-        _registry.insert(handler, commandParts);
-        _logger.info("Command added: ", Arrays.toString(commandParts));
+    public void register(final CommandHandler handler) {
+        _registry.insert(handler, handler.commandParts);
+        _logger.info("Command added: ", Arrays.toString(handler.commandParts));
     }
 
     public CommandHandler get(final String ... commandParts) {
         return _registry.lookupLongest(commandParts);
     }
 
-    public List<String> allCommands() {
+    public List<String> allCommands(final String prefix) {
         List<String> commands = _registry.allKeys();
         Collections.sort(commands);
         return commands;

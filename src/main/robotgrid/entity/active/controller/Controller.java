@@ -41,6 +41,10 @@ public class Controller implements Runnable {
         return true;
     }
 
+    public static Controller lookup(final String name) {
+        return _ALL_CONTROLLERS.get(name);
+    }
+
     public static Set<String> names() {
         return _ALL_CONTROLLERS.keySet();
     }

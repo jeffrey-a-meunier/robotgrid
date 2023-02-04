@@ -5,7 +5,7 @@ import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
 import robotgrid.utils.Result;
 
-public class GripperGrip implements CommandHandler {
+public class GripperGrip extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -19,7 +19,8 @@ public class GripperGrip implements CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public GripperGrip(final ArticulatedRobot robot) {
+    public GripperGrip(final ArticulatedRobot robot, final String ... commandParts) {
+        super(commandParts);
         _robot = robot;
     }
 

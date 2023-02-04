@@ -5,7 +5,7 @@ import robotgrid.server.Command;
 import robotgrid.server.CommandHandler;
 import robotgrid.utils.Result;
 
-public class ArmExtend implements CommandHandler {
+public class ArmExtend extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -19,7 +19,8 @@ public class ArmExtend implements CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ArmExtend(final ArticulatedRobot robot) {
+    public ArmExtend(final ArticulatedRobot robot, final String ... commandParts) {
+        super(commandParts);
         _robot = robot;
     }
 
