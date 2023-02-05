@@ -50,10 +50,10 @@ public class MobileRobotController extends Controller {
 
     public MobileRobotController(final String name) {
         super(name);
-        addCommandHandler("MoveForward", new MoveForward());
-        addCommandHandler("MoveBackward", new MoveBackward());
         addCommandHandler("RotateLeft", new RotateLeft());
         addCommandHandler("RotateRight", new RotateRight());
+        addCommandHandler("MoveForward", new MoveForward());
+        addCommandHandler("MoveBackward", new MoveBackward());
     }
 
     // Instance methods =======================================================

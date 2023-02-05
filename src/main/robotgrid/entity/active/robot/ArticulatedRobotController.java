@@ -8,7 +8,7 @@ public class ArticulatedRobotController extends Controller {
 
     // Static inner classes ===================================================
 
-    protected static class RotateRightCommand extends CommandHandler {
+    protected static class RotateRight extends CommandHandler {
         @Override
         protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
@@ -16,7 +16,7 @@ public class ArticulatedRobotController extends Controller {
         }
     }
 
-    protected static class RotateLeftCommand extends CommandHandler {
+    protected static class RotateLeft extends CommandHandler {
         @Override
         protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
@@ -24,7 +24,7 @@ public class ArticulatedRobotController extends Controller {
         }
     }
 
-    protected static class ArmExtendCommand extends CommandHandler {
+    protected static class ArmExtend extends CommandHandler {
         @Override
         protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
@@ -32,7 +32,7 @@ public class ArticulatedRobotController extends Controller {
         }
     }
 
-    protected static class ArmRetractCommand extends CommandHandler {
+    protected static class ArmRetract extends CommandHandler {
         @Override
         protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
@@ -40,7 +40,7 @@ public class ArticulatedRobotController extends Controller {
         }
     }
 
-    protected static class GripperGripCommand extends CommandHandler {
+    protected static class GripperGrip extends CommandHandler {
         @Override
         protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
@@ -48,7 +48,7 @@ public class ArticulatedRobotController extends Controller {
         }
     }
 
-    protected static class GripperReleaseCommand extends CommandHandler {
+    protected static class GripperRelease extends CommandHandler {
         @Override
         protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
@@ -66,12 +66,12 @@ public class ArticulatedRobotController extends Controller {
 
     public ArticulatedRobotController(final String name) {
         super(name);
-        // installCommand("RotateRight", new RotateRightCommand());
-        // installCommand("RotateLeft", new RotateLeftCommand());
-        // installCommand("ArmExtend", new ArmExtendCommand());
-        // installCommand("ArmRetract", new ArmRetractCommand());
-        // installCommand("GripperGrip", new GripperGripCommand());
-        // installCommand("GripperRelease", new GripperReleaseCommand());
+        addCommandHandler("RotateRight", new RotateRight());
+        addCommandHandler("RotateLeft", new RotateLeft());
+        addCommandHandler("ArmExtend", new ArmExtend());
+        addCommandHandler("ArmRetract", new ArmRetract());
+        addCommandHandler("GripperGrip", new GripperGrip());
+        addCommandHandler("GripperRelease", new GripperRelease());
     }
 
     // Instance methods =======================================================
