@@ -14,6 +14,15 @@ public class Controller implements Runnable {
 
     // Static inner classes ===================================================
 
+    protected class Power extends CommandHandler {
+        public Power() { setImmeidate(true); }
+        @Override
+        protected Result<Void, String> _execute(final Controller controller, final String[] args) {
+            Server.THE_SERVER.sendCommandReply(controller._isOn ? "On" : "Off");
+            return new Result.Success<>();
+        }
+    }
+
     protected class PowerOn extends CommandHandler {
         public PowerOn() { setImmeidate(true); }
         @Override
@@ -67,14 +76,23 @@ public class Controller implements Runnable {
     // Constructors ===========================================================
 
     public Controller(final String name) {
+        this(name, true);
+    }
+
+    public Controller(final String name, boolean addPowerCommands) {
         this.name = name;
         _thread = new Thread(this);
         _thread.start();
         _ALL_CONTROLLERS.put(name, this);
         System.out.println("Controller constructor added " + name + " " + this);
-
-        addCommandHandler("PowerOn", new PowerOn());
-        addCommandHandler("PowerOff", new PowerOff());
+        if (addPowerCommands) {
+            addCommandHandler("Power", new Power());
+            addCommandHandler("PowerOn", new PowerOn());
+            addCommandHandler("PowerOff", new PowerOff());
+        }
+        else {
+            powerOn();
+        }
     }
 
     public Controller setEntity(final ActiveEntity entity) {

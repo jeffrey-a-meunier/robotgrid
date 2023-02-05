@@ -40,26 +40,6 @@ public class MobileRobotController extends Controller {
         }
     }
 
-    // protected class PowerOn extends CommandHandler {
-    //     public PowerOn() { setImmeidate(true); }
-    //     @Override
-    //     protected Result<Void, String> _execute(final Controller controller, final String[] args) {
-    //         MobileRobot robot = (MobileRobot)controller.entity();
-    //         robot.powerOn();
-    //         return new Result.Success<>();
-    //     }
-    // }
-
-    // protected class PowerOff extends CommandHandler {
-    //     public PowerOff() { setImmeidate(true); }
-    //     @Override
-    //     protected Result<Void, String> _execute(final Controller controller, final String[] args) {
-    //         MobileRobot robot = (MobileRobot)controller.entity();
-    //         robot.powerOff();
-    //         return new Result.Success<>();
-    //     }
-    // }
-
     // Static variables =======================================================
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -74,8 +54,6 @@ public class MobileRobotController extends Controller {
         addCommandHandler("MoveBackward", new MoveBackward());
         addCommandHandler("RotateLeft", new RotateLeft());
         addCommandHandler("RotateRight", new RotateRight());
-        // addCommandHandler("PowerOn", new PowerOn());
-        // addCommandHandler("PowerOff", new PowerOff());
     }
 
     // Instance methods =======================================================

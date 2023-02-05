@@ -93,10 +93,6 @@ public class Server {
         sendCommandReply("ERROR Command '" + command + "' is invalid: " + command.result());
     }
 
-    // public void commandAdded(final Command command) {
-    //     sendCommandReply("OK Command added: " + command);
-    // }
-
     public void commandComplete(final Controller controller, final Command command) {
         sendInfo("OK Command complete: " + controller + " " + command + " " + command.result());
     }
