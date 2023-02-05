@@ -40,7 +40,7 @@ public class ScriptFile {
                 continue;
             }
             _logger.debug("Executing command '" + line + '\'');
-            Server.THE_SERVER.executeCommandString(line);
+            Server.THE_SERVER.handleCommandString(line);
         }
         return new Result.Success<>();
     }

@@ -13,6 +13,11 @@ public class Result<S, F> {
         public Success(final S value) {
             super(true, Optional.of(value), Optional.empty());
         }
+        @Override
+        public String toString() {
+            String valueString = _successValue.isPresent() ? ("" + _successValue.get()) : "";
+            return "Success{" + valueString + '}';
+        }
     }
 
     public static class Failure<S, F> extends Result<S, F> {
@@ -21,6 +26,11 @@ public class Result<S, F> {
         }
         public Failure(final F value) {
             super(false, Optional.empty(), Optional.of(value));
+        }
+        @Override
+        public String toString() {
+            String valueString = _failureValue.isPresent() ? ("" + _failureValue.get()) : "";
+            return "Failure{" + valueString + '}';
         }
     }
 

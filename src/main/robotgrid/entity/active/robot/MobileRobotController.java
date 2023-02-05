@@ -10,7 +10,7 @@ public class MobileRobotController extends Controller {
 
     protected class MoveForwardCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller) {
+        protected Result<Void, String> _execute(final Controller controller, final String[] args) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.moveForward();
         }
@@ -18,7 +18,7 @@ public class MobileRobotController extends Controller {
     
     protected class MoveBackwardCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller) {
+        protected Result<Void, String> _execute(final Controller controller, final String[] args) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.moveBackward();
         }
@@ -26,7 +26,7 @@ public class MobileRobotController extends Controller {
 
     protected class RotateRightCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller) {
+        protected Result<Void, String> _execute(final Controller controller, final String[] args) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.rotateRight();
         }
@@ -34,7 +34,7 @@ public class MobileRobotController extends Controller {
 
     protected class RotateLeftCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller) {
+        protected Result<Void, String> _execute(final Controller controller, final String[] args) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.rotateLeft();
         }

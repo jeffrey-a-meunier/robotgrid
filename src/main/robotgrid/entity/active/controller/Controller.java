@@ -6,7 +6,7 @@ import java.util.Set;
 
 import robotgrid.entity.active.ActiveEntity;
 import robotgrid.server.Server;
-import robotgrid.utils.Result;
+import robotgrid.utils.SynQ;
 
 public class Controller implements Runnable {
 
@@ -77,13 +77,13 @@ public class Controller implements Runnable {
                 Server.THE_SERVER.programComplete(this);
             }
             Command command = _commandQ.deq();
-            Result<Void, String> result = command.execute(this);
-            Server.THE_SERVER.commandComplete(this, command, result);
+            command.execute();
+            Server.THE_SERVER.commandComplete(this, command);
         }
         _isOn = false;
     }
 
-    public boolean sendCommand(final CommandHandler command) {
+    public boolean sendCommand(final Command command) {
         if (_isOn) {
             synchronized (_commandQ) {
                 _commandQ.enq(command);

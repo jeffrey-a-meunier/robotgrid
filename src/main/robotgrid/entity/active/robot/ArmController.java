@@ -10,7 +10,7 @@ public class ArmController extends Controller {
 
      protected static class ArmExtendCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller) {
+        protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             Arm arm = (Arm)controller.entity();
             return arm.extend();
         }
@@ -18,7 +18,7 @@ public class ArmController extends Controller {
 
     protected static class ArmRetractCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller) {
+        protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             Arm arm = (Arm)controller.entity();
             return arm.retract();
         }
@@ -26,7 +26,7 @@ public class ArmController extends Controller {
 
     protected static class GripperGripCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller) {
+        protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             Arm arm = (Arm)controller.entity();
             return arm.grip();
         }
@@ -34,7 +34,7 @@ public class ArmController extends Controller {
 
     protected static class GripperReleaseCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller) {
+        protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             Arm arm = (Arm)controller.entity();
             return arm.release();
         }

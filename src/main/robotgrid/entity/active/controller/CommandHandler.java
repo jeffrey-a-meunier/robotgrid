@@ -1,8 +1,8 @@
 package robotgrid.entity.active.controller;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-import robotgrid.utils.PrefixTree;
 import robotgrid.utils.Result;
 
 public abstract class CommandHandler {
@@ -10,32 +10,31 @@ public abstract class CommandHandler {
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-    protected static PrefixTree<CommandHandler> _ALL_COMMANDS = new PrefixTree<>();
+    protected static Map<String, CommandHandler> _ALL_HANDLERS = new HashMap<>();
 
     // Static initializer =====================================================
     // Static methods =========================================================
 
-    public static CommandHandler locate(final String[] commandNameParts) {
-        return _ALL_COMMANDS.lookupLongest(commandNameParts);
+    public static CommandHandler locate(final String commandName) {
+        return _ALL_HANDLERS.get(commandName);
+    }
+
+    public static void add(final String commandName, final CommandHandler handler) {
+        _ALL_HANDLERS.put(commandName, handler);
     }
 
     // Instance inner classes =================================================
     // Instance variables =====================================================
-
-    public final String[] nameParts;
-
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public CommandHandler(final String[] nameParts) {
-        this.nameParts = nameParts;
-    }
+    public CommandHandler() {}
 
     // Instance methods =======================================================
 
-    public Result<Void, String> execute(final Controller controller, final String[] commandParts) {
-        String[] arguments = Arrays.copyOfRange(commandParts, nameParts.length, commandParts.length);
-        return _execute(controller, arguments);
+    public final void execute(final Command command) {
+        Result<Void, String> result = _execute(command.controller(), command.arguments());
+        command.setResult(result);
     }
 
     protected abstract Result<Void, String> _execute(final Controller controller, final String[] arguments);

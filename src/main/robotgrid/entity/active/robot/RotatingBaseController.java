@@ -10,7 +10,7 @@ public class RotatingBaseController extends Controller {
 
     protected static class RotateLeftCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller) {
+        protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             RotatingBase base = (RotatingBase)controller.entity();
             return base.rotateLeft();
         }
@@ -18,7 +18,7 @@ public class RotatingBaseController extends Controller {
 
     protected static class RotateRightCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller) {
+        protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
             RotatingBase base = (RotatingBase)controller.entity();
             return base.rotateRight();
         }

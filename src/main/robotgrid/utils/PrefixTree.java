@@ -9,6 +9,7 @@ import java.util.Set;
 /**
  * AKA Trie
  */
+@Deprecated
 public class PrefixTree<T> {
 
     // Static inner classes ===================================================

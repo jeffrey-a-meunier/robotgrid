@@ -8,10 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import robotgrid.entity.active.controller.Command;
-import robotgrid.entity.active.controller.CommandHandler;
 import robotgrid.entity.active.controller.Controller;
 import robotgrid.utils.Logger;
-import robotgrid.utils.Result;
 
 public class Server {
 
@@ -69,12 +67,16 @@ public class Server {
         sendCommandReply("Command not found " + commandString);
     }
 
-    public void commandAdded(final Controller controller, final CommandHandler command) {
-        sendCommandReply("Command added " + controller + " " + command);
+    public void commandInvalid(final Command command) {
+        sendCommandReply("Command '" + command + "' is invalid: " + command.result());
     }
 
-    public void commandComplete(final Controller controller, final Command command, final Result<Void, String> result) {
-        sendInfo("Command complete " + controller + " " + command + " " + result);
+    public void commandAdded(final Command command) {
+        sendCommandReply("Command added " + command);
+    }
+
+    public void commandComplete(final Controller controller, final Command command) {
+        sendInfo("Command complete " + controller + " " + command + " " + command.result());
     }
 
     public void programComplete(final Controller controller) {
@@ -166,43 +168,14 @@ public class Server {
         }
     }
 
-    // TODO delete this
-    // @Deprecated
-    // public void executeCommandString_X(final String commandString) {
-    //     Command command = new Command(commandString);
-    //     CommandHandler handler = command.getHandler();
-    //     if (handler == null) {
-    //         sendCommandReply("ERROR illegal command '" + command + "'");
-    //     }
-    //     else {
-    //         sendCommandReply("OK command " + command.uid + " started");
-    //         Result<Void, String> res = handler.handleCommand(command);
-    //         if (res.isSuccess) {
-    //             sendInfo("OK command " + command.uid + " complete");
-    //         }
-    //         else {
-    //             sendInfo("ERROR command " + command.uid + ": " + res.failureValue());
-    //         }
-    //     }
-    // }
-
-    public void executeCommandString(final String commandString) {
-        String[] commandParts = commandString.split(" ");
-        String controllerName = commandParts[0];
-        Controller controller = Controller.lookup(controllerName);
-        if (controller == null) {
-            Server.THE_SERVER.controllerNotFound(controllerName);
+    public void handleCommandString(final String commandString) {
+        Command command = new Command(commandString);
+        if (!command.validate()) {
+            Server.THE_SERVER.commandInvalid(command);
+            return;
         }
-        else {
-            CommandHandler command = Command._ALL_COMMANDS.locate(commandParts);
-            if (command == null) {
-                controller.sendCommand(command);
-                Server.THE_SERVER.commandAdded(controller, command);
-            }
-            else {
-                Server.THE_SERVER.commandNotFound(commandString);
-            }
-        }
+        command.sendToController();
+        Server.THE_SERVER.commandAdded(command);
     }
 
     protected void _handleCommandSocket(final Socket clientSocket) {
@@ -218,7 +191,7 @@ public class Server {
                 if (line.length() == 0) {
                     continue;
                 }
-                executeCommandString(line);
+                handleCommandString(line);
             }
             clientSocket.close();
         }
