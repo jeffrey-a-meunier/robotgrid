@@ -1,7 +1,6 @@
 package robotgrid.entity.active;
 
 import robotgrid.entity.Entity;
-import robotgrid.entity.active.controller.Command;
 import robotgrid.entity.active.controller.Controller;
 
 public abstract class ActiveEntity extends Entity {
@@ -45,10 +44,6 @@ public abstract class ActiveEntity extends Entity {
 
     public void powerOff() {
         _controller.powerOff();
-    }
-
-    public boolean sendCommand(final Command command) {
-        return _controller.sendCommand(command);
     }
 
 }

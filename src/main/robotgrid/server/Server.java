@@ -10,6 +10,7 @@ import java.net.Socket;
 import robotgrid.entity.active.controller.Command;
 import robotgrid.entity.active.controller.Controller;
 import robotgrid.utils.Logger;
+import robotgrid.utils.Result;
 
 public class Server {
 
@@ -21,7 +22,7 @@ public class Server {
     protected static final int _COMMAND_PORT = 43210;
     protected static final int _INFO_PORT = _COMMAND_PORT + 1;
 
-    private Logger _logger = new Logger(Server.class, Logger.Level.Debug);
+    private Logger _logger = new Logger(Server.class, Logger.Level.All);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -59,28 +60,49 @@ public class Server {
 
     // Instance methods =======================================================
 
+    // TODO refactor this after it is verified to work
+    public void reportCommandResult(final Command command) {
+        Result<Void, String> result = command.result();
+        if (result.isSuccess) {
+            if (command.handler().isImmediate()) {
+                sendCommandReply("OK " + command.uid + " " + command);
+            }
+            else {
+                sendInfo("OK " + command.uid + " " + command);
+            }
+        }
+        else {
+            if (command.handler().isImmediate()) {
+                sendCommandReply("ERROR " + command.uid + " " + command + " " + result);
+            }
+            else {
+                sendInfo("OK " + command.uid + " " + command + " " + result);
+            }
+        }
+    }
+
     public void controllerNotFound(final String controllerName) {
-        sendCommandReply("Controller not found " + controllerName);
+        sendCommandReply("ERROR Controller not found: " + controllerName);
     }
 
     public void commandNotFound(final String commandString) {
-        sendCommandReply("Command not found " + commandString);
+        sendCommandReply("ERROR Command not found: " + commandString);
     }
 
     public void commandInvalid(final Command command) {
-        sendCommandReply("Command '" + command + "' is invalid: " + command.result());
+        sendCommandReply("ERROR Command '" + command + "' is invalid: " + command.result());
     }
 
-    public void commandAdded(final Command command) {
-        sendCommandReply("Command added " + command);
-    }
+    // public void commandAdded(final Command command) {
+    //     sendCommandReply("OK Command added: " + command);
+    // }
 
     public void commandComplete(final Controller controller, final Command command) {
-        sendInfo("Command complete " + controller + " " + command + " " + command.result());
+        sendInfo("OK Command complete: " + controller + " " + command + " " + command.result());
     }
 
     public void programComplete(final Controller controller) {
-        sendInfo("Program complete " + controller);
+        sendInfo("OK Program complete " + controller);
     }
 
     public void sendCommandReply(final String replyString) {
@@ -175,7 +197,7 @@ public class Server {
             return;
         }
         command.sendToController();
-        Server.THE_SERVER.commandAdded(command);
+        // Server.THE_SERVER.commandAdded(command);
     }
 
     protected void _handleCommandSocket(final Socket clientSocket) {

@@ -2,6 +2,7 @@ package robotgrid.entity.active.controller;
 
 import java.util.Arrays;
 
+import robotgrid.server.Server;
 import robotgrid.utils.Result;
 import robotgrid.utils.UID;
 
@@ -44,7 +45,7 @@ public class Command {
             return false;
         }
         String commandName = parts[1];
-        _handler = CommandHandler.locate(commandName);
+        _handler = _controller.locateCommandHandler(commandName);
         if (_handler == null) {
             _result = new Result.Failure<>("command '" + commandName + "' not found for controller '" + controllerName + "'");
             return false;
@@ -59,14 +60,19 @@ public class Command {
 
     public void execute() {
         _handler.execute(this);
+        Server.THE_SERVER.reportCommandResult(this);
+    }
+
+    public String[] arguments() {
+        return _arguments;
     }
 
     public Controller controller() {
         return _controller;
     }
 
-    public String[] arguments() {
-        return _arguments;
+    public CommandHandler handler() {
+        return _handler;
     }
 
     public Result<Void, String> result() {

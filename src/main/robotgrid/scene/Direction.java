@@ -19,10 +19,10 @@ public enum Direction {
     public static Direction parse(final String directionString, final Direction deflt) {
         String directionString1 = directionString.toLowerCase();
         switch (directionString1) {
-            case "north": return North;
-            case "east": return East;
-            case "south": return South;
-            case "west": return West;
+            case "north", "n": return North;
+            case "east", "e": return East;
+            case "south", "s": return South;
+            case "west", "w": return West;
         }
         return deflt;
     }

@@ -8,7 +8,7 @@ public class MobileRobotController extends Controller {
 
     // Static inner classes ===================================================
 
-    protected class MoveForwardCommand extends CommandHandler {
+    protected class MoveForward extends CommandHandler {
         @Override
         protected Result<Void, String> _execute(final Controller controller, final String[] args) {
             MobileRobot robot = (MobileRobot)controller.entity();
@@ -16,7 +16,7 @@ public class MobileRobotController extends Controller {
         }
     }
     
-    protected class MoveBackwardCommand extends CommandHandler {
+    protected class MoveBackward extends CommandHandler {
         @Override
         protected Result<Void, String> _execute(final Controller controller, final String[] args) {
             MobileRobot robot = (MobileRobot)controller.entity();
@@ -24,7 +24,7 @@ public class MobileRobotController extends Controller {
         }
     }
 
-    protected class RotateRightCommand extends CommandHandler {
+    protected class RotateRight extends CommandHandler {
         @Override
         protected Result<Void, String> _execute(final Controller controller, final String[] args) {
             MobileRobot robot = (MobileRobot)controller.entity();
@@ -32,13 +32,33 @@ public class MobileRobotController extends Controller {
         }
     }
 
-    protected class RotateLeftCommand extends CommandHandler {
+    protected class RotateLeft extends CommandHandler {
         @Override
         protected Result<Void, String> _execute(final Controller controller, final String[] args) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.rotateLeft();
         }
     }
+
+    // protected class PowerOn extends CommandHandler {
+    //     public PowerOn() { setImmeidate(true); }
+    //     @Override
+    //     protected Result<Void, String> _execute(final Controller controller, final String[] args) {
+    //         MobileRobot robot = (MobileRobot)controller.entity();
+    //         robot.powerOn();
+    //         return new Result.Success<>();
+    //     }
+    // }
+
+    // protected class PowerOff extends CommandHandler {
+    //     public PowerOff() { setImmeidate(true); }
+    //     @Override
+    //     protected Result<Void, String> _execute(final Controller controller, final String[] args) {
+    //         MobileRobot robot = (MobileRobot)controller.entity();
+    //         robot.powerOff();
+    //         return new Result.Success<>();
+    //     }
+    // }
 
     // Static variables =======================================================
     // Static initializer =====================================================
@@ -50,10 +70,12 @@ public class MobileRobotController extends Controller {
 
     public MobileRobotController(final String name) {
         super(name);
-        // installCommand("MoveForward", new MoveForwardCommand());
-        // installCommand("MoveBackward", new MoveBackwardCommand());
-        // installCommand("RotateRight", new RotateRightCommand());
-        // installCommand("RotateLeft", new RotateLeftCommand());
+        addCommandHandler("MoveForward", new MoveForward());
+        addCommandHandler("MoveBackward", new MoveBackward());
+        addCommandHandler("RotateLeft", new RotateLeft());
+        addCommandHandler("RotateRight", new RotateRight());
+        // addCommandHandler("PowerOn", new PowerOn());
+        // addCommandHandler("PowerOff", new PowerOff());
     }
 
     // Instance methods =======================================================
