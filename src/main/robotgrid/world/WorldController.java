@@ -1,11 +1,8 @@
-package robotgrid.server.commands.conveyor;
+package robotgrid.world;
 
-import robotgrid.entity.active.conveyor.Conveyor;
-import robotgrid.server.Command_deprecated;
-import robotgrid.server.CommandHandler_deprecated;
-import robotgrid.utils.Result;
+import robotgrid.entity.active.controller.Controller;
 
-public class PowerOn extends CommandHandler_deprecated {
+public class WorldController extends Controller {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -13,23 +10,13 @@ public class PowerOn extends CommandHandler_deprecated {
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
-
-    protected Conveyor _conveyor;
-
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public PowerOn(final Conveyor conveyor, final String ... commandParts) {
-        super(commandParts);
-        _conveyor = conveyor;
+    public WorldController() {
+        super("World");
     }
 
     // Instance methods =======================================================
-
-    @Override
-    public Result<Void, String> handleCommand(Command_deprecated command) {
-        _conveyor.powerOn();
-        return new Result.Success<Void, String>();
-    }
 
 }

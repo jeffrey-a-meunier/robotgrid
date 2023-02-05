@@ -2,12 +2,12 @@ package robotgrid.server.commands.controller;
 
 import robotgrid.entity.active.controller.Controller;
 import robotgrid.entity.active.controller.ControllerGroup;
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
+import robotgrid.server.Command_deprecated;
+import robotgrid.server.CommandHandler_deprecated;
 import robotgrid.server.Server;
 import robotgrid.utils.Result;
 
-public class AddController extends CommandHandler {
+public class AddController extends CommandHandler_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -29,7 +29,7 @@ public class AddController extends CommandHandler {
     // Instance methods =======================================================
 
     @Override
-    public Result<Void, String> handleCommand(Command command) {
+    public Result<Void, String> handleCommand(Command_deprecated command) {
         for (int n=0; ; n++) {
             String controllerName = getArg(command, n, null);
             if (controllerName == null) {

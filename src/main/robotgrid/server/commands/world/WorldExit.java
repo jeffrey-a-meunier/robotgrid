@@ -1,7 +1,9 @@
 package robotgrid.server.commands.world;
 
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
+import robotgrid.server.Command_deprecated;
+import robotgrid.entity.active.controller.CommandHandler;
+import robotgrid.entity.active.controller.Controller;
+import robotgrid.server.CommandHandler_deprecated;
 import robotgrid.utils.Logger;
 import robotgrid.utils.Result;
 import robotgrid.world.World;
@@ -23,15 +25,10 @@ public class WorldExit extends CommandHandler {
     // Instance variables =====================================================
     // Instance initializer ===================================================
     // Constructors ===========================================================
-
-    public WorldExit(final String ... commandParts) {
-        super(commandParts);
-    }
-
     // Instance methods =======================================================
 
     @Override
-    public Result<Void, String> handleCommand(final Command command) {
+    public Result<Void, String> execute(Controller controller, String[] commandParts) {
         _logger.warn("World exiting");
         World.THE_WORLD.exit();
         return new Result.Success<Void, String>();

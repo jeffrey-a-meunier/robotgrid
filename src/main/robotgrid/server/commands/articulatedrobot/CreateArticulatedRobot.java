@@ -4,13 +4,13 @@ import robotgrid.entity.active.robot.ArticulatedRobot;
 import robotgrid.scene.Direction;
 import robotgrid.scene.Grid;
 import robotgrid.scene.Scene;
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
-import robotgrid.server.CommandHandlerRegistry;
+import robotgrid.server.Command_deprecated;
+import robotgrid.server.CommandHandler_deprecated;
+import robotgrid.server.CommandHandlerRegistry_deprecated;
 import robotgrid.utils.Result;
 import robotgrid.world.World;
 
-public class CreateArticulatedRobot extends CommandHandler {
+public class CreateArticulatedRobot extends CommandHandler_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -31,7 +31,7 @@ public class CreateArticulatedRobot extends CommandHandler {
     // Instance methods =======================================================
 
     @Override
-    public Result<Void, String> handleCommand(final Command command) {
+    public Result<Void, String> handleCommand(final Command_deprecated command) {
         int x = Integer.parseInt(getArg(command, 0, "0"));
         int y = Integer.parseInt(getArg(command, 1, "0"));
         Direction direction = Direction.parse(getArg(command, 2, "North"), Direction.North);
@@ -49,7 +49,7 @@ public class CreateArticulatedRobot extends CommandHandler {
     }
 
     protected void _registerCommands(final ArticulatedRobot robot) {
-        CommandHandlerRegistry registry = CommandHandlerRegistry.THE_REGISTRY;
+        CommandHandlerRegistry_deprecated registry = CommandHandlerRegistry_deprecated.THE_REGISTRY;
         String name = robot.name;
         registry.register(new ArmExtend(robot, name, "arm", "extend"));
         registry.register(new ArmRetract(robot, name, "arm", "retract"));

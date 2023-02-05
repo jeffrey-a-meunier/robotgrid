@@ -1,5 +1,6 @@
 package robotgrid.entity;
 
+@Deprecated
 public interface IContainer {
 
     // Static inner classes ===================================================

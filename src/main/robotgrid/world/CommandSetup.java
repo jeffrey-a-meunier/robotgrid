@@ -1,6 +1,7 @@
 package robotgrid.world;
 
-import robotgrid.server.CommandHandlerRegistry;
+import robotgrid.server.CommandHandlerRegistry_deprecated;
+import robotgrid.server.CommandRegistry;
 import robotgrid.server.commands.articulatedrobot.CreateArticulatedRobot;
 import robotgrid.server.commands.controller.CreateControllerGroup;
 import robotgrid.server.commands.conveyor.CreateConveyor;
@@ -22,8 +23,9 @@ public class CommandSetup {
      * These are the primary commands. For each ActiveEntity instance that is
      * created, additional commands are installed for that entity.
      */
-    public static void setup() {
-        CommandHandlerRegistry registry = CommandHandlerRegistry.THE_REGISTRY;
+    @Deprecated
+    public static void setup_X() {
+        CommandHandlerRegistry_deprecated registry = CommandHandlerRegistry_deprecated.THE_REGISTRY;
         registry.register(new ListCommands("Server", "list", "commands"));
         registry.register(new ListControllers("Server", "list", "controllers"));
         registry.register(new WorldExit("World", "exit"));
@@ -33,6 +35,17 @@ public class CommandSetup {
         registry.register(new CreateWidget("new", "Widget"));
         registry.register(new CreateControllerGroup("new", "ControllerGroup"));
         registry.register(new CreateTable("new", "Table"));
+    }
+
+    public static void setup() {
+        CommandRegistry.THE_REGISTRY.register("exit", new WorldExit());
+            // .addCommand("list commands", new WorldListCommands())
+            // .addCommand("list controllers", new WorldListControllers())
+            // .addCommand("create mobile robot", new CreateMobileRobot())
+            // .addCommand("create articulated robot", new CreateArticulatedRobot())
+            // .addCommand("create conveyor", new CreateConveyor())
+            // .addCommand("create table", new CreateTable())
+            ;
     }
 
     // Instance inner classes =================================================

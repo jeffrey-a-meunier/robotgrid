@@ -1,11 +1,11 @@
 package robotgrid.server.commands.mobilerobot;
 
 import robotgrid.entity.active.robot.MobileRobot;
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
+import robotgrid.server.Command_deprecated;
+import robotgrid.server.CommandHandler_deprecated;
 import robotgrid.utils.Result;
 
-public class PowerOn extends CommandHandler {
+public class PowerOn extends CommandHandler_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -27,7 +27,7 @@ public class PowerOn extends CommandHandler {
     // Instance methods =======================================================
 
     @Override
-    public Result<Void, String> handleCommand(Command command) {
+    public Result<Void, String> handleCommand(Command_deprecated command) {
         _robot.powerOn();
         return new Result.Success<Void, String>();
     }

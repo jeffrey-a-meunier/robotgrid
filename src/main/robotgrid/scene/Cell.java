@@ -2,13 +2,12 @@ package robotgrid.scene;
 
 import processing.core.PGraphics;
 import robotgrid.entity.Entity;
-import robotgrid.entity.IContainer;
 import robotgrid.entity.active.robot.ArticulatedRobot;
 import robotgrid.entity.widget.Widget;
 import robotgrid.graphics.Graphics;
 import robotgrid.graphics.Pen;
 
-public class Cell implements IContainer {
+public class Cell /*implements IContainer*/ {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -50,7 +49,6 @@ public class Cell implements IContainer {
 
     // Instance methods =======================================================
 
-    @Override
     public boolean add(Entity entity) {
         if (_entity == null) {
             _entity = entity;
@@ -62,14 +60,12 @@ public class Cell implements IContainer {
         }
     }
 
-    @Override
     public Entity remove() {
         Entity entity = _entity;
         _entity = null;
         return entity;
     }
 
-    @Override
     public boolean remove(final Entity entity) {
         if (entity == _entity) {
             remove();

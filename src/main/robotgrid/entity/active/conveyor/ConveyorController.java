@@ -59,7 +59,7 @@ public class ConveyorController extends Controller {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + '{' + _name + '}';
+        return this.getClass().getSimpleName() + '{' + name + '}';
     }
 
 }

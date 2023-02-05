@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import robotgrid.entity.active.controller.Controller;
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
+import robotgrid.server.Command_deprecated;
+import robotgrid.server.CommandHandler_deprecated;
 import robotgrid.server.Server;
 import robotgrid.utils.Result;
 
-public class ListControllers extends CommandHandler {
+public class ListControllers extends CommandHandler_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -29,7 +29,7 @@ public class ListControllers extends CommandHandler {
     // Instance methods =======================================================
 
     @Override
-    public Result<Void, String> handleCommand(final Command command) {
+    public Result<Void, String> handleCommand(final Command_deprecated command) {
         Set<String> controllerNameSet = Controller.names();
         List<String> controllerNameList = new ArrayList<>(controllerNameSet);
         Collections.sort(controllerNameList);

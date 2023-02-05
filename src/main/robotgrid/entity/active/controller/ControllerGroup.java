@@ -50,11 +50,11 @@ public class ControllerGroup extends Controller {
         }
     }
 
-    @Override
-    public synchronized void sendMessage(final Message message) {
-        for (Controller controller : _controllers) {
-            controller.sendMessage(message);
-        }
-    }
+    // @Override
+    // public synchronized void sendMessage(final Message message) {
+    //     for (Controller2 controller : _controllers) {
+    //         controller.sendMessage(message);
+    //     }
+    // }
 
 }

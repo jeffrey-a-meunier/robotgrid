@@ -11,7 +11,7 @@ import robotgrid.scene.Direction;
 import robotgrid.scene.Grid;
 import robotgrid.scene.Scene;
 
-@Deprecated  // TODO read a JSON file for setup instructions
+@Deprecated  // TODO read a JSON file for setup instructions instead of doing this
 public class WorldSetup {
 
     // Static inner classes ===================================================
@@ -97,7 +97,7 @@ public class WorldSetup {
             "RotateLeft",
             "RotateLeft",
         };
-        robot2.controller().sendCommands(program2);
+        //robot2.controller().sendCommands(program2);
         robot2.powerOn();
     }
 

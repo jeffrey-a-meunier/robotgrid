@@ -1,11 +1,11 @@
 package robotgrid.server.commands.mobilerobot;
 
 import robotgrid.entity.active.robot.MobileRobot;
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
+import robotgrid.server.Command_deprecated;
+import robotgrid.server.CommandHandler_deprecated;
 import robotgrid.utils.Result;
 
-public class MoveBackward extends CommandHandler {
+public class MoveBackward extends CommandHandler_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -27,7 +27,7 @@ public class MoveBackward extends CommandHandler {
     // Instance methods =======================================================t
 
     @Override
-    public Result<Void, String> handleCommand(final Command command) {
+    public Result<Void, String> handleCommand(final Command_deprecated command) {
         return _robot.moveBackward();
     }
 

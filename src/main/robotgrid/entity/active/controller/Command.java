@@ -1,10 +1,9 @@
 package robotgrid.entity.active.controller;
 
-import robotgrid.entity.active.ActiveEntity;
 import robotgrid.utils.Result;
 import robotgrid.utils.UID;
 
-public abstract class Command2 {
+public class Command {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -13,12 +12,21 @@ public abstract class Command2 {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    public UID uid = new UID();
+    public final String[] commandParts;
+    public final UID uid = new UID();
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
+
+    public Command(final String[] commandParts) {
+        this.commandParts = commandParts;
+    }
+
     // Instance methods =======================================================
 
-    public abstract Result<Void, String> execute(final ActiveEntity entity);
+    public Result<Void, String> execute(final Controller controller) {
+        // TODO
+        return new Result.Failure<>("not implemented");
+    }
 
 }

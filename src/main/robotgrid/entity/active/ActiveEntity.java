@@ -1,6 +1,7 @@
 package robotgrid.entity.active;
 
 import robotgrid.entity.Entity;
+import robotgrid.entity.active.controller.CommandHandler;
 import robotgrid.entity.active.controller.Controller;
 
 public abstract class ActiveEntity extends Entity {
@@ -16,10 +17,6 @@ public abstract class ActiveEntity extends Entity {
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
-
-    public ActiveEntity(final String name) {
-        this(name, new Controller(name));
-    }
 
     public ActiveEntity(final String name, final Controller controller) {
         super(name);
@@ -48,6 +45,10 @@ public abstract class ActiveEntity extends Entity {
 
     public void powerOff() {
         _controller.powerOff();
+    }
+
+    public boolean sendCommand(final CommandHandler command) {
+        return _controller.sendCommand(command);
     }
 
 }

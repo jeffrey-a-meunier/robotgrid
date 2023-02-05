@@ -1,12 +1,12 @@
 package robotgrid.server.commands.articulatedrobot;
 
 import robotgrid.entity.active.robot.ArticulatedRobot;
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
+import robotgrid.server.Command_deprecated;
+import robotgrid.server.CommandHandler_deprecated;
 import robotgrid.server.Server;
 import robotgrid.utils.Result;
 
-public class Power extends CommandHandler {
+public class Power extends CommandHandler_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -28,7 +28,7 @@ public class Power extends CommandHandler {
     // Instance methods =======================================================
 
     @Override
-    public Result<Void, String> handleCommand(Command command) {
+    public Result<Void, String> handleCommand(Command_deprecated command) {
         Server.THE_SERVER.sendCommandReply(_robot.isOn() ? "ON" : "OFF");
         return new Result.Success<Void, String>();
     }

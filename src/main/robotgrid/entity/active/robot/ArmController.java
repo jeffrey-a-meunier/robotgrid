@@ -1,40 +1,40 @@
 package robotgrid.entity.active.robot;
 
-import robotgrid.entity.active.controller.ICommand;
-import robotgrid.utils.Result;
+import robotgrid.entity.active.controller.CommandHandler;
 import robotgrid.entity.active.controller.Controller;
+import robotgrid.utils.Result;
 
 public class ArmController extends Controller {
 
     // Static inner classes ===================================================
 
-     protected static class ArmExtendCommand implements ICommand {
+     protected static class ArmExtendCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             Arm arm = (Arm)controller.entity();
             return arm.extend();
         }
     }
 
-    protected static class ArmRetractCommand implements ICommand {
+    protected static class ArmRetractCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             Arm arm = (Arm)controller.entity();
             return arm.retract();
         }
     }
 
-    protected static class GripperGripCommand implements ICommand {
+    protected static class GripperGripCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             Arm arm = (Arm)controller.entity();
             return arm.grip();
         }
     }
 
-    protected static class GripperReleaseCommand implements ICommand {
+    protected static class GripperReleaseCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             Arm arm = (Arm)controller.entity();
             return arm.release();
         }
@@ -50,10 +50,10 @@ public class ArmController extends Controller {
 
     public ArmController(final String name) {
         super(name);
-        installCommand("ArmExtend", new ArmExtendCommand());
-        installCommand("ArmRetract", new ArmRetractCommand());
-        installCommand("GripperGrip", new GripperGripCommand());
-        installCommand("GripperRelease", new GripperReleaseCommand());
+        // installCommand("ArmExtend", new ArmExtendCommand());
+        // installCommand("ArmRetract", new ArmRetractCommand());
+        // installCommand("GripperGrip", new GripperGripCommand());
+        // installCommand("GripperRelease", new GripperReleaseCommand());
     }
 
     // Instance methods =======================================================

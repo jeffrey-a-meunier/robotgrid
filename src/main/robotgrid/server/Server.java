@@ -7,8 +7,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import robotgrid.entity.active.controller.Command2;
-import robotgrid.entity.active.controller.Controller2;
+import robotgrid.entity.active.controller.Command;
+import robotgrid.entity.active.controller.CommandHandler;
+import robotgrid.entity.active.controller.Controller;
 import robotgrid.utils.Logger;
 import robotgrid.utils.Result;
 
@@ -60,11 +61,23 @@ public class Server {
 
     // Instance methods =======================================================
 
-    public void commandComplete(final Controller2 controller, final Command2 command, final Result<Void, String> result) {
+    public void controllerNotFound(final String controllerName) {
+        sendCommandReply("Controller not found " + controllerName);
+    }
+
+    public void commandNotFound(final String commandString) {
+        sendCommandReply("Command not found " + commandString);
+    }
+
+    public void commandAdded(final Controller controller, final CommandHandler command) {
+        sendCommandReply("Command added " + controller + " " + command);
+    }
+
+    public void commandComplete(final Controller controller, final Command command, final Result<Void, String> result) {
         sendInfo("Command complete " + controller + " " + command + " " + result);
     }
 
-    public void programComplete(final Controller2 controller) {
+    public void programComplete(final Controller controller) {
         sendInfo("Program complete " + controller);
     }
 
@@ -153,20 +166,41 @@ public class Server {
         }
     }
 
+    // TODO delete this
+    // @Deprecated
+    // public void executeCommandString_X(final String commandString) {
+    //     Command command = new Command(commandString);
+    //     CommandHandler handler = command.getHandler();
+    //     if (handler == null) {
+    //         sendCommandReply("ERROR illegal command '" + command + "'");
+    //     }
+    //     else {
+    //         sendCommandReply("OK command " + command.uid + " started");
+    //         Result<Void, String> res = handler.handleCommand(command);
+    //         if (res.isSuccess) {
+    //             sendInfo("OK command " + command.uid + " complete");
+    //         }
+    //         else {
+    //             sendInfo("ERROR command " + command.uid + ": " + res.failureValue());
+    //         }
+    //     }
+    // }
+
     public void executeCommandString(final String commandString) {
-        Command command = new Command(commandString);
-        CommandHandler handler = command.getHandler();
-        if (handler == null) {
-            sendCommandReply("ERROR illegal command '" + command + "'");
+        String[] commandParts = commandString.split(" ");
+        String controllerName = commandParts[0];
+        Controller controller = Controller.lookup(controllerName);
+        if (controller == null) {
+            Server.THE_SERVER.controllerNotFound(controllerName);
         }
         else {
-            sendCommandReply("OK command " + command.uid() + " started");
-            Result<Void, String> res = handler.handleCommand(command);
-            if (res.isSuccess) {
-                sendInfo("OK command " + command.uid() + " complete");
+            CommandHandler command = Command._ALL_COMMANDS.locate(commandParts);
+            if (command == null) {
+                controller.sendCommand(command);
+                Server.THE_SERVER.commandAdded(controller, command);
             }
             else {
-                sendInfo("ERROR command " + command.uid() + ": " + res.failureValue());
+                Server.THE_SERVER.commandNotFound(commandString);
             }
         }
     }
@@ -185,21 +219,6 @@ public class Server {
                     continue;
                 }
                 executeCommandString(line);
-                // Command command = new Command(line);
-                // CommandHandler handler = command.getHandler();
-                // if (handler == null) {
-                //     sendCommandReply("ERROR illegal command '" + command + "'");
-                // }
-                // else {
-                //     sendCommandReply("OK command " + command.uid() + " started");
-                //     Result<Void, String> res = handler.handleCommand(command);
-                //     if (res.isSuccess) {
-                //         sendInfo("OK command " + command.uid() + " complete");
-                //     }
-                //     else {
-                //         sendInfo("ERROR command " + command.uid() + ": " + res.failureValue());
-                //     }
-                // }
             }
             clientSocket.close();
         }
@@ -215,6 +234,10 @@ public class Server {
         catch (final IOException exn) {
             _logger.error("exception while handling client info socket ", exn);
         }
+    }
+
+    protected Controller _locateController(final String controllerName) {
+        return Controller.lookup(controllerName);
     }
 
 }

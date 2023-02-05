@@ -3,9 +3,9 @@ package robotgrid.server.commands.server;
 import java.util.Collections;
 import java.util.List;
 
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
-import robotgrid.server.CommandHandlerRegistry;
+import robotgrid.server.Command_deprecated;
+import robotgrid.server.CommandHandler_deprecated;
+import robotgrid.server.CommandHandlerRegistry_deprecated;
 import robotgrid.server.Server;
 import robotgrid.utils.Result;
 
@@ -13,7 +13,7 @@ import robotgrid.utils.Result;
  * Command:
  * World exit
  */
-public class ListCommands extends CommandHandler {
+public class ListCommands extends CommandHandler_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -31,9 +31,9 @@ public class ListCommands extends CommandHandler {
     // Instance methods =======================================================
 
     @Override
-    public Result<Void, String> handleCommand(final Command command) {
+    public Result<Void, String> handleCommand(final Command_deprecated command) {
         String prefix = getArg(command, 0, null);
-        List<String> commandNameList = CommandHandlerRegistry.THE_REGISTRY.allCommands(prefix);
+        List<String> commandNameList = CommandHandlerRegistry_deprecated.THE_REGISTRY.allCommands(prefix);
         Collections.sort(commandNameList);
         Server.THE_SERVER.sendCommandReply("" + commandNameList.size());
         for (String name : commandNameList) {

@@ -4,12 +4,12 @@ import robotgrid.entity.widget.SquareWidget;
 import robotgrid.entity.widget.Widget;
 import robotgrid.scene.Grid;
 import robotgrid.scene.Scene;
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
+import robotgrid.server.Command_deprecated;
+import robotgrid.server.CommandHandler_deprecated;
 import robotgrid.utils.Result;
 import robotgrid.world.World;
 
-public class CreateWidget extends CommandHandler {
+public class CreateWidget extends CommandHandler_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -30,7 +30,7 @@ public class CreateWidget extends CommandHandler {
     // Instance methods =======================================================
 
     @Override
-    public Result<Void, String> handleCommand(final Command command) {
+    public Result<Void, String> handleCommand(final Command_deprecated command) {
         int x = Integer.parseInt(getArg(command, 0, "0"));
         int y = Integer.parseInt(getArg(command, 1, "0"));
         String name = getArg(command, 2, null);

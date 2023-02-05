@@ -1,24 +1,24 @@
 package robotgrid.entity.active.robot;
 
-import robotgrid.entity.active.controller.ICommand;
 import robotgrid.utils.Result;
+import robotgrid.entity.active.controller.CommandHandler;
 import robotgrid.entity.active.controller.Controller;
 
 public class RotatingBaseController extends Controller {
 
     // Static inner classes ===================================================
 
-    protected static class RotateLeftCommand implements ICommand {
+    protected static class RotateLeftCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             RotatingBase base = (RotatingBase)controller.entity();
             return base.rotateLeft();
         }
     }
 
-    protected static class RotateRightCommand implements ICommand {
+    protected static class RotateRightCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             RotatingBase base = (RotatingBase)controller.entity();
             return base.rotateRight();
         }
@@ -34,8 +34,8 @@ public class RotatingBaseController extends Controller {
 
     public RotatingBaseController(final String name) {
         super(name);
-        installCommand("RotateRight", new RotateRightCommand());
-        installCommand("RotateLeft", new RotateLeftCommand());
+        // installCommand("RotateRight", new RotateRightCommand());
+        // installCommand("RotateLeft", new RotateLeftCommand());
     }
 
     // Instance methods =======================================================

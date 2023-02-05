@@ -1,11 +1,11 @@
 package robotgrid.server.commands.controller;
 
 import robotgrid.entity.active.controller.ControllerGroup;
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
+import robotgrid.server.Command_deprecated;
+import robotgrid.server.CommandHandler_deprecated;
 import robotgrid.utils.Result;
 
-public class PowerOff extends CommandHandler {
+public class PowerOff extends CommandHandler_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -27,7 +27,7 @@ public class PowerOff extends CommandHandler {
     // Instance methods =======================================================
 
     @Override
-    public Result<Void, String> handleCommand(Command command) {
+    public Result<Void, String> handleCommand(Command_deprecated command) {
         _group.powerOff();
         return new Result.Success<Void, String>();
     }

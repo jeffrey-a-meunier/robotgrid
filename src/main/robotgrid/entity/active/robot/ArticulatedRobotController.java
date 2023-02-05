@@ -1,56 +1,56 @@
 package robotgrid.entity.active.robot;
 
-import robotgrid.entity.active.controller.ICommand;
 import robotgrid.utils.Result;
+import robotgrid.entity.active.controller.CommandHandler;
 import robotgrid.entity.active.controller.Controller;
 
 public class ArticulatedRobotController extends Controller {
 
     // Static inner classes ===================================================
 
-    protected static class RotateRightCommand implements ICommand {
+    protected static class RotateRightCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.rotateRight();
         }
     }
 
-    protected static class RotateLeftCommand implements ICommand {
+    protected static class RotateLeftCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.rotateLeft();
         }
     }
 
-    protected static class ArmExtendCommand implements ICommand {
+    protected static class ArmExtendCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.armExtend();
         }
     }
 
-    protected static class ArmRetractCommand implements ICommand {
+    protected static class ArmRetractCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.armRetract();
         }
     }
 
-    protected static class GripperGripCommand implements ICommand {
+    protected static class GripperGripCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.gripperGrip();
         }
     }
 
-    protected static class GripperReleaseCommand implements ICommand {
+    protected static class GripperReleaseCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             ArticulatedRobot robot = (ArticulatedRobot)controller.entity();
             return robot.gripperRelease();
         }
@@ -66,19 +66,19 @@ public class ArticulatedRobotController extends Controller {
 
     public ArticulatedRobotController(final String name) {
         super(name);
-        installCommand("RotateRight", new RotateRightCommand());
-        installCommand("RotateLeft", new RotateLeftCommand());
-        installCommand("ArmExtend", new ArmExtendCommand());
-        installCommand("ArmRetract", new ArmRetractCommand());
-        installCommand("GripperGrip", new GripperGripCommand());
-        installCommand("GripperRelease", new GripperReleaseCommand());
+        // installCommand("RotateRight", new RotateRightCommand());
+        // installCommand("RotateLeft", new RotateLeftCommand());
+        // installCommand("ArmExtend", new ArmExtendCommand());
+        // installCommand("ArmRetract", new ArmRetractCommand());
+        // installCommand("GripperGrip", new GripperGripCommand());
+        // installCommand("GripperRelease", new GripperReleaseCommand());
     }
 
     // Instance methods =======================================================
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + '{' + _name + '}';
+        return this.getClass().getSimpleName() + '{' + name + '}';
     }
 
 }

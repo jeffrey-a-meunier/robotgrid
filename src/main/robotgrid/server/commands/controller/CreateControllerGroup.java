@@ -1,17 +1,13 @@
 package robotgrid.server.commands.controller;
 
 import robotgrid.entity.active.controller.ControllerGroup;
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
-import robotgrid.server.CommandHandlerRegistry;
+import robotgrid.server.Command_deprecated;
+import robotgrid.server.CommandHandler_deprecated;
+import robotgrid.server.CommandHandlerRegistry_deprecated;
 import robotgrid.utils.Result;
 import robotgrid.world.World;
 
-/**
- * Command:
- * new MobileRobot <x> <y> <heading> <name>
- */
-public class CreateControllerGroup extends CommandHandler {
+public class CreateControllerGroup extends CommandHandler_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -35,7 +31,7 @@ public class CreateControllerGroup extends CommandHandler {
     // Instance methods =======================================================
 
     @Override
-    public Result<Void, String> handleCommand(final Command command) {
+    public Result<Void, String> handleCommand(final Command_deprecated command) {
         String name = getArg(command, 0, null);
         if (name == null) {
             name = ControllerGroup.class.getSimpleName() + (_NEXT_ID++);
@@ -46,8 +42,8 @@ public class CreateControllerGroup extends CommandHandler {
     }
 
     protected void _registerCommands(final ControllerGroup group) {
-        CommandHandlerRegistry registry = CommandHandlerRegistry.THE_REGISTRY;
-        String name = group.name();
+        CommandHandlerRegistry_deprecated registry = CommandHandlerRegistry_deprecated.THE_REGISTRY;
+        String name = group.name;
         registry.register(new AddController(group, name, "add"));
         registry.register(new PowerOn(group, name, "power", "on"));
         registry.register(new PowerOff(group, name, "power", "off"));

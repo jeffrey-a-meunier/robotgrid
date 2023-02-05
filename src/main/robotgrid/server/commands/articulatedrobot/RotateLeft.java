@@ -1,11 +1,11 @@
 package robotgrid.server.commands.articulatedrobot;
 
 import robotgrid.entity.active.robot.ArticulatedRobot;
-import robotgrid.server.Command;
-import robotgrid.server.CommandHandler;
+import robotgrid.server.Command_deprecated;
+import robotgrid.server.CommandHandler_deprecated;
 import robotgrid.utils.Result;
 
-public class RotateLeft extends CommandHandler {
+public class RotateLeft extends CommandHandler_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -27,7 +27,7 @@ public class RotateLeft extends CommandHandler {
     // Instance methods =======================================================t
 
     @Override
-    public Result<Void, String> handleCommand(final Command command) {
+    public Result<Void, String> handleCommand(final Command_deprecated command) {
         return _robot.rotateLeft();
     }
 

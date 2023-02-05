@@ -1,40 +1,40 @@
 package robotgrid.entity.active.robot;
 
-import robotgrid.entity.active.controller.ICommand;
 import robotgrid.utils.Result;
+import robotgrid.entity.active.controller.CommandHandler;
 import robotgrid.entity.active.controller.Controller;
 
 public class MobileRobotController extends Controller {
 
     // Static inner classes ===================================================
 
-    protected class MoveForwardCommand implements ICommand {
+    protected class MoveForwardCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.moveForward();
         }
     }
     
-    protected class MoveBackwardCommand implements ICommand {
+    protected class MoveBackwardCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.moveBackward();
         }
     }
 
-    protected class RotateRightCommand implements ICommand {
+    protected class RotateRightCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.rotateRight();
         }
     }
 
-    protected class RotateLeftCommand implements ICommand {
+    protected class RotateLeftCommand extends CommandHandler {
         @Override
-        public Result<Void, String> execute(final Controller controller, final String[] parts) {
+        public Result<Void, String> execute(final Controller controller) {
             MobileRobot robot = (MobileRobot)controller.entity();
             return robot.rotateLeft();
         }
@@ -50,17 +50,17 @@ public class MobileRobotController extends Controller {
 
     public MobileRobotController(final String name) {
         super(name);
-        installCommand("MoveForward", new MoveForwardCommand());
-        installCommand("MoveBackward", new MoveBackwardCommand());
-        installCommand("RotateRight", new RotateRightCommand());
-        installCommand("RotateLeft", new RotateLeftCommand());
+        // installCommand("MoveForward", new MoveForwardCommand());
+        // installCommand("MoveBackward", new MoveBackwardCommand());
+        // installCommand("RotateRight", new RotateRightCommand());
+        // installCommand("RotateLeft", new RotateLeftCommand());
     }
 
     // Instance methods =======================================================
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + '{' + _name + '}';
+        return this.getClass().getSimpleName() + '{' + name + '}';
     }
 
 }

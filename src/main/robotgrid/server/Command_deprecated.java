@@ -2,6 +2,7 @@ package robotgrid.server;
 
 import java.util.Arrays;
 
+import robotgrid.utils.PrefixTree;
 import robotgrid.utils.Result;
 import robotgrid.utils.UID;
 
@@ -9,12 +10,20 @@ import robotgrid.utils.UID;
  * Every command must be a string of the form
  * "<receiver> <verb> [<arguments>]"
  */
-public class Command {
+@Deprecated
+public class Command_deprecated {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
+
+    protected PrefixTree<Command_deprecated> _ALL_COMMANDS = new PrefixTree<>();
+
     // Static initializer =====================================================
     // Static methods =========================================================
+
+    public static Command_deprecated locate(final String[] commandNameParts) {
+    }
+
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
@@ -25,22 +34,20 @@ public class Command {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Command(final String string) {
+    public Command_deprecated(final String string) {
         parts = string.split(" ");
     }
 
     // Instance methods =======================================================
 
-    public CommandHandler getHandler() {
-        return CommandHandlerRegistry.THE_REGISTRY.get(parts);
+    public CommandHandler_deprecated getHandler() {
+        return CommandHandlerRegistry_deprecated.THE_REGISTRY.get(parts);
     }
 
     @Deprecated
     final Result<Void, String> execute() {
-        CommandHandler handler = CommandHandlerRegistry.THE_REGISTRY.get(parts);
-        // handleCommand does not return until the command is complete
-        Result<Void, String> res = handler.handleCommand(this);
-        return res;
+        CommandHandler_deprecated handler = CommandHandlerRegistry_deprecated.THE_REGISTRY.get(parts);
+        return handler.handleCommand(this);
     }
 
     @Override
