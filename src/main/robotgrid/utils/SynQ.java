@@ -19,6 +19,12 @@ public class SynQ<T> {
     // Constructors ===========================================================
     // Instance methods =======================================================
 
+    public void clear() {
+        synchronized (_q) {
+            _q.clear();
+        }
+    }
+
     /**
      * Returns null if the waiting thread gets interrupted.
      */

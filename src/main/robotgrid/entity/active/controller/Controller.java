@@ -129,6 +129,7 @@ public class Controller implements Runnable {
 
     public void powerOff() {
         _isOn = false;
+        _commandQ.clear();
     }
 
     public void run() {
@@ -144,7 +145,6 @@ public class Controller implements Runnable {
     }
 
     public boolean sendCommand(final Command command) {
-        System.out.println("Controller.sendCommand this = " + this + ", command = " + command + ", isOn = " + _isOn);
         if (command.handler().isImmediate()) {
             command.execute();
             return true;
@@ -153,9 +153,7 @@ public class Controller implements Runnable {
             return false;
         }
         synchronized (_commandQ) {
-            System.out.println("Controller.sendCommand enqueueing command " + command);
             _commandQ.enq(command);
-            System.out.println("Controller.sendCommand enqueued command " + command);
         }
         return true;
     }
