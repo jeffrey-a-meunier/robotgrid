@@ -6,41 +6,17 @@ import java.util.Map;
 import java.util.Set;
 
 import robotgrid.entity.active.ActiveEntity;
+import robotgrid.entity.active.controller.commands.Info;
+import robotgrid.entity.active.controller.commands.ListCommands;
+import robotgrid.entity.active.controller.commands.Power;
+import robotgrid.entity.active.controller.commands.PowerOff;
+import robotgrid.entity.active.controller.commands.PowerOn;
 import robotgrid.server.Server;
-import robotgrid.utils.Result;
 import robotgrid.utils.SynQ;
 
 public class Controller implements Runnable {
 
     // Static inner classes ===================================================
-
-    protected class Power extends CommandHandler {
-        public Power() { setImmeidate(true); }
-        @Override
-        protected Result<Void, String> _execute(final Controller controller, final String[] args) {
-            Server.THE_SERVER.sendCommandReply(controller._isOn ? "On" : "Off");
-            return new Result.Success<>();
-        }
-    }
-
-    protected class PowerOn extends CommandHandler {
-        public PowerOn() { setImmeidate(true); }
-        @Override
-        protected Result<Void, String> _execute(final Controller controller, final String[] args) {
-            controller.powerOn();
-            return new Result.Success<>();
-        }
-    }
-
-    protected class PowerOff extends CommandHandler {
-        public PowerOff() { setImmeidate(true); }
-        @Override
-        protected Result<Void, String> _execute(final Controller controller, final String[] args) {
-            controller.powerOff();
-            return new Result.Success<>();
-        }
-    }
-
     // Static variables =======================================================
 
     protected static Map<String, Controller> _ALL_CONTROLLERS = new HashMap<>();
@@ -83,6 +59,8 @@ public class Controller implements Runnable {
         this.name = name;
         _ALL_CONTROLLERS.put(name, this);
         if (addPowerCommands) {
+            addCommandHandler("Info", new Info());
+            addCommandHandler("ListCommands", new ListCommands(_handlers));
             addCommandHandler("Power", new Power());
             addCommandHandler("PowerOn", new PowerOn());
             addCommandHandler("PowerOff", new PowerOff());
