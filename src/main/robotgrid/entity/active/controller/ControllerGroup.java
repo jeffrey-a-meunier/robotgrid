@@ -4,10 +4,31 @@ import java.util.HashSet;
 import java.util.Set;
 
 import robotgrid.entity.active.ActiveEntity;
+import robotgrid.server.Server;
+import robotgrid.utils.Result;
 
 public class ControllerGroup extends Controller {
 
     // Static inner classes ===================================================
+
+    public class Add extends CommandHandler {
+        public Add() { setImmeidate(true); }
+        @Override
+        protected Result<Void, String> _execute(final Controller controller, final String[] args) {
+            for (String controllerName : args) {
+                Controller controller1 = Controller.lookup(controllerName);
+                if (controller1 == null) {
+                    Server.THE_SERVER.controllerNotFound(controllerName);
+                }
+                else {
+                    add(controller1);
+                }
+            }
+            return new Result.Success<>();
+        }
+    
+    }
+
     // Static variables =======================================================
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -21,6 +42,7 @@ public class ControllerGroup extends Controller {
 
     public ControllerGroup(String name) {
         super(name);
+        addCommandHandler("Add", new Add());
     }
 
     public ControllerGroup add(final Controller controller) {
@@ -49,12 +71,5 @@ public class ControllerGroup extends Controller {
             controller.powerOff();
         }
     }
-
-    // @Override
-    // public synchronized void sendMessage(final Message message) {
-    //     for (Controller2 controller : _controllers) {
-    //         controller.sendMessage(message);
-    //     }
-    // }
 
 }

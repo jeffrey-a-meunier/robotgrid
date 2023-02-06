@@ -58,9 +58,9 @@ public class Controller implements Runnable {
     public Controller(final String name, boolean addPowerCommands) {
         this.name = name;
         _ALL_CONTROLLERS.put(name, this);
+        addCommandHandler("Info", new Info());
+        addCommandHandler("ListCommands", new ListCommands(_handlers));
         if (addPowerCommands) {
-            addCommandHandler("Info", new Info());
-            addCommandHandler("ListCommands", new ListCommands(_handlers));
             addCommandHandler("Power", new Power());
             addCommandHandler("PowerOn", new PowerOn());
             addCommandHandler("PowerOff", new PowerOff());

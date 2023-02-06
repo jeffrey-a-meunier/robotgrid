@@ -68,10 +68,10 @@ public class ArticulatedRobotController extends Controller {
         super(name);
         addCommandHandler("RotateRight", new RotateRight());
         addCommandHandler("RotateLeft", new RotateLeft());
-        addCommandHandler("ArmExtend", new ArmExtend());
-        addCommandHandler("ArmRetract", new ArmRetract());
-        addCommandHandler("GripperGrip", new GripperGrip());
-        addCommandHandler("GripperRelease", new GripperRelease());
+        addCommandHandler("Extend", new ArmExtend());
+        addCommandHandler("Retract", new ArmRetract());
+        addCommandHandler("Grip", new GripperGrip());
+        addCommandHandler("Release", new GripperRelease());
     }
 
     // Instance methods =======================================================

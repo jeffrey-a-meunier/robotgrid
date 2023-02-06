@@ -5,6 +5,7 @@ import robotgrid.entity.Height;
 import robotgrid.entity.active.ActiveEntity;
 import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
+import robotgrid.scene.Direction;
 import robotgrid.utils.Result;
 
 public class ArticulatedRobot extends ActiveEntity {
@@ -38,6 +39,11 @@ public class ArticulatedRobot extends ActiveEntity {
     }
 
     @Override
+    public Direction direction() {
+        return _arm.direction();
+    }
+
+    @Override
     public void draw(final Graphics graphics, final int layerNum) {
         super.draw(graphics, layerNum);
         _base.draw(graphics, layerNum);  // draws the arm automatically
@@ -62,6 +68,12 @@ public class ArticulatedRobot extends ActiveEntity {
         super.setCell(cell);
         _base.setCell(cell);
         _arm.setCell(cell);
+        return this;
+    }
+
+    public Entity setDirection(final Direction direction) {
+        //super.setDirection(_direction);
+        _arm.setDirection(direction);
         return this;
     }
 

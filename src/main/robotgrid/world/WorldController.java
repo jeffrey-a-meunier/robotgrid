@@ -48,7 +48,6 @@ public class WorldController extends Controller {
 
     @Override
     public boolean sendCommand(final Command command) {
-        _logger.debug("WorldController.sendCommand got command ", command);
         command.execute();
         return true;
     }

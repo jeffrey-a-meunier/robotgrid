@@ -26,6 +26,7 @@ public class ListCommands extends CommandHandler {
     // Constructors ===========================================================
 
     public ListCommands(final Map<String, CommandHandler> handlers) {
+        _handlers = handlers;
         setImmeidate(true);
     }
 

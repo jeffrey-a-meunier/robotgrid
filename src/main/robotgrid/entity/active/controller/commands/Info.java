@@ -3,6 +3,7 @@ package robotgrid.entity.active.controller.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import robotgrid.entity.Entity;
 import robotgrid.entity.active.controller.CommandHandler;
 import robotgrid.entity.active.controller.Controller;
 import robotgrid.server.Server;
@@ -30,6 +31,10 @@ public class Info extends CommandHandler {
         List<String> lines = new ArrayList<>();
         lines.add("Type: " + controller.getClass().getSimpleName());
         lines.add("Power: " + (controller.isOn() ? "On" : "Off"));
+        Entity entity = controller.entity();
+        if (entity != null) {
+            lines.add("Heading: " + entity.direction());
+        }
         Server.THE_SERVER.sendCommandReply("" + lines.size());
         for (String line : lines) {
             Server.THE_SERVER.sendCommandReply(line);
