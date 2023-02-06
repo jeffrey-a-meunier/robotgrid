@@ -25,6 +25,7 @@ public class Conveyor extends ActiveEntity {
 
     public Conveyor(final String name) {
         super(name, new ConveyorController(name));
+        assert controller() != null;
     }
 
     // Instance methods =======================================================

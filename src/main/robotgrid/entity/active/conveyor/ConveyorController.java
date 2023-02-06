@@ -29,8 +29,10 @@ public class ConveyorController extends Controller {
         Sleeping
     }
 
+    @Override
     public void run() {
         _isOn = true;
+        assert _entity != null;
         Conveyor conveyor = (Conveyor)_entity;
         Direction direction = conveyor.direction();
         Cell adjacentCell = conveyor.getCell().getAdjacent(direction);

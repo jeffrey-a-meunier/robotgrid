@@ -21,6 +21,7 @@ public abstract class ActiveEntity extends Entity {
         super(name);
         _controller = controller;
         _controller.setEntity(this);
+        assert _controller.entity() != null;
     }
 
     public ActiveEntity setController(final Controller controller) {

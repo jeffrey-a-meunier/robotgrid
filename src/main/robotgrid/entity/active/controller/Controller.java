@@ -81,10 +81,7 @@ public class Controller implements Runnable {
 
     public Controller(final String name, boolean addPowerCommands) {
         this.name = name;
-        _thread = new Thread(this);
-        _thread.start();
         _ALL_CONTROLLERS.put(name, this);
-        System.out.println("Controller constructor added " + name + " " + this);
         if (addPowerCommands) {
             addCommandHandler("Power", new Power());
             addCommandHandler("PowerOn", new PowerOn());
@@ -96,6 +93,7 @@ public class Controller implements Runnable {
     }
 
     public Controller setEntity(final ActiveEntity entity) {
+        assert entity != null;
         _entity = entity;
         return this;
     }
@@ -124,11 +122,14 @@ public class Controller implements Runnable {
     }
 
     public void powerOn() {
+        _thread = new Thread(this);
+        _thread.start();
         _isOn = true;
     }
 
     public void powerOff() {
         _isOn = false;
+        _thread.interrupt();
         _commandQ.clear();
     }
 
@@ -138,6 +139,9 @@ public class Controller implements Runnable {
                 Server.THE_SERVER.programComplete(this);
             }
             Command command = _commandQ.deq();
+            if (command == null) {
+                break;
+            }
             command.execute();
             Server.THE_SERVER.commandComplete(this, command);
         }
