@@ -2,7 +2,6 @@ package robotgrid.world;
 
 import robotgrid.entity.active.controller.Command;
 import robotgrid.entity.active.controller.Controller;
-import robotgrid.utils.Logger;
 import robotgrid.world.commands.Exit;
 import robotgrid.world.commands.ListCommands;
 import robotgrid.world.commands.ListControllers;
@@ -17,9 +16,6 @@ public class WorldController extends Controller {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
-
-    private static Logger _logger = new Logger(WorldController.class, Logger.Level.All);
-
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================

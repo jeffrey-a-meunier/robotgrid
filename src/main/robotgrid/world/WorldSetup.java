@@ -11,7 +11,7 @@ import robotgrid.scene.Direction;
 import robotgrid.scene.Grid;
 import robotgrid.scene.Scene;
 
-@Deprecated  // TODO read a JSON file for setup instructions instead of doing this
+@Deprecated  // TODO read a setup file for setup instructions instead of doing this
 public class WorldSetup {
 
     // Static inner classes ===================================================
