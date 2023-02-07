@@ -1,14 +1,19 @@
-new MobileRobot 3 5 north MobileRobot1
+World NewMobileRobot R1 3 2 East
 
-new ArticulatedRobot 4 5 north Arm1
+World NewArticulatedRobot Arm1 4 5 North
 
-new Conveyor 5 5 west Conveyor1
-new Conveyor 5 4 west Conveyor2
-new Conveyor 5 3 west Conveyor3
-new Conveyor 5 2 west Conveyor4
-new ControllerGroup ConveyorGroup1
-ConveyorGroup1 add Conveyor1 Conveyor2 Conveyor3 Conveyor4
+World NewConveyor Conveyor1 5 5 West
+World NewConveyor Conveyor2 5 4 West
+World NewConveyor Conveyor3 5 3 West
+World NewControllerGroup ConveyorGroup1
+ConveyorGroup1 Add Conveyor1 Conveyor2 Conveyor3
 
-MobileRobot1 power on
-Arm1 power on
-ConveyorGroup1 power on
+World NewTable Table1 5 2
+World NewWidget Widget1 5 2
+
+World NewArticulatedRobot Arm2 4 2 South
+
+R1 PowerOn
+Arm1 PowerOn
+Arm2 PowerOn
+ConveyorGroup1 PowerOn
