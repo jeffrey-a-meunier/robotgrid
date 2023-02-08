@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import robotgrid.entity.active.controller.Command;
+import robotgrid.entity2.Command;
+import robotgrid.entity2.IOContext;
 import robotgrid.entity.active.controller.Controller;
 import robotgrid.utils.Logger;
-import robotgrid.utils.Result;
 
 public class Server {
 
@@ -19,8 +19,8 @@ public class Server {
 
     public static final Server THE_SERVER = new Server();
 
-    protected static final int _COMMAND_PORT = 43210;
-    protected static final int _INFO_PORT = _COMMAND_PORT + 1;
+    protected static final int _COMMAND_PORT = 43210;  // TODO read from config file
+    protected static final int _INFO_PORT = _COMMAND_PORT + 1;  // TODO read from config file
 
     private Logger _logger = new Logger(Server.class, Logger.Level.All);
 
@@ -28,8 +28,8 @@ public class Server {
     // Static methods =========================================================
 
     public static void setup() {
-        // Do nothing. This is here to force the static THE_SERVER variable to
-        // be initialized.
+        // Do nothing. Calling this method forces the static THE_SERVER
+        // variable to be initialized.
     }
 
     // Instance inner classes =================================================
@@ -42,7 +42,8 @@ public class Server {
     protected ServerSocket _infoServerSocket;
     protected Thread _infoThread;
     protected PrintWriter _infoSocketPrintWriter;
-    // protected Queue<String> _infoStringQueue = new LinkedBlockingQueue<>();
+
+    protected IOContext _ioContext = new IOContext(this);
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -61,49 +62,49 @@ public class Server {
     // Instance methods =======================================================
 
     // TODO refactor this after it is verified to work
-    public void reportCommandResult(final Command command) {
-        Result<Void, String> result = command.result();
-        if (result.isSuccess) {
-            if (command.handler().isImmediate()) {
-                sendCommandReply("OK " + command.uid + " " + command);
-            }
-            else {
-                sendInfo("OK " + command.uid + " " + command);
-            }
-        }
-        else {
-            if (command.handler().isImmediate()) {
-                sendCommandReply("ERROR " + command.uid + " " + command + " " + result);
-            }
-            else {
-                sendInfo("OK " + command.uid + " " + command + " " + result);
-            }
-        }
-    }
+    // public void reportCommandResult(final Command command) {
+    //     Result<Void, String> result = command.result();
+    //     if (result.isSuccess) {
+    //         if (command.handler().isImmediate()) {
+    //             sendCommandReply("OK " + command.uid + " " + command);
+    //         }
+    //         else {
+    //             sendInfoMessage("OK " + command.uid + " " + command);
+    //         }
+    //     }
+    //     else {
+    //         if (command.handler().isImmediate()) {
+    //             sendCommandReply("ERROR " + command.uid + " " + command + " " + result);
+    //         }
+    //         else {
+    //             sendInfoMessage("OK " + command.uid + " " + command + " " + result);
+    //         }
+    //     }
+    // }
 
-    public void controllerNotFound(final String controllerName) {
-        sendCommandReply("ERROR Controller not found: " + controllerName);
-    }
+    // public void controllerNotFound(final String controllerName) {
+    //     sendCommandReply("ERROR Controller not found: " + controllerName);
+    // }
 
-    public void commandNotFound(final String commandString) {
-        sendCommandReply("ERROR Command not found: " + commandString);
-    }
+    // public void commandNotFound(final String commandString) {
+    //     sendCommandReply("ERROR Command not found: " + commandString);
+    // }
 
-    public void commandInvalid(final Command command) {
-        sendCommandReply("ERROR Command '" + command + "' is invalid: " + command.result());
-    }
+    // public void commandInvalid(final Command command) {
+    //     sendCommandReply("ERROR Command '" + command + "' is invalid: " + command.result());
+    // }
 
-    public void commandComplete(final Controller controller, final Command command) {
-        sendInfo("OK Command complete: " + controller + " " + command + " " + command.result());
-    }
+    // public void commandComplete(final Controller controller, final Command command) {
+    //     sendInfoMessage("OK Command complete: " + controller + " " + command + " " + command.result());
+    // }
 
-    public void programComplete(final Controller controller) {
-        sendInfo("OK Program complete " + controller);
-    }
+    // public void programComplete(final Controller controller) {
+    //     sendInfoMessage("OK Program complete " + controller);
+    // }
 
     public void sendCommandReply(final String replyString) {
         if (_commandSocketPrintWriter == null) {
-            _logger.debug("Command reply: ", replyString);
+            _logger.debug(replyString);
         }
         else {
             synchronized (_commandSocketPrintWriter) {
@@ -113,7 +114,7 @@ public class Server {
         }
     }
 
-    public void sendInfo(final String infoString) {
+    public void sendInfoMessage(final String infoString) {
         if (_infoSocketPrintWriter != null) {
             synchronized (_infoSocketPrintWriter) {
                 _infoSocketPrintWriter.println(infoString);
@@ -187,13 +188,22 @@ public class Server {
     }
 
     public void handleCommandString(final String commandString) {
-        Command command = new Command(commandString);
-        if (!command.validate()) {
-            Server.THE_SERVER.commandInvalid(command);
-            return;
+        Command command = new Command(commandString, _ioContext);
+        _logger.debug("Server.handleCommandString " + command);
+        if (command.validate()) {
+            _logger.debug("Server.handleCommandString sending [" + command + "] to " + command.entity());
+            if (command.handler().isImmediate()) {
+                command.handler().execute(command);
+                _ioContext.commandSuccessOrfailure(command);
+            }
+            else {
+                command.entity().sendCommand(command);
+                _ioContext.commandStarted(command);
+            }
         }
-        command.sendToController();
-        // Server.THE_SERVER.commandAdded(command);
+        else {
+            command.setErrorMessage("Invalid command");
+        }
     }
 
     protected void _handleCommandSocket(final Socket clientSocket) {

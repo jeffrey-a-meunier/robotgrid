@@ -1,15 +1,14 @@
-package robotgrid.entity.active.robot;
+package robotgrid.entity2.movingBase;
 
-import robotgrid.entity.Entity;
-import robotgrid.entity.active.ActiveEntity;
+import robotgrid.entity2.Entity2;
+import robotgrid.entity2.View;
 import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
 import robotgrid.shape.CircleShape;
 import robotgrid.shape.Shape;
 import robotgrid.shape.TriangleShape;
-import robotgrid.utils.Result;
 
-public class MobileRobot extends ActiveEntity {
+class _View extends View {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -17,8 +16,6 @@ public class MobileRobot extends ActiveEntity {
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
-
-    protected Entity _payload;
 
     protected float _bodySize = Cell.SIZE * 0.9f;
     protected float _bodySize2 = _bodySize / 2f;
@@ -29,50 +26,21 @@ public class MobileRobot extends ActiveEntity {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public MobileRobot(final String name) {
-        super(name, new MobileRobotController(name));
+    public _View(final Entity2 entity) {
+        super(entity);
     }
 
     // Instance methods =======================================================
-
-    @Override
-    public synchronized boolean addPayload(final Entity payload) {
-        if (_payload == null) {
-            _payload = payload;
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public void draw(final Graphics graphics, final int layerNum) {
         super.draw(graphics, layerNum);
         _body.draw(graphics.layer(layerNum));
         _indicator.draw(graphics.layer(layerNum));
-        if (_payload != null) {
-            _payload.draw(graphics, layerNum + 1);
+        Entity2 payload = _entity.payload();
+        if (payload != null) {
+            payload.draw(graphics, layerNum + 1);
         }
-    }
-
-    @Override
-    public Entity removePayload() {
-        Entity payload = _payload;
-        _payload = null;
-        return payload;
-    }
-
-    // Controller methods =====================================================
-
-    public Result<Void, String> moveForward() {
-        // delay();
-        // _cell.grid().move(this, _direction);
-        return new Result.Success<>();
-    }
-
-    public Result<Void, String> moveBackward() {
-        // delay();
-        // _cell.grid().move(this, _direction.turnRight().turnRight());
-        return new Result.Success<>();
     }
 
 }

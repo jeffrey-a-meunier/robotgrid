@@ -48,7 +48,7 @@ public class WorldSetup {
 
         // mobile robot
         MobileRobot robot1 = (MobileRobot)new MobileRobot("MobileRobot1");
-        grid1.addEntity(3, 5, robot1);
+        // grid1.addEntity(3, 5, robot1);
 
         Widget squareWidget1 = new SquareWidget("SquareWidghet1")
             .setFillColor(0xFF_FF_00_00);
@@ -58,7 +58,7 @@ public class WorldSetup {
         ArticulatedRobot robot2 = (ArticulatedRobot)new ArticulatedRobot("ArticulatedRobot1")
             .setDirection(Direction.North)
             ;
-        grid1.addEntity(4, 5, robot2);
+        // grid1.addEntity(4, 5, robot2);
 
         ControllerGroup conveyorGroup1 = new ControllerGroup("ConveyorGroup1");
         Conveyor[] conveyors = new Conveyor[4];
@@ -66,7 +66,7 @@ public class WorldSetup {
             Conveyor conveyor = (Conveyor)new Conveyor("Conveyor" + n)
                 .setDirection(Direction.West)
                 ;
-            grid1.addEntity(5, 5 - n, conveyor);
+            // grid1.addEntity(5, 5 - n, conveyor);
             conveyorGroup1.add(conveyor);
             conveyors[n] = conveyor;
             // conveyors[n].powerOn();

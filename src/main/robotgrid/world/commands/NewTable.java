@@ -2,10 +2,7 @@ package robotgrid.world.commands;
 
 import robotgrid.entity.active.controller.CommandHandler;
 import robotgrid.entity.active.controller.Controller;
-import robotgrid.entity.fixture.Table;
-import robotgrid.scene.Grid;
 import robotgrid.utils.Result;
-import robotgrid.world.World;
 
 public class NewTable extends CommandHandler {
 
@@ -32,11 +29,11 @@ public class NewTable extends CommandHandler {
         }
         int row = getIntArg(arguments, 1, 0);
         int col = getIntArg(arguments, 2, 0);
-        Table table = new Table(name);
-        Grid grid = World.THE_WORLD.currentScene().grid();
-        if (grid.addEntity(row, col, table)) {
-            return new Result.Success<Void, String>();
-        }
+        // Table table = new Table(name);
+        // Grid grid = World.THE_WORLD.currentScene().grid();
+        // if (grid.addEntity(row, col, table)) {
+        //     return new Result.Success<Void, String>();
+        // }
         return new Result.Failure<Void,String>("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
     }
 

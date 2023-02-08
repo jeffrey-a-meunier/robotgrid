@@ -16,7 +16,7 @@ public enum Direction {
     // Static initializer =====================================================
     // Static methods =========================================================
 
-    public static Direction parse(final String directionString, final Direction deflt) {
+    public static Direction parse(final String directionString) {
         String directionString1 = directionString.toLowerCase();
         switch (directionString1) {
             case "north", "n": return North;
@@ -24,7 +24,7 @@ public enum Direction {
             case "south", "s": return South;
             case "west", "w": return West;
         }
-        return deflt;
+        return null;
     }
 
     // Instance inner classes =================================================
@@ -63,7 +63,7 @@ public enum Direction {
         return Direction.values()[index];
     }
 
-    public Direction reverse() {
+    public Direction opposite() {
         int index = modulus(ordinal() + 2, 4);
         return Direction.values()[index];
     }

@@ -1,17 +1,13 @@
-package robotgrid.world.commands;
+package robotgrid.entity2.widget;
 
-import robotgrid.entity2.Command;
-import robotgrid.entity2.CommandHandler;
-import robotgrid.utils.Logger;
-import robotgrid.world.World;
+import robotgrid.entity2.Entity2;
+import robotgrid.entity2.View;
+import robotgrid.graphics.Graphics;
 
-public class Exit extends CommandHandler {
+class _View extends View {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
-
-    private static Logger _logger = new Logger(Exit.class);
-
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
@@ -19,19 +15,15 @@ public class Exit extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Exit() {
-        setImmeidate(true);
+    public _View(final Entity2 entity) {
+        super(entity);
     }
 
     // Instance methods =======================================================
 
-    @Override
-    public void execute(final Command command) {
-        String message = "World exiting";
-        command.ioContext.commandNotify(message);
-        command.ioContext.infoNotify(message);
-        _logger.info(message);
-        World.THE_WORLD.exit();
+    public void draw(final Graphics graphics, final int layerNum) {
+        super.draw(graphics, layerNum);
+        // TODO
     }
 
 }

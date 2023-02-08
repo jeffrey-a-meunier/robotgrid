@@ -2,11 +2,7 @@ package robotgrid.world.commands;
 
 import robotgrid.entity.active.controller.CommandHandler;
 import robotgrid.entity.active.controller.Controller;
-import robotgrid.entity.active.conveyor.Conveyor;
-import robotgrid.scene.Direction;
-import robotgrid.scene.Grid;
 import robotgrid.utils.Result;
-import robotgrid.world.World;
 
 public class NewConveyor extends CommandHandler {
 
@@ -33,14 +29,14 @@ public class NewConveyor extends CommandHandler {
         }
         int row = getIntArg(arguments, 1, 0);
         int col = getIntArg(arguments, 2, 0);
-        Direction heading = getDirectionArg(arguments, 3, Direction.North);
-        Conveyor conveyor = (Conveyor)new Conveyor(name)
-            .setDirection(heading)
-            ;
-        Grid grid = World.THE_WORLD.currentScene().grid();
-        if (grid.addEntity(row, col, conveyor)) {
-            return new Result.Success<Void, String>();
-        }
+        // Direction heading = getDirectionArg(arguments, 3, Direction.North);
+        // Conveyor conveyor = (Conveyor)new Conveyor(name)
+        //     .setDirection(heading)
+        //     ;
+        // Grid grid = World.THE_WORLD.currentScene().grid();
+        // if (grid.addEntity(row, col, conveyor)) {
+        //     return new Result.Success<Void, String>();
+        // }
         return new Result.Failure<Void,String>("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
     }
 

@@ -1,17 +1,18 @@
-package robotgrid.world.commands;
+package robotgrid.world;
 
-import robotgrid.entity2.Command;
-import robotgrid.entity2.CommandHandler;
-import robotgrid.utils.Logger;
-import robotgrid.world.World;
+import robotgrid.entity2.Entity2;
+import robotgrid.world.commands.Exit;
+import robotgrid.world.commands.ListEntities;
+import robotgrid.world.commands.NewMovingBase;
 
-public class Exit extends CommandHandler {
+/**
+ * The World class is already a subclass of PApplet, so this class is used
+ * as the command handling Entity.
+ */
+public class WorldCommandHandler extends Entity2 {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
-
-    private static Logger _logger = new Logger(Exit.class);
-
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
@@ -19,19 +20,13 @@ public class Exit extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Exit() {
-        setImmeidate(true);
+    public WorldCommandHandler() {
+        super("World");
+        addCommandHandler("Exit", new Exit());
+        addCommandHandler("ListEntities", new ListEntities());
+        addCommandHandler("NewMovingBase", new NewMovingBase());
     }
 
     // Instance methods =======================================================
-
-    @Override
-    public void execute(final Command command) {
-        String message = "World exiting";
-        command.ioContext.commandNotify(message);
-        command.ioContext.infoNotify(message);
-        _logger.info(message);
-        World.THE_WORLD.exit();
-    }
 
 }

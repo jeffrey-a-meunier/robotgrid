@@ -1,9 +1,6 @@
 package robotgrid.entity.active.conveyor;
 
-import robotgrid.entity.Entity;
 import robotgrid.entity.active.controller.Controller;
-import robotgrid.scene.Cell;
-import robotgrid.scene.Direction;
 
 public class ConveyorController extends Controller {
 
@@ -31,22 +28,22 @@ public class ConveyorController extends Controller {
 
     @Override
     public void run() {
-        _isOn = true;
-        assert _entity != null;
-        Conveyor conveyor = (Conveyor)_entity;
-        Direction direction = conveyor.direction();
-        Cell adjacentCell = conveyor.getCell().getAdjacent(direction);
-        while (!Thread.currentThread().isInterrupted()) {
-            Entity payload = conveyor.payload();
-            if (payload != null) {
-                if (sleep(_latency)) {
-                    if (adjacentCell.add(payload)) {
-                        conveyor.removePayload();
-                    }
-                }
-            }
-        }
-        _isOn = false;
+        // _isOn = true;
+        // assert _entity != null;
+        // Conveyor conveyor = (Conveyor)_entity;
+        // Direction direction = conveyor.direction();
+        // Cell adjacentCell = conveyor.getCell().getAdjacent(direction);
+        // while (!Thread.currentThread().isInterrupted()) {
+        //     Entity payload = conveyor.payload();
+        //     if (payload != null) {
+        //         if (sleep(_latency)) {
+        //             if (adjacentCell.add(payload)) {
+        //                 conveyor.removePayload();
+        //             }
+        //         }
+        //     }
+        // }
+        // _isOn = false;
     }
 
     protected boolean sleep(final int ms) {

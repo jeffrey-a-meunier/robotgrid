@@ -18,7 +18,7 @@ public class ControllerGroup extends Controller {
             for (String controllerName : args) {
                 Controller controller1 = Controller.lookup(controllerName);
                 if (controller1 == null) {
-                    Server.THE_SERVER.controllerNotFound(controllerName);
+                    // Server.THE_SERVER.controllerNotFound(controllerName);
                 }
                 else {
                     add(controller1);

@@ -21,8 +21,8 @@ public class World extends PApplet {
     public static final String STARTUP_SCRIPT_FILE = "startup.txt";
     public static World THE_WORLD;
 
+    // Use a larger number for a faster simulation.
     public static float SIMULATION_SPEED = 1.0f;
-    // public static final Scanner KEYBOARD = new Scanner(System.in);  // for debugging
 
     private static Logger _logger = new Logger(World.class);
 
@@ -36,6 +36,8 @@ public class World extends PApplet {
     protected Scene _currentScene = null;
     protected int _worldWidth;
     protected int _worldHeight;
+
+    protected WorldCommandHandler _commandHandler;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -54,7 +56,8 @@ public class World extends PApplet {
             setCurrentScene(gridName);
         }
         // WorldSetup.setup(this);
-        CommandSetup.setup();
+        _commandHandler = new WorldCommandHandler();
+        CommandSetup.setup(this);
         Server.setup();
         ScriptFile.run(STARTUP_SCRIPT_FILE);
     }

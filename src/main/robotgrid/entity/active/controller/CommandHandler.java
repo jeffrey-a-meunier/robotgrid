@@ -61,9 +61,9 @@ public abstract class CommandHandler {
     }
 
     public Direction getDirectionArg(final String[] arguments, final int index, final Direction deflt) {
-        if (index < arguments.length) {
-            return Direction.parse(arguments[index], deflt);
-        }
+        // if (index < arguments.length) {
+        //     return Direction.parse(arguments[index], deflt);
+        // }
         return deflt;
     }
 

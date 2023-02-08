@@ -1,17 +1,16 @@
-package robotgrid.world.commands;
+package robotgrid.entity2.widget;
 
-import robotgrid.entity2.Command;
-import robotgrid.entity2.CommandHandler;
-import robotgrid.utils.Logger;
-import robotgrid.world.World;
+import robotgrid.entity2.Entity2;
+import robotgrid.entity2.View;
 
-public class Exit extends CommandHandler {
+/**
+ * By subclassing Entity, a Widget will have a payload property. This
+ * will be ignored. A Widget can only *be* a payload.
+ */
+public class Widget extends Entity2 {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
-
-    private static Logger _logger = new Logger(Exit.class);
-
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
@@ -19,19 +18,21 @@ public class Exit extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Exit() {
-        setImmeidate(true);
+    public Widget(String name, View view) {
+        super(name, 0);
+        _view = new _View(this);
     }
 
     // Instance methods =======================================================
 
     @Override
-    public void execute(final Command command) {
-        String message = "World exiting";
-        command.ioContext.commandNotify(message);
-        command.ioContext.infoNotify(message);
-        _logger.info(message);
-        World.THE_WORLD.exit();
+    public boolean addPayload(final Entity2 payload) {
+        return false;
+    }
+
+    @Override
+    public Entity2 removePayload() {
+        return this;
     }
 
 }

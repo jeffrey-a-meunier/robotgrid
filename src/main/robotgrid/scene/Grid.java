@@ -1,6 +1,6 @@
 package robotgrid.scene;
 
-import robotgrid.entity.Entity;
+import robotgrid.entity2.Entity2;
 import robotgrid.graphics.Graphics;
 
 public class Grid {
@@ -42,7 +42,7 @@ public class Grid {
 
     // Instance methods =======================================================
 
-    public boolean addEntity(final int rowNum, final int colNum, final Entity entity) {
+    public boolean addEntity(final int rowNum, final int colNum, final Entity2 entity) {
         Cell cell = getCell(rowNum, colNum);
         if (cell != null) {
             return cell.add(entity);
@@ -70,8 +70,8 @@ public class Grid {
         return _cells[rowNum][colNum];
     }
 
-    public void move(final Entity entity, final Direction direction) {
-        Cell cell = entity.getCell();
+    public void move(final Entity2 entity, final Direction direction) {
+        Cell cell = entity.cell();
         Cell nextCell = cell.getAdjacent(direction);
         if (nextCell != null) {
             if (nextCell.add(entity)) {

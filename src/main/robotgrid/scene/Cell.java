@@ -1,13 +1,11 @@
 package robotgrid.scene;
 
 import processing.core.PGraphics;
-import robotgrid.entity.Entity;
-import robotgrid.entity.active.robot.ArticulatedRobot;
-import robotgrid.entity.widget.Widget;
+import robotgrid.entity2.Entity2;
 import robotgrid.graphics.Graphics;
 import robotgrid.graphics.Pen;
 
-public class Cell /*implements IContainer*/ {
+public class Cell {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -34,9 +32,9 @@ public class Cell /*implements IContainer*/ {
 
     protected int _rowNum;
     protected int _colNum;
-    protected Entity _entity;
+    protected Entity2 _entity;
     protected Grid _grid;
-    protected Pen _pen = new Pen(_FILL_COLOR, _LINE_COLOR, _LINE_WIDTH);
+    protected Pen _pen = new Pen(_FILL_COLOR, _LINE_COLOR, _LINE_WIDTH);  // TODO separate view from model
     
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -49,7 +47,7 @@ public class Cell /*implements IContainer*/ {
 
     // Instance methods =======================================================
 
-    public boolean add(Entity entity) {
+    public boolean add(Entity2 entity) {
         if (_entity == null) {
             _entity = entity;
             entity.setCell(this);
@@ -60,13 +58,13 @@ public class Cell /*implements IContainer*/ {
         }
     }
 
-    public Entity remove() {
-        Entity entity = _entity;
+    public Entity2 remove() {
+        Entity2 entity = _entity;
         _entity = null;
         return entity;
     }
 
-    public boolean remove(final Entity entity) {
+    public boolean remove(final Entity2 entity) {
         if (entity == _entity) {
             remove();
             return true;
@@ -74,7 +72,7 @@ public class Cell /*implements IContainer*/ {
         return false;
     }
 
-    public synchronized boolean addPayload(final Entity payload) {
+    public synchronized boolean addPayload(final Entity2 payload) {
         if (_entity == null) {
             _entity = payload;
             return true;
@@ -82,19 +80,11 @@ public class Cell /*implements IContainer*/ {
         return _entity.addPayload(payload);
     }
 
-    public synchronized Entity removePayload() {
+    public synchronized Entity2 removePayload() {
         if (_entity == null) {
             return null;
         }
-        if (_entity instanceof Widget) {
-            Entity entity = _entity;
-            _entity = null;
-            return entity;
-        }
-        if (!(_entity instanceof ArticulatedRobot)) {
-            return _entity.removePayload();
-        }
-        return null;
+        return _entity.removePayload();
     }
 
     public void draw(final Graphics graphics) {
@@ -109,7 +99,7 @@ public class Cell /*implements IContainer*/ {
         graphics.square(-SIZE2, -SIZE2, SIZE1);
     }
 
-    public Entity entity() {
+    public Entity2 entity() {
         return _entity;
     }
 

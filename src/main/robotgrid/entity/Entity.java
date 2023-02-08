@@ -15,7 +15,7 @@ public abstract class Entity {
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-        /**
+    /**
      * Any device that does not override the deviceLatency() method will use this
      * value for its latency.
      */
@@ -74,7 +74,7 @@ public abstract class Entity {
         return _direction;
     }
 
-        /**
+    /**
      * This method is used by subclasses to simulate real-world latency of motion.
      * I guess that's called inertia.
      */

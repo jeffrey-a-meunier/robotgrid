@@ -114,30 +114,30 @@ public class Controller implements Runnable {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             if (_commandQ.isEmpty()) {
-                Server.THE_SERVER.programComplete(this);
+                // Server.THE_SERVER.programComplete(this);
             }
             Command command = _commandQ.deq();
             if (command == null) {
                 break;
             }
             command.execute();
-            Server.THE_SERVER.commandComplete(this, command);
+            //Server.THE_SERVER.commandComplete(this, command);
         }
         _isOn = false;
     }
 
     public boolean sendCommand(final Command command) {
-        if (command.handler().isImmediate()) {
-            command.execute();
-            return true;
-        }
-        if (!_isOn){ 
+        // if (command.handler().isImmediate()) {
+        //     command.execute();
+        //     return true;
+        // }
+        // if (!_isOn){ 
             return false;
-        }
-        synchronized (_commandQ) {
-            _commandQ.enq(command);
-        }
-        return true;
+        // }
+        // synchronized (_commandQ) {
+        //     _commandQ.enq(command);
+        // }
+        // return true;
     }
 
     public void terminate() {

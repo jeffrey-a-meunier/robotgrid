@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import robotgrid.entity.active.controller.CommandHandler;
-import robotgrid.entity.active.controller.Controller;
-import robotgrid.server.Server;
-import robotgrid.utils.Result;
+import robotgrid.entity2.Command;
+import robotgrid.entity2.CommandHandler;
+import robotgrid.entity2.Entity2;
 
-public class ListControllers extends CommandHandler {
+public class ListEntities extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -20,21 +19,17 @@ public class ListControllers extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ListControllers() {
+    public ListEntities() {
         setImmeidate(true);
     }
 
     // Instance methods =======================================================
     
     @Override
-    protected Result<Void, String> _execute(final Controller controller, final String[] arguments) {
-        List<String> allNames = new ArrayList<>(Controller.names());
+    public void execute(final Command command) {
+        List<String> allNames = new ArrayList<>(Entity2.names());
         Collections.sort(allNames);
-        Server.THE_SERVER.sendCommandReply("" + allNames.size());
-        for (String name : allNames) {
-            Server.THE_SERVER.sendCommandReply(name);
-        }
-        return new Result.Success<Void, String>();
+        command.ioContext.commandStrings(allNames);
     }
 
 }

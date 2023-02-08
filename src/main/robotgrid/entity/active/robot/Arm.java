@@ -108,18 +108,18 @@ public class Arm extends ActiveEntity {
     // Controller methods =====================================================
 
     public Result<Void, String> extend() {
-        delay();
-        Cell adjacentCell = _cell.getAdjacent(_direction);
-        if (adjacentCell == null) {
-            return new Result.Failure<>("Arm is blocked");
-        }
-        Entity entity = adjacentCell.entity();
-        if (entity != null) {
-            if (entity.height() == Height.High) {
-                return new Result.Failure<>("Entity in adjacent cell is preventing arm extend");
-            }
-        }
-        _isExtended = true;
+        // delay();
+        // Cell adjacentCell = _cell.getAdjacent(_direction);
+        // if (adjacentCell == null) {
+        //     return new Result.Failure<>("Arm is blocked");
+        // }
+        // Entity entity = adjacentCell.entity();
+        // if (entity != null) {
+        //     if (entity.height() == Height.High) {
+        //         return new Result.Failure<>("Entity in adjacent cell is preventing arm extend");
+        //     }
+        // }
+        // _isExtended = true;
         return new Result.Success<>();
     }
 
@@ -130,26 +130,26 @@ public class Arm extends ActiveEntity {
     }
 
     public Result<Void, String> grip() {
-        delay();
-        if (_isExtended && !_isGripping) {
-            if(_payload == null) {
-                Cell adjacentCell = _cell.getAdjacent(_direction);
-                _payload = adjacentCell.removePayload();
-            }
-        }
-        _isGripping = true;
+        // delay();
+        // if (_isExtended && !_isGripping) {
+        //     if(_payload == null) {
+        //         Cell adjacentCell = _cell.getAdjacent(_direction);
+        //         _payload = adjacentCell.removePayload();
+        //     }
+        // }
+        // _isGripping = true;
         return new Result.Success<>();
     }
 
     public Result<Void, String> release() {
-        delay();
-        if (_isExtended && _payload != null) {
-            Cell adjacentCell = _cell.getAdjacent(_direction);
-            if (adjacentCell.add(_payload)) {
-                _payload = null;
-                _isGripping = false;
-            }
-        }
+        // delay();
+        // if (_isExtended && _payload != null) {
+        //     Cell adjacentCell = _cell.getAdjacent(_direction);
+        //     if (adjacentCell.add(_payload)) {
+        //         _payload = null;
+        //         _isGripping = false;
+        //     }
+        // }
         return new Result.Success<>();
     }
 

@@ -7,8 +7,7 @@ public class CommandSetup {
     // Static initializer =====================================================
     // Static methods =========================================================
 
-    public static void setup() {
-        new WorldController();
+    public static void setup(final World world) {
     }
 
     // Instance inner classes =================================================
