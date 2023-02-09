@@ -28,7 +28,7 @@ public class IOContext {
 
     // Instance methods =======================================================
 
-    // TODO these methods are kid of a mess, must be cleaned up
+    // TODO these methods are kid of a mess, clean them up
 
     // command channel methods ------------------------------------------------
 
@@ -111,7 +111,6 @@ public class IOContext {
     }
 
     protected void _info(final String message) {
-        System.out.println("IOContext._info sending message [" + message + "]");
         _server.sendInfoMessage(message);
     }
 

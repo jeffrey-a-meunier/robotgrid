@@ -37,12 +37,12 @@ public class MovingBase extends PoweredEntity {
 
     public void rotateLeft(final Command command) {
         delay();
-        _heading = _heading.turnLeft();
+        setHeading(_heading.turnLeft());
     }
 
     public void rotateRight(final Command command) {
         delay();
-        _heading = _heading.turnRight();
+        setHeading(_heading.turnRight());
     }
 
 }

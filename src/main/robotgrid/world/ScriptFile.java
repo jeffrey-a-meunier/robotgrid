@@ -39,7 +39,6 @@ public class ScriptFile {
             if (line1.startsWith("#")) {
                 continue;
             }
-            // _LOGGER.debug("Executing command '" + line + '\'');
             Server.THE_SERVER.handleCommandString(line);
         }
         return new Result.Success<>();
@@ -53,7 +52,6 @@ public class ScriptFile {
         }
         catch (final IOException exn) {
             String message = exn.getMessage();
-            assert (message != null);
             return new Result.Failure<List<String>, String>(message);
         }
     }
