@@ -1,9 +1,10 @@
 package robotgrid.entity2.arm;
 
 import robotgrid.entity2.Entity2;
+import robotgrid.entity2.PoweredEntity;
 import robotgrid.scene.Cell;
 
-public class Arm extends Entity2 {
+public class Arm extends PoweredEntity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -20,7 +21,7 @@ public class Arm extends Entity2 {
 
 
     public Arm(final String name) {
-        super(name);
+        super(name, 1);
         setView(new _View(this));
         _Commands.setup(this);
     }

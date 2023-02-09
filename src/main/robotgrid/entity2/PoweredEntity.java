@@ -48,7 +48,7 @@ public abstract class PoweredEntity extends Entity2 implements Runnable {
             Thread.sleep(delay);
         }
         catch (InterruptedException exn) {
-            _logger.warn("delay(", delay, "): thread interrupted for object " + this);
+            _logger.warn("delay(", delay, "): thread interrupted for entity " + this);
         }
     }
 
@@ -57,7 +57,8 @@ public abstract class PoweredEntity extends Entity2 implements Runnable {
     }
 
     public void info(final List<String> infoStrings) {
-        infoStrings.add("PoweredOn: " + _isOn);
+        super.info(infoStrings);
+        infoStrings.add("PoweredOn=" + (_isOn ? "True" : "False"));
     }
 
     public boolean isOn() {

@@ -130,6 +130,14 @@ public class Cell {
         return _grid;
     }
 
+    public int row() {
+        return _rowNum;
+    }
+
+    public int col() {
+        return _colNum;
+    }
+
     @Override
     public String toString() {
         return "Cell[row=" + _rowNum + ",col=" + _colNum + ']';

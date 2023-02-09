@@ -28,6 +28,8 @@ public class IOContext {
 
     // Instance methods =======================================================
 
+    // TODO these methods are kid of a mess, must be cleaned up
+
     // command channel methods ------------------------------------------------
 
     public void commandStarted(final Command command) {
@@ -87,19 +89,19 @@ public class IOContext {
     }
 
     public void infoSuccess(final Command command) {
-        _info(": OK " + command.uid + " [" + command.string + ']');
+        _info(_PREFIX + "OK " + command.uid + " [" + command.string + ']');
     }
 
     public void infoNotify(final String string) {
-        _info(": NOTICE " + string);
+        _info(_PREFIX + "NOTICE " + string);
     }
 
     public void commandNotify(final String string) {
-        _commandReply(": NOTICE " + string);
+        _commandReply(_PREFIX + "NOTICE " + string);
     }
 
     public void infoError(final Command command, final String reason) {
-        _info(": ERROR " + command.uid + " [" + command.string + "] " + reason);
+        _info(_PREFIX + "ERROR " + command.uid + " [" + command.string + "] " + reason);
     }
 
     // protected methods ------------------------------------------------------

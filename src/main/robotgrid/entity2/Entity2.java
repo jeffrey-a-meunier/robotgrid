@@ -108,10 +108,13 @@ public abstract class Entity2 {
     }
 
     public Cell cell() {
+        if (_cell == null) {
+        }
         return _cell;
     }
 
     public void setCell(final Cell cell) {
+        System.out.println("Entity.setCell this=" + this + " cell=" + cell);
         _cell = cell;
     }
 
@@ -140,6 +143,8 @@ public abstract class Entity2 {
 
     public void info(final List<String> strings) {
         strings.add("Type=" + getClass().getSimpleName());
+        strings.add("Heading=" + _heading);
+        strings.add("Payload=" + ((_payload == null) ? "No" : "Yes"));
     }
 
     public void listCommands(final List<String> strings) {
@@ -156,7 +161,6 @@ public abstract class Entity2 {
     }
 
     public void sendCommand(final Command command) {
-        System.out.println("Entity2.sendCommand " + command);
         command.execute();
     }
 
