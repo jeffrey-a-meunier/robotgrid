@@ -33,7 +33,7 @@ public abstract class PoweredEntity extends Entity2 implements Runnable {
 
     public PoweredEntity(final String name, final int height) {
         super(name, height);
-        PoweredEntity_commandHandlers.setup(this);
+        PoweredEntity_Commands.setup(this);
     }
 
     // Instance methods =======================================================

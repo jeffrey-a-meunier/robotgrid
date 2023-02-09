@@ -1,9 +1,9 @@
-package robotgrid.entity2.movingBase;
+package robotgrid.entity2.rotatingBase;
 
 import robotgrid.entity2.Command;
 import robotgrid.entity2.PoweredEntity;
 
-public class MovingBase extends PoweredEntity {
+public class RotatingBase extends PoweredEntity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -14,7 +14,7 @@ public class MovingBase extends PoweredEntity {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public MovingBase(final String name) {
+    public RotatingBase(final String name) {
         super(name, 1);
         setView(new _View(this));
         _Commands.setup(this);
@@ -22,27 +22,14 @@ public class MovingBase extends PoweredEntity {
 
     // Instance methods =======================================================
 
-    public void moveForward(final Command command) {
-        delay();
-        _cell.grid().move(this, _heading);
-        command.ioContext.infoSuccess(command);
-    }
-
-    public void moveBackward(final Command command) {
-        delay();
-        _cell.grid().move(this, _heading.opposite());
-        command.ioContext.infoSuccess(command);
-
-    }
-
     public void rotateLeft(final Command command) {
         // TODO
-        command.setErrorMessage( "MovingBase.rotateLeft is not implemented");
+        command.setErrorMessage( "RotatingBase.rotateLeft is not implemented");
     }
 
     public void rotateRight(final Command command) {
         // TODO
-        command.setErrorMessage("MovingBase.rotateLeft is not implemented");
+        command.setErrorMessage("RotatingBase.rotateLeft is not implemented");
     }
 
 }

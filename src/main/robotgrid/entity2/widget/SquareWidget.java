@@ -1,19 +1,23 @@
-package robotgrid.world;
+package robotgrid.entity2.widget;
 
-public class CommandSetup {
+import robotgrid.scene.Cell;
+import robotgrid.shape.SquareShape;
+
+public class SquareWidget extends Widget {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
     // Static initializer =====================================================
     // Static methods =========================================================
-
-    public static void setup(final World world) {
-    }
-
     // Instance inner classes =================================================
     // Instance variables =====================================================
     // Instance initializer ===================================================
     // Constructors ===========================================================
+
+    public SquareWidget(final String name) {
+        super(name, new SquareShape(Cell.SIZE / 3f));
+    }
+
     // Instance methods =======================================================
 
 }

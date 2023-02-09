@@ -1,9 +1,8 @@
-package robotgrid.entity2.widget;
+package robotgrid.entity2.conveyor;
 
 import robotgrid.entity2.Entity2;
-import robotgrid.shape.Shape;
 
-public abstract class Widget extends Entity2 {
+public class Conveyor extends Entity2 {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -14,21 +13,10 @@ public abstract class Widget extends Entity2 {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Widget(final String name, final Shape shape) {
+    public Conveyor(final String name) {
         super(name);
-        setView(new _View(this, shape));
-    }
-
-    // Instance methods =======================================================
-
-    @Override
-    public boolean addPayload(final Entity2 payload) {
-        return false;
-    }
-
-    @Override
-    public Entity2 removePayload() {
-        return this;
+        setView(new _View(this));
+        _Commands.setup(this);
     }
 
 }

@@ -10,13 +10,23 @@ import java.util.Set;
 import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
+import robotgrid.utils.Logger;
+import robotgrid.world.World;
 
 public abstract class Entity2 {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
 
+    /**
+     * Any device that does not override the deviceLatency() method will use this
+     * value for its latency.
+     */
+    protected static float _STANDARD_LATENCY = 1000.0f;  // milliseconds
+
     protected static final Map<String, Entity2> _ALL_ENTITIES = new HashMap<>();
+
+    private Logger _LOGGER = new Logger(Entity2.class);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -40,7 +50,7 @@ public abstract class Entity2 {
 
     protected View _view;
     protected Cell _cell;
-    protected Direction _heading;
+    protected Direction _heading = Direction.North;
     protected Entity2 _payload;
 
     protected Map<String, CommandHandler> _commandHandlers = new HashMap<>();
@@ -55,17 +65,21 @@ public abstract class Entity2 {
     public Entity2(final String name, final int height) {
         this.name = name;
         this.height = height;
-        Entity_commandHandlers.setup(this);
+        Entity_Commands.setup(this);
         _ALL_ENTITIES.put(name, this);
     }
 
     public Entity2 setHeading(final Direction heading) {
         _heading = heading;
+        if (_view != null) {
+            _view.setAngle(_heading.getAngle());
+        }
         return this;
     }
 
     public Entity2 setView(final View view) {
         _view = view;
+        _view.setAngle(_heading.getAngle());
         return this;
     }
 
@@ -75,8 +89,8 @@ public abstract class Entity2 {
         _commandHandlers.put(name, handler);
     }
 
-    public boolean addPayload(final Entity2 payload) {
-        if (_payload == null) {
+    public synchronized boolean addPayload(final Entity2 payload) {
+        if (_payload != null) {
             return false;
         }
         _payload = payload;
@@ -99,6 +113,25 @@ public abstract class Entity2 {
 
     public void setCell(final Cell cell) {
         _cell = cell;
+    }
+
+        /**
+     * This method is used by subclasses to simulate real-world latency of motion.
+     * I guess that's called inertia.
+     */
+    public void delay() {
+        long delay = (long)(deviceLatency() * World.SIMULATION_SPEED);
+        try {
+            Thread.sleep(delay);
+        }
+        catch (final InterruptedException exn) {
+            _LOGGER.warn("delay(", delay, "): thread interrupted for object " + this);
+        }
+    }
+
+
+    public float deviceLatency() {
+        return _STANDARD_LATENCY;
     }
 
     public void draw(final Graphics graphics, final int layerNum) {

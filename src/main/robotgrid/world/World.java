@@ -57,7 +57,6 @@ public class World extends PApplet {
         }
         // WorldSetup.setup(this);
         _commandHandler = new WorldCommandHandler();
-        CommandSetup.setup(this);
         Server.setup();
         ScriptFile.run(STARTUP_SCRIPT_FILE);
     }

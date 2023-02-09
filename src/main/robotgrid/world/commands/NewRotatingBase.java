@@ -2,12 +2,11 @@ package robotgrid.world.commands;
 
 import robotgrid.entity2.Command;
 import robotgrid.entity2.CommandHandler;
-import robotgrid.entity2.conveyor.Conveyor;
-import robotgrid.scene.Direction;
+import robotgrid.entity2.rotatingBase.RotatingBase;
 import robotgrid.scene.Grid;
 import robotgrid.world.World;
 
-public class NewConveyor extends CommandHandler {
+public class NewRotatingBase extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -18,8 +17,8 @@ public class NewConveyor extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public NewConveyor() {
-         setImmeidate(true);
+    public NewRotatingBase() {
+        setImmeidate(true);
     }
 
     // Instance methods =======================================================
@@ -35,12 +34,9 @@ public class NewConveyor extends CommandHandler {
             }
             int row = getIntArg("row", args, 1, 0);
             int col = getIntArg("col", args, 2, 0);
-            Direction heading = getDirectionArg("heading", args, 3, Direction.North);
-            Conveyor conveyor = (Conveyor)new Conveyor(name)
-                .setHeading(heading)
-                ;
+            RotatingBase base = (RotatingBase)new RotatingBase(name);
             Grid grid = World.THE_WORLD.currentScene().grid();
-            if (!grid.addEntity(row, col, conveyor)) {
+            if (!grid.addEntity(row, col, base)) {
                 command.setErrorMessage("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
             }
         }

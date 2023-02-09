@@ -1,9 +1,8 @@
-package robotgrid.entity2.widget;
+package robotgrid.entity2.table;
 
 import robotgrid.entity2.Entity2;
-import robotgrid.shape.Shape;
 
-public abstract class Widget extends Entity2 {
+public class Table extends Entity2 {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -11,24 +10,16 @@ public abstract class Widget extends Entity2 {
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
+
+    protected int _lineColor2 = 0xFF_80_80_80;
+    protected float _lineSize = 1.0f;
+
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Widget(final String name, final Shape shape) {
+    public Table(final String name) {
         super(name);
-        setView(new _View(this, shape));
-    }
-
-    // Instance methods =======================================================
-
-    @Override
-    public boolean addPayload(final Entity2 payload) {
-        return false;
-    }
-
-    @Override
-    public Entity2 removePayload() {
-        return this;
+        setView(new _View(this));
     }
 
 }

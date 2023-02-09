@@ -47,7 +47,7 @@ public class Cell {
 
     // Instance methods =======================================================
 
-    public boolean add(Entity2 entity) {
+    public boolean add(final Entity2 entity) {
         if (_entity == null) {
             _entity = entity;
             entity.setCell(this);

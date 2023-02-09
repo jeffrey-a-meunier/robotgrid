@@ -42,4 +42,8 @@ public abstract class View {
         graphics.rotate(_angle);
     }
 
+    public void setAngle(final float angle) {
+        _angle = angle;
+    }
+
 }

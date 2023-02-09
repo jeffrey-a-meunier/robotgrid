@@ -4,6 +4,7 @@ import robotgrid.scene.Direction;
 import robotgrid.utils.Logger;
 import robotgrid.utils.Result;
 
+@Deprecated
 public abstract class CommandHandler {
 
     // Static inner classes ===================================================

@@ -1,6 +1,6 @@
 package robotgrid.entity2;
 
-public class PoweredEntity_commandHandlers {
+class PoweredEntity_Commands {
 
     // Static inner classes ===================================================
 

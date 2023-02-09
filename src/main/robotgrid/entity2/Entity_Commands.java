@@ -3,7 +3,7 @@ package robotgrid.entity2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Entity_commandHandlers {
+class Entity_Commands {
 
     // Static inner classes ===================================================
 

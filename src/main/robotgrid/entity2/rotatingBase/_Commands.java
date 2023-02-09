@@ -1,32 +1,16 @@
-package robotgrid.entity2.movingBase;
+package robotgrid.entity2.rotatingBase;
 
 import robotgrid.entity2.Command;
 import robotgrid.entity2.CommandHandler;
 
-class _CommandHandlers {
+class _Commands {
 
     // Static inner classes ===================================================
-
-    protected static class _MoveForward extends CommandHandler {
-        @Override
-        public void execute(final Command command) {
-            MovingBase base = (MovingBase)command.entity();
-            base.moveForward(command);
-        }
-    }
-
-    protected static class _MoveBackward extends CommandHandler {
-        @Override
-        public void execute(final Command command) {
-            MovingBase base = (MovingBase)command.entity();
-            base.moveBackward(command);
-        }
-    }
 
     protected static class _RotateLeft extends CommandHandler {
         @Override
         public void execute(final Command command) {
-            MovingBase base = (MovingBase)command.entity();
+            RotatingBase base = (RotatingBase)command.entity();
             base.rotateLeft(command);
         }
     }
@@ -34,7 +18,7 @@ class _CommandHandlers {
     protected static class _RotateRight extends CommandHandler {
         @Override
         public void execute(final Command command) {
-            MovingBase base = (MovingBase)command.entity();
+            RotatingBase base = (RotatingBase)command.entity();
             base.rotateRight(command);
         }
     }
@@ -43,11 +27,9 @@ class _CommandHandlers {
     // Static initializer =====================================================
     // Static methods =========================================================
 
-    public static void setup(final MovingBase movingBase) {
+    public static void setup(final RotatingBase movingBase) {
         movingBase.addCommandHandler("RotateLeft", new _RotateLeft());
         movingBase.addCommandHandler("RotateRight", new _RotateRight());
-        movingBase.addCommandHandler("MoveForward", new _MoveForward());
-        movingBase.addCommandHandler("MoveBackward", new _MoveBackward());
     }
 
     // Instance inner classes =================================================

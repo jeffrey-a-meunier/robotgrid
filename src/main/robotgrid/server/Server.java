@@ -9,7 +9,6 @@ import java.net.Socket;
 
 import robotgrid.entity2.Command;
 import robotgrid.entity2.IOContext;
-import robotgrid.entity.active.controller.Controller;
 import robotgrid.utils.Logger;
 
 public class Server {
@@ -22,7 +21,7 @@ public class Server {
     protected static final int _COMMAND_PORT = 43210;  // TODO read from config file
     protected static final int _INFO_PORT = _COMMAND_PORT + 1;  // TODO read from config file
 
-    private Logger _logger = new Logger(Server.class, Logger.Level.All);
+    private static Logger _LOGGER = new Logger(Server.class, Logger.Level.All);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -54,7 +53,7 @@ public class Server {
             _infoServerSocket = new ServerSocket(_INFO_PORT);
         }
         catch (final Exception exn) {
-            _logger.fatal("Constructor caught exception ", exn.toString());
+            _LOGGER.fatal("Constructor caught exception ", exn.toString());
         }
         _startThreads();
     }
@@ -104,7 +103,7 @@ public class Server {
 
     public void sendCommandReply(final String replyString) {
         if (_commandSocketPrintWriter == null) {
-            _logger.debug(replyString);
+            _LOGGER.debug(replyString);
         }
         else {
             synchronized (_commandSocketPrintWriter) {
@@ -128,13 +127,13 @@ public class Server {
             _commandServerSocket.close();
         }
         catch (final IOException exn) {
-            _logger.error("terminate() caught exception trying to close command server socket ", exn.toString());
+            _LOGGER.error("terminate() caught exception trying to close command server socket ", exn.toString());
         }
         try {
             _infoServerSocket.close();
         }
         catch (final IOException exn) {
-            _logger.error("terminate() caught exception trying to close info server socket ", exn.toString());
+            _LOGGER.error("terminate() caught exception trying to close info server socket ", exn.toString());
         }
         _commandThread.interrupt();
         _infoThread.interrupt();
@@ -160,38 +159,36 @@ public class Server {
     }
 
     protected void _commandThreadHandler() {
-        _logger.info("Command handler listening on port ", _COMMAND_PORT);
+        _LOGGER.info("Command handler listening on port ", _COMMAND_PORT);
         try {
             while (!_commandThread.isInterrupted()) {
                 Socket clientSocket = _commandServerSocket.accept();
-                _logger.info("Command handler got socket ", clientSocket);
+                _LOGGER.info("Command handler got socket ", clientSocket);
                 _handleCommandSocket(clientSocket);
             }
         }
         catch (final IOException exn) {
-            _logger.error("_commandThreandler caught exception ", exn.toString());
+            _LOGGER.error("_commandThreandler caught exception ", exn.toString());
         }
     }
 
     protected void _infoThreadHandler() {
-        _logger.info("Info handler listening on port ", _INFO_PORT);
+        _LOGGER.info("Info handler listening on port ", _INFO_PORT);
         try {
             while (!_commandThread.isInterrupted()) {
                 Socket clientSocket = _infoServerSocket.accept();
-                _logger.info("Info handler got socket ", clientSocket);
+                _LOGGER.info("Info handler got socket ", clientSocket);
                 _handleInfoSocket(clientSocket);
             }
         }
         catch (final IOException exn) {
-            _logger.error("_commandThreadHandler caught exception ", exn.toString());
+            _LOGGER.error("_commandThreadHandler caught exception ", exn.toString());
         }
     }
 
     public void handleCommandString(final String commandString) {
         Command command = new Command(commandString, _ioContext);
-        _logger.debug("Server.handleCommandString " + command);
         if (command.validate()) {
-            _logger.debug("Server.handleCommandString sending [" + command + "] to " + command.entity());
             if (command.handler().isImmediate()) {
                 command.handler().execute(command);
                 _ioContext.commandSuccessOrfailure(command);
@@ -224,7 +221,7 @@ public class Server {
             clientSocket.close();
         }
         catch (final IOException exn) {
-            _logger.error("exception while closing client command socket ", exn);
+            _LOGGER.error("exception while closing client command socket ", exn);
         }
     }
 
@@ -233,12 +230,8 @@ public class Server {
             _infoSocketPrintWriter = new PrintWriter(clientSocket.getOutputStream());
         }
         catch (final IOException exn) {
-            _logger.error("exception while handling client info socket ", exn);
+            _LOGGER.error("exception while handling client info socket ", exn);
         }
-    }
-
-    protected Controller _locateController(final String controllerName) {
-        return Controller.lookup(controllerName);
     }
 
 }

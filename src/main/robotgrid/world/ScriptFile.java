@@ -16,7 +16,7 @@ public class ScriptFile {
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-    private static final Logger _logger = new Logger(ScriptFile.class, Logger.Level.Debug);
+    private static final Logger _LOGGER = new Logger(ScriptFile.class, Logger.Level.Debug);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -24,7 +24,7 @@ public class ScriptFile {
     public static void run(final String fileName) {
         Result<List<String>, String> readResult = read(fileName);
         if (readResult.isSuccess) {
-            _logger.info("Executing commands in " + fileName);
+            _LOGGER.info("Executing commands in " + fileName);
             List<String> commands = readResult.successValue();
             execute(commands);
         }
@@ -39,7 +39,7 @@ public class ScriptFile {
             if (line1.startsWith("#")) {
                 continue;
             }
-            _logger.debug("Executing command '" + line + '\'');
+            // _LOGGER.debug("Executing command '" + line + '\'');
             Server.THE_SERVER.handleCommandString(line);
         }
         return new Result.Success<>();

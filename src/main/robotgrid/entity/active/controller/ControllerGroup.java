@@ -7,6 +7,7 @@ import robotgrid.entity.active.ActiveEntity;
 import robotgrid.server.Server;
 import robotgrid.utils.Result;
 
+@Deprecated
 public class ControllerGroup extends Controller {
 
     // Static inner classes ===================================================

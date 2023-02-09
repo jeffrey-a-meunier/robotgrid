@@ -14,6 +14,7 @@ import robotgrid.entity.active.controller.commands.PowerOn;
 import robotgrid.server.Server;
 import robotgrid.utils.SynQ;
 
+@Deprecated
 public class Controller implements Runnable {
 
     // Static inner classes ===================================================
