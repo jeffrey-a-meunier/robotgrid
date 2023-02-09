@@ -1,14 +1,12 @@
-package robotgrid.world.commands;
+package robotgrid.entity.widget;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import robotgrid.entity.Command;
-import robotgrid.entity.CommandHandler;
+import processing.core.PGraphics;
 import robotgrid.entity.Entity;
+import robotgrid.entity.View;
+import robotgrid.graphics.Graphics;
+import robotgrid.shape.Shape;
 
-public class ListEntities extends CommandHandler {
+class _View extends View {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -16,20 +14,24 @@ public class ListEntities extends CommandHandler {
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
+
+    protected Shape _shape;
+
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ListEntities() {
-        setImmeidate(true);
+    public _View(final Entity entity, final Shape shape) {
+        super(entity);
+        _shape = shape;
     }
 
     // Instance methods =======================================================
-    
-    @Override
-    public void execute(final Command command) {
-        List<String> allNames = new ArrayList<>(Entity.names());
-        Collections.sort(allNames);
-        command.ioContext.commandStrings(allNames);
+
+        @Override
+    public void draw(final Graphics graphics, final int layerNum) {
+        super.draw(graphics, layerNum);
+        PGraphics layer = graphics.layer(layerNum);
+        _shape.draw(layer);
     }
 
 }

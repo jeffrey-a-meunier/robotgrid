@@ -1,7 +1,7 @@
 package robotgrid.scene;
 
 import processing.core.PGraphics;
-import robotgrid.entity2.Entity2;
+import robotgrid.entity.Entity;
 import robotgrid.graphics.Graphics;
 import robotgrid.graphics.Pen;
 
@@ -32,7 +32,7 @@ public class Cell {
 
     protected int _rowNum;
     protected int _colNum;
-    protected Entity2 _entity;
+    protected Entity _entity;
     protected Grid _grid;
     protected Pen _pen = new Pen(_FILL_COLOR, _LINE_COLOR, _LINE_WIDTH);  // TODO separate view from model
     
@@ -47,7 +47,7 @@ public class Cell {
 
     // Instance methods =======================================================
 
-    public boolean add(final Entity2 entity) {
+    public boolean add(final Entity entity) {
         if (_entity == null) {
             _entity = entity;
             entity.setCell(this);
@@ -58,13 +58,13 @@ public class Cell {
         }
     }
 
-    public Entity2 remove() {
-        Entity2 entity = _entity;
+    public Entity remove() {
+        Entity entity = _entity;
         _entity = null;
         return entity;
     }
 
-    public boolean remove(final Entity2 entity) {
+    public boolean remove(final Entity entity) {
         if (entity == _entity) {
             remove();
             return true;
@@ -72,7 +72,7 @@ public class Cell {
         return false;
     }
 
-    public synchronized boolean addPayload(final Entity2 payload) {
+    public synchronized boolean addPayload(final Entity payload) {
         if (_entity == null) {
             _entity = payload;
             return true;
@@ -80,7 +80,7 @@ public class Cell {
         return _entity.addPayload(payload);
     }
 
-    public synchronized Entity2 removePayload() {
+    public synchronized Entity removePayload() {
         if (_entity == null) {
             return null;
         }
@@ -99,7 +99,7 @@ public class Cell {
         graphics.square(-SIZE2, -SIZE2, SIZE1);
     }
 
-    public Entity2 entity() {
+    public Entity entity() {
         return _entity;
     }
 

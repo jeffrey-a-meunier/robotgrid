@@ -1,7 +1,7 @@
 package robotgrid.world.commands;
 
-import robotgrid.entity2.Command;
-import robotgrid.entity2.CommandHandler;
+import robotgrid.entity.Command;
+import robotgrid.entity.CommandHandler;
 import robotgrid.utils.Logger;
 import robotgrid.world.World;
 

@@ -1,6 +1,6 @@
 package robotgrid.world;
 
-import robotgrid.entity2.Entity2;
+import robotgrid.entity.Entity;
 import robotgrid.world.commands.Exit;
 import robotgrid.world.commands.ListEntities;
 import robotgrid.world.commands.NewArm;
@@ -14,7 +14,7 @@ import robotgrid.world.commands.NewWidget;
  * The World class is already a subclass of PApplet, so this class is used
  * as the command handling Entity.
  */
-public class WorldCommandHandler extends Entity2 {
+public class WorldCommandHandler extends Entity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================

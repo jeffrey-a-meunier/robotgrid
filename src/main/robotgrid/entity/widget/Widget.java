@@ -1,14 +1,9 @@
-package robotgrid.world.commands;
+package robotgrid.entity.widget;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import robotgrid.entity.Command;
-import robotgrid.entity.CommandHandler;
 import robotgrid.entity.Entity;
+import robotgrid.shape.Shape;
 
-public class ListEntities extends CommandHandler {
+public abstract class Widget extends Entity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -19,17 +14,21 @@ public class ListEntities extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ListEntities() {
-        setImmeidate(true);
+    public Widget(final String name, final Shape shape) {
+        super(name);
+        setView(new _View(this, shape));
     }
 
     // Instance methods =======================================================
-    
+
     @Override
-    public void execute(final Command command) {
-        List<String> allNames = new ArrayList<>(Entity.names());
-        Collections.sort(allNames);
-        command.ioContext.commandStrings(allNames);
+    public boolean addPayload(final Entity payload) {
+        return false;
+    }
+
+    @Override
+    public Entity removePayload() {
+        return this;
     }
 
 }

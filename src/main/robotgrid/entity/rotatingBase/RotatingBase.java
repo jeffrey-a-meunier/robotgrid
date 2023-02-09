@@ -1,14 +1,9 @@
-package robotgrid.world.commands;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+package robotgrid.entity.rotatingBase;
 
 import robotgrid.entity.Command;
-import robotgrid.entity.CommandHandler;
-import robotgrid.entity.Entity;
+import robotgrid.entity.PoweredEntity;
 
-public class ListEntities extends CommandHandler {
+public class RotatingBase extends PoweredEntity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -19,17 +14,22 @@ public class ListEntities extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ListEntities() {
-        setImmeidate(true);
+    public RotatingBase(final String name) {
+        super(name, 1);
+        setView(new _View(this));
+        _Commands.setup(this);
     }
 
     // Instance methods =======================================================
-    
-    @Override
-    public void execute(final Command command) {
-        List<String> allNames = new ArrayList<>(Entity.names());
-        Collections.sort(allNames);
-        command.ioContext.commandStrings(allNames);
+
+    public void rotateLeft(final Command command) {
+        // TODO
+        command.setErrorMessage( "RotatingBase.rotateLeft is not implemented");
+    }
+
+    public void rotateRight(final Command command) {
+        // TODO
+        command.setErrorMessage("RotatingBase.rotateLeft is not implemented");
     }
 
 }

@@ -1,8 +1,8 @@
 package robotgrid.world.commands;
 
-import robotgrid.entity2.Command;
-import robotgrid.entity2.CommandHandler;
-import robotgrid.entity2.arm.Arm;
+import robotgrid.entity.Command;
+import robotgrid.entity.CommandHandler;
+import robotgrid.entity.arm.Arm;
 import robotgrid.scene.Direction;
 import robotgrid.scene.Grid;
 import robotgrid.world.World;

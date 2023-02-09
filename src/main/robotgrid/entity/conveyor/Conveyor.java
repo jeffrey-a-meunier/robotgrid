@@ -1,14 +1,8 @@
-package robotgrid.world.commands;
+package robotgrid.entity.conveyor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import robotgrid.entity.Command;
-import robotgrid.entity.CommandHandler;
 import robotgrid.entity.Entity;
 
-public class ListEntities extends CommandHandler {
+public class Conveyor extends Entity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -19,17 +13,10 @@ public class ListEntities extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public ListEntities() {
-        setImmeidate(true);
-    }
-
-    // Instance methods =======================================================
-    
-    @Override
-    public void execute(final Command command) {
-        List<String> allNames = new ArrayList<>(Entity.names());
-        Collections.sort(allNames);
-        command.ioContext.commandStrings(allNames);
+    public Conveyor(final String name) {
+        super(name);
+        setView(new _View(this));
+        _Commands.setup(this);
     }
 
 }

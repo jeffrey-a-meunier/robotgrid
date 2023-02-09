@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import robotgrid.entity2.Command;
-import robotgrid.entity2.IOContext;
+import robotgrid.entity.Command;
+import robotgrid.entity.IOContext;
 import robotgrid.utils.Logger;
 
 public class Server {

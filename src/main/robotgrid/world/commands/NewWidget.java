@@ -1,9 +1,9 @@
 package robotgrid.world.commands;
 
-import robotgrid.entity2.widget.SquareWidget;
-import robotgrid.entity2.Command;
-import robotgrid.entity2.CommandHandler;
-import robotgrid.entity2.widget.Widget;
+import robotgrid.entity.Command;
+import robotgrid.entity.CommandHandler;
+import robotgrid.entity.widget.SquareWidget;
+import robotgrid.entity.widget.Widget;
 import robotgrid.scene.Grid;
 import robotgrid.world.World;
 
