@@ -30,7 +30,7 @@ public class NewMovingBase extends CommandHandler {
         try {
             String name = getStringArg("name", args, 0);
             if (name == null) {
-                command.setErrorMessage("Entity name not supplied");
+                command.setErrorMessage("Entity name required");
                 return;
             }
             int row = getIntArg("row", args, 1, 0);

@@ -8,6 +8,7 @@ public class Entity_commandHandlers {
     // Static inner classes ===================================================
 
     protected static class _Info extends CommandHandler {
+        public _Info() { setImmeidate(true); }
         @Override
         public void execute(final Command command) {
             List<String> strings = new ArrayList<>();
@@ -19,6 +20,7 @@ public class Entity_commandHandlers {
     }
 
     protected static class _ListCommands extends CommandHandler {
+        public _ListCommands() { setImmeidate(true); }
         @Override
         public void execute(final Command command) {
             List<String> strings = new ArrayList<>();

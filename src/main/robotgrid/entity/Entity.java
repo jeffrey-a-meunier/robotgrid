@@ -10,6 +10,7 @@ import robotgrid.utils.Logger;
 import robotgrid.utils.Result;
 import robotgrid.world.World;
 
+@Deprecated
 public abstract class Entity {
 
     // Static inner classes ===================================================

@@ -1,5 +1,6 @@
 package robotgrid.entity;
 
+@Deprecated
 public enum Height {
 
     None("None"),

@@ -11,6 +11,7 @@ import robotgrid.entity.active.controller.Controller;
 import robotgrid.server.Server;
 import robotgrid.utils.Result;
 
+@Deprecated
 public class ListCommands extends CommandHandler {
 
     // Static inner classes ===================================================

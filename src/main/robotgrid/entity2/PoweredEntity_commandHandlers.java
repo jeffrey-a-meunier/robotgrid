@@ -5,6 +5,7 @@ public class PoweredEntity_commandHandlers {
     // Static inner classes ===================================================
 
     protected static class _IsOn extends CommandHandler {
+        public _IsOn() { setImmeidate(true); }
         @Override
         public void execute(final Command command) {
             PoweredEntity poweredEntity = (PoweredEntity)command.entity();
@@ -13,6 +14,7 @@ public class PoweredEntity_commandHandlers {
     }
 
     protected static class _PowerOn extends CommandHandler {
+        public _PowerOn() { setImmeidate(true); }
         @Override
         public void execute(final Command command) {
             PoweredEntity poweredEntity = (PoweredEntity)command.entity();
@@ -21,6 +23,7 @@ public class PoweredEntity_commandHandlers {
     }
 
     protected static class _PowerOff extends CommandHandler {
+        public _PowerOff() { setImmeidate(true); }
         @Override
         public void execute(final Command command) {
             PoweredEntity poweredEntity = (PoweredEntity)command.entity();
