@@ -9,7 +9,7 @@ class PoweredEntity_Commands {
         @Override
         public void execute(final Command command) {
             PoweredEntity poweredEntity = (PoweredEntity)command.entity();
-            command.ioContext.commandStrings("" + poweredEntity.isOn());
+            command.ioContext.commandStrings("" + (poweredEntity.isOn() ? "True" : "False"));
         }
     }
 

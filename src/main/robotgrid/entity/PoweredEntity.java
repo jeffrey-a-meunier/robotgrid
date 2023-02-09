@@ -17,7 +17,7 @@ public abstract class PoweredEntity extends Entity implements Runnable {
      */
     protected static float _STANDARD_LATENCY = 1000.0f;  // milliseconds
 
-    private Logger _logger = new Logger(PoweredEntity.class);
+    private Logger _LOGGER = new Logger(PoweredEntity.class);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -48,7 +48,7 @@ public abstract class PoweredEntity extends Entity implements Runnable {
             Thread.sleep(delay);
         }
         catch (InterruptedException exn) {
-            _logger.warn("delay(", delay, "): thread interrupted for entity " + this);
+            _LOGGER.warn("delay(", delay, "): thread interrupted for entity " + this);
         }
     }
 
@@ -81,6 +81,10 @@ public abstract class PoweredEntity extends Entity implements Runnable {
     public void run() {
         while (!_thread.isInterrupted()) {
             Command command = _commandQ.deq();
+            if (command == null) {
+                // a null command means that the thread has been interrupted
+                break;
+            }
             command.execute();
         }
     }
@@ -91,6 +95,7 @@ public abstract class PoweredEntity extends Entity implements Runnable {
             command.execute();
         }
         else {
+            _LOGGER.trace("sendCommand() got command ", command);
             _commandQ.enq(command);
         }
     }

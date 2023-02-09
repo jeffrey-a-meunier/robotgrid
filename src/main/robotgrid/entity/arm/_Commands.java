@@ -1,8 +1,44 @@
 package robotgrid.entity.arm;
 
+import robotgrid.entity.Command;
+import robotgrid.entity.CommandHandler;
+
 class _Commands {
 
     // Static inner classes ===================================================
+
+    protected static class ArmExtendCommand extends CommandHandler {
+        @Override
+        public void execute(final Command command) {
+            Arm arm = (Arm)command.entity();
+            arm.extend();
+        }
+    }
+
+    protected static class ArmRetractCommand extends CommandHandler {
+        @Override
+        public void execute(final Command command) {
+            Arm arm = (Arm)command.entity();
+            arm.retract();
+        }
+    }
+
+    protected static class GripperGripCommand extends CommandHandler {
+        @Override
+        public void execute(final Command command) {
+            Arm arm = (Arm)command.entity();
+            arm.grip();
+        }
+    }
+
+    protected static class GripperReleaseCommand extends CommandHandler {
+        @Override
+        public void execute(final Command command) {
+            Arm arm = (Arm)command.entity();
+            arm.release();
+        }
+    }
+
     // Static variables =======================================================
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -13,7 +49,10 @@ class _Commands {
     // Instance methods =======================================================
 
     public static void setup(final Arm arm) {
-        // arm.addCommandHandler("RotateLeft", new _RotateLeft());
+        arm.addCommandHandler("Extend", new ArmExtendCommand());
+        arm.addCommandHandler("Retract", new ArmRetractCommand());
+        arm.addCommandHandler("Grip", new GripperGripCommand());
+        arm.addCommandHandler("Release", new GripperReleaseCommand());
     }
 
 }

@@ -36,13 +36,13 @@ public class MovingBase extends PoweredEntity {
     }
 
     public void rotateLeft(final Command command) {
-        // TODO
-        command.setErrorMessage( "MovingBase.rotateLeft is not implemented");
+        delay();
+        _heading = _heading.turnLeft();
     }
 
     public void rotateRight(final Command command) {
-        // TODO
-        command.setErrorMessage("MovingBase.rotateLeft is not implemented");
+        delay();
+        _heading = _heading.turnRight();
     }
 
 }

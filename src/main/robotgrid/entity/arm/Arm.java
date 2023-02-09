@@ -29,10 +29,12 @@ public class Arm extends PoweredEntity {
     // Instance methods =======================================================
 
     public void extend() {
+        delay();
         _isExtended = true;
     }
 
     public void retract() {
+        delay();
         _isExtended = false;
     }
 
@@ -67,6 +69,11 @@ public class Arm extends PoweredEntity {
 
     public boolean isGripping() {
         return _isGripping;
+    }
+
+    @Override
+    public String toString() {
+        return "Arm{" + name + '}';
     }
 
 }

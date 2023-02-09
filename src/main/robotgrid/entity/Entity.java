@@ -114,7 +114,6 @@ public abstract class Entity {
     }
 
     public void setCell(final Cell cell) {
-        System.out.println("Entity.setCell this=" + this + " cell=" + cell);
         _cell = cell;
     }
 
