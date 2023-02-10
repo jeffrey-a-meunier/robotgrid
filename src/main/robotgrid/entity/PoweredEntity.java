@@ -3,6 +3,7 @@ package robotgrid.entity;
 import java.util.List;
 import java.util.Optional;
 
+import robotgrid.server.Client;
 import robotgrid.utils.SynQ;
 
 public abstract class PoweredEntity extends Entity implements Runnable {
@@ -61,10 +62,10 @@ public abstract class PoweredEntity extends Entity implements Runnable {
             command.execute();
             Optional<String> errorMessage = command.errorMessage();
             if (errorMessage.isEmpty()) {
-                command.ioContext.infoSuccess(command);
+                Client.INFO.commandSuccess(command);
             }
             else {
-                command.ioContext.infoError(command, errorMessage.get());
+                Client.INFO.commandError(command, errorMessage.get());
             }
         }
     }

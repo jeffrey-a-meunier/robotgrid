@@ -3,6 +3,8 @@ package robotgrid.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import robotgrid.server.Client;
+
 class Entity_Commands {
 
     // Static inner classes ===================================================
@@ -15,7 +17,7 @@ class Entity_Commands {
             // get info about the entity
             command.entity().info(strings);
             // send the strings over the info socket
-            command.ioContext.commandStrings(strings);
+            Client.COMMAND_REPLY.write(strings);
         }
     }
 
@@ -23,9 +25,11 @@ class Entity_Commands {
         public _ListCommands() { setImmeidate(true); }
         @Override
         public void execute(final Command command) {
-            List<String> strings = new ArrayList<>();
-            command.entity().listCommands(strings);
-            command.ioContext.commandStrings(strings);
+            List<String> commandNames = new ArrayList<>();
+            command.entity().listCommands(commandNames);
+            for (String commandName : commandNames) {
+                Client.COMMAND_REPLY.write(commandName);
+            }
         }
     }
 

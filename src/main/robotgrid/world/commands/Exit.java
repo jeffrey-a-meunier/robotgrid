@@ -2,6 +2,7 @@ package robotgrid.world.commands;
 
 import robotgrid.entity.Command;
 import robotgrid.entity.CommandHandler;
+import robotgrid.server.Client;
 import robotgrid.utils.Logger;
 import robotgrid.world.World;
 
@@ -28,8 +29,7 @@ public class Exit extends CommandHandler {
     @Override
     public void execute(final Command command) {
         String message = "World exiting";
-        // command.ioContext.commandNotify(message);
-        command.ioContext.infoNotify(message);
+        Client.INFO.write(message);
         _logger.info(message);
         World.THE_WORLD.exit();
     }

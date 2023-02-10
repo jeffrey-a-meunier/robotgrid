@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import robotgrid.server.Server;
 
+@Deprecated
 public class IOContext {
 
     // Static inner classes ===================================================
@@ -112,11 +113,11 @@ public class IOContext {
     // protected methods ------------------------------------------------------
 
     protected void _commandReply(final String reply) {
-        _server.sendCommandReply(reply);
+        // _server.sendCommandReply(reply);
     }
 
     protected void _info(final String message) {
-        _server.sendInfoMessage(message);
+        // _server.sendInfoMessage(message);
     }
 
 }

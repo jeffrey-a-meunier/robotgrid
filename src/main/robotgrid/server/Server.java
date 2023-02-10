@@ -9,7 +9,6 @@ import java.net.Socket;
 
 import robotgrid.entity.Command;
 import robotgrid.entity.Entity;
-import robotgrid.entity.IOContext;
 import robotgrid.utils.Logger;
 
 public class Server {
@@ -43,8 +42,6 @@ public class Server {
     protected Thread _infoThread;
     protected PrintWriter _infoSocketPrintWriter;
 
-    protected IOContext _ioContext = new IOContext(this);
-
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
@@ -60,68 +57,6 @@ public class Server {
     }
 
     // Instance methods =======================================================
-
-    // TODO refactor this after it is verified to work
-    // public void reportCommandResult(final Command command) {
-    //     Result<Void, String> result = command.result();
-    //     if (result.isSuccess) {
-    //         if (command.handler().isImmediate()) {
-    //             sendCommandReply("OK " + command.uid + " " + command);
-    //         }
-    //         else {
-    //             sendInfoMessage("OK " + command.uid + " " + command);
-    //         }
-    //     }
-    //     else {
-    //         if (command.handler().isImmediate()) {
-    //             sendCommandReply("ERROR " + command.uid + " " + command + " " + result);
-    //         }
-    //         else {
-    //             sendInfoMessage("OK " + command.uid + " " + command + " " + result);
-    //         }
-    //     }
-    // }
-
-    // public void controllerNotFound(final String controllerName) {
-    //     sendCommandReply("ERROR Controller not found: " + controllerName);
-    // }
-
-    // public void commandNotFound(final String commandString) {
-    //     sendCommandReply("ERROR Command not found: " + commandString);
-    // }
-
-    // public void commandInvalid(final Command command) {
-    //     sendCommandReply("ERROR Command '" + command + "' is invalid: " + command.result());
-    // }
-
-    // public void commandComplete(final Controller controller, final Command command) {
-    //     sendInfoMessage("OK Command complete: " + controller + " " + command + " " + command.result());
-    // }
-
-    // public void programComplete(final Controller controller) {
-    //     sendInfoMessage("OK Program complete " + controller);
-    // }
-
-    public void sendCommandReply(final String replyString) {
-        if (_commandSocketPrintWriter == null) {
-            _LOGGER.debug(replyString);
-        }
-        else {
-            synchronized (_commandSocketPrintWriter) {
-                _commandSocketPrintWriter.println(replyString);
-                _commandSocketPrintWriter.flush();
-            }
-        }
-    }
-
-    public void sendInfoMessage(final String infoString) {
-        if (_infoSocketPrintWriter != null) {
-            synchronized (_infoSocketPrintWriter) {
-                _infoSocketPrintWriter.println(infoString);
-                _infoSocketPrintWriter.flush();
-            }
-        }
-    }
 
     public void terminate() {
         try {
@@ -188,25 +123,25 @@ public class Server {
     }
 
     public void handleCommandString(final String commandString) {
-        Command command = new Command(commandString, _ioContext);
+        Command command = new Command(commandString);
         if (command.validate()) {
             if (command.handler().isImmediate()) {
                 command.handler().execute(command);
-                _ioContext.commandSuccessOrfailure(command);
+                Client.COMMAND_REPLY.showResult(command);
             }
             else {
                 Entity entity = command.entity();
                 if (entity.isOn()) {
                     command.entity().sendCommand(command);
-                    _ioContext.commandStarted(command);
+                    Client.COMMAND_REPLY.commandStarted(command);
                 }
                 else {
-                    _ioContext.entityIsOff(command);
+                    Client.COMMAND_REPLY.entityIsPoweredOff(command);
                 }
             }
         }
         else {
-            command.setErrorMessage("Invalid command");
+            Client.COMMAND_REPLY.error("Invalid command");
         }
     }
 
@@ -214,6 +149,7 @@ public class Server {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             _commandSocketPrintWriter = new PrintWriter(clientSocket.getOutputStream());
+            Client.setCommandReplyChannel(_commandSocketPrintWriter);
             while (true) {
                 String line = br.readLine();
                 if (line == null) {
@@ -230,11 +166,16 @@ public class Server {
         catch (final IOException exn) {
             _LOGGER.error("exception while closing client command socket ", exn);
         }
+        finally {
+            Client.setCommandReplyChannel(null);
+        }
     }
 
     protected void _handleInfoSocket(final Socket clientSocket) {
         try {
             _infoSocketPrintWriter = new PrintWriter(clientSocket.getOutputStream());
+            // TODO how to detect when the client closes this connection?
+            // Client.setInfoChannel(null);
         }
         catch (final IOException exn) {
             _LOGGER.error("exception while handling client info socket ", exn);

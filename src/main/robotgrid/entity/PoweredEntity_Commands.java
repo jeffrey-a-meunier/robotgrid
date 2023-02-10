@@ -1,5 +1,7 @@
 package robotgrid.entity;
 
+import robotgrid.server.Client;
+
 class PoweredEntity_Commands {
 
     // Static inner classes ===================================================
@@ -9,7 +11,7 @@ class PoweredEntity_Commands {
         @Override
         public void execute(final Command command) {
             PoweredEntity poweredEntity = (PoweredEntity)command.entity();
-            command.ioContext.commandStrings("" + (poweredEntity.isOn() ? "True" : "False"));
+            Client.COMMAND_REPLY.write((poweredEntity.isOn() ? "True" : "False"));
         }
     }
 

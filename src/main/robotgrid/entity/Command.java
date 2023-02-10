@@ -3,6 +3,7 @@ package robotgrid.entity;
 import java.util.Arrays;
 import java.util.Optional;
 
+import robotgrid.server.Client;
 import robotgrid.utils.UID;
 
 public class Command {
@@ -15,7 +16,6 @@ public class Command {
     // Instance variables =====================================================
 
     public final String string;
-    public final IOContext ioContext;
     public final UID uid;
 
     protected Entity _entity;
@@ -27,9 +27,8 @@ public class Command {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Command(final String string, final IOContext ioContext) {
+    public Command(final String string) {
         this.string = string;
-        this.ioContext = ioContext;
         this.uid = new UID();
     }
 
@@ -38,19 +37,19 @@ public class Command {
     public boolean validate() {
         String[] parts = string.split(" ");
         if (parts.length < 2) {
-            ioContext.commandError("No command action specified");
+            Client.COMMAND_REPLY.error("No command action specified");
             return false;
         }
         String entityName = parts[0];
         _entity = Entity.lookup(entityName);
         if (_entity == null) {
-            ioContext.commandError("Entity '" + entityName + "' not found");
+            Client.COMMAND_REPLY.error("Entity '" + entityName + "' not found");
             return false;
         }
         String commandName = parts[1];
         _handler = _entity.locateCommandHandler(commandName);
         if (_handler == null) {
-            ioContext.commandError("Command '" + commandName + "' not found for entity '" + entityName + "'");
+            Client.COMMAND_REPLY.error("Command '" + commandName + "' not found for entity '" + entityName + "'");
             return false;
         }
         _arguments = Arrays.copyOfRange(parts, 2, parts.length);
