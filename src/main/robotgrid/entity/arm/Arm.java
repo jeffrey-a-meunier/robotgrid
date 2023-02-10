@@ -46,7 +46,7 @@ public class Arm extends PoweredEntity {
         delay();
         if (_isExtended && !_isGripping) {
             if(_payload == null) {
-                Cell adjacentCell = _cell.getAdjacent(_heading);
+                Cell adjacentCell = cell().getAdjacent(_heading);
                 Entity payload = adjacentCell.removePayload();
                 if (payload != null) {
                     addPayload(payload);
@@ -59,7 +59,7 @@ public class Arm extends PoweredEntity {
     public void release() {
         delay();
         if (_isExtended && _payload != null) {
-            Cell adjacentCell = _cell.getAdjacent(_heading);
+            Cell adjacentCell = cell().getAdjacent(_heading);
             if (adjacentCell.add(_payload)) {
                 _payload = null;
                 _isGripping = false;

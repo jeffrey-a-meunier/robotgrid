@@ -27,7 +27,8 @@ class _Commands {
         @Override
         public void execute(final Command command) {
             MovingBase base = (MovingBase)command.entity();
-            base.rotateLeft(command);
+            System.out.println("Entity._RotateLeft.execute called");
+            base.rotateLeft();
         }
     }
 
@@ -35,7 +36,7 @@ class _Commands {
         @Override
         public void execute(final Command command) {
             MovingBase base = (MovingBase)command.entity();
-            base.rotateRight(command);
+            base.rotateRight();
         }
     }
 
@@ -43,11 +44,11 @@ class _Commands {
     // Static initializer =====================================================
     // Static methods =========================================================
 
-    public static void setup(final MovingBase movingBase) {
-        movingBase.addCommandHandler("RotateLeft", new _RotateLeft());
-        movingBase.addCommandHandler("RotateRight", new _RotateRight());
-        movingBase.addCommandHandler("MoveForward", new _MoveForward());
-        movingBase.addCommandHandler("MoveBackward", new _MoveBackward());
+    public static void setup(final MovingBase base) {
+        base.addCommandHandler("RotateLeft", new _RotateLeft());
+        base.addCommandHandler("RotateRight", new _RotateRight());
+        base.addCommandHandler("MoveForward", new _MoveForward());
+        base.addCommandHandler("MoveBackward", new _MoveBackward());
     }
 
     // Instance inner classes =================================================

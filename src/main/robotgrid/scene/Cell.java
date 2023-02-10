@@ -2,10 +2,11 @@ package robotgrid.scene;
 
 import processing.core.PGraphics;
 import robotgrid.entity.Entity;
+import robotgrid.entity.IContainer;
 import robotgrid.graphics.Graphics;
 import robotgrid.graphics.Pen;
 
-public class Cell {
+public class Cell implements IContainer {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -50,7 +51,7 @@ public class Cell {
     public boolean add(final Entity entity) {
         if (_entity == null) {
             _entity = entity;
-            entity.setCell(this);
+            entity.setContainer(this);
             return true;
         }
         else {

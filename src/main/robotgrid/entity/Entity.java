@@ -13,7 +13,7 @@ import robotgrid.scene.Direction;
 import robotgrid.utils.Logger;
 import robotgrid.world.World;
 
-public abstract class Entity {
+public abstract class Entity implements IContainer {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -49,7 +49,7 @@ public abstract class Entity {
     public final int height;
 
     protected View _view;
-    protected Cell _cell;
+    protected IContainer _container;
     protected Direction _heading = Direction.North;
     protected Entity _payload;
 
@@ -94,6 +94,7 @@ public abstract class Entity {
             return false;
         }
         _payload = payload;
+        payload.setContainer(this);
         return true;
     }
 
@@ -108,13 +109,22 @@ public abstract class Entity {
     }
 
     public Cell cell() {
-        if (_cell == null) {
+        IContainer container = _container;
+        while (true) {
+            if (container == null) {
+                return null;
+            }
+            if (container instanceof Cell) {
+                return (Cell)container;
+            }
+            else if (container instanceof Entity) {
+                container = ((Entity)container)._container;
+            }
         }
-        return _cell;
     }
 
-    public void setCell(final Cell cell) {
-        _cell = cell;
+    public void setContainer(final IContainer container) {
+        _container = container;
     }
 
         /**
@@ -157,6 +167,16 @@ public abstract class Entity {
 
     public CommandHandler locateCommandHandler(final String name) {
         return _commandHandlers.get(name);
+    }
+
+    public void rotateLeft() {
+        delay();
+        setHeading(_heading.turnLeft());
+    }
+
+    public void rotateRight() {
+        delay();
+        setHeading(_heading.turnRight());
     }
 
     public void sendCommand(final Command command) {

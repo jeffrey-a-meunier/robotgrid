@@ -1,9 +1,6 @@
-package robotgrid.entity.movingBase;
+package robotgrid.entity;
 
-import robotgrid.entity.Command;
-import robotgrid.entity.PoweredEntity;
-
-public class MovingBase extends PoweredEntity {
+public interface IContainer {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -13,25 +10,6 @@ public class MovingBase extends PoweredEntity {
     // Instance variables =====================================================
     // Instance initializer ===================================================
     // Constructors ===========================================================
-
-    public MovingBase(final String name) {
-        super(name, 1);
-        setView(new _View(this));
-        _Commands.setup(this);
-    }
-
     // Instance methods =======================================================
-
-    public void moveForward(final Command command) {
-        delay();
-        cell().grid().move(this, _heading);
-        command.ioContext.infoSuccess(command);
-    }
-
-    public void moveBackward(final Command command) {
-        delay();
-        cell().grid().move(this, _heading.opposite());
-        command.ioContext.infoSuccess(command);
-    }
 
 }

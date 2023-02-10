@@ -28,7 +28,7 @@ public class Exit extends CommandHandler {
     @Override
     public void execute(final Command command) {
         String message = "World exiting";
-        command.ioContext.commandNotify(message);
+        // command.ioContext.commandNotify(message);
         command.ioContext.infoNotify(message);
         _logger.info(message);
         World.THE_WORLD.exit();

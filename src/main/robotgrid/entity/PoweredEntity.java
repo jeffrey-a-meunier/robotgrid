@@ -17,7 +17,7 @@ public abstract class PoweredEntity extends Entity implements Runnable {
      */
     protected static float _STANDARD_LATENCY = 1000.0f;  // milliseconds
 
-    private Logger _LOGGER = new Logger(PoweredEntity.class);
+    private Logger _LOGGER = new Logger(PoweredEntity.class, Logger.Level.All);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -91,12 +91,7 @@ public abstract class PoweredEntity extends Entity implements Runnable {
 
     @Override
     public void sendCommand(final Command command) {
-        if (command.handler().isImmediate()) {
-            command.execute();
-        }
-        else {
-            _LOGGER.trace("sendCommand() got command ", command);
-            _commandQ.enq(command);
-        }
+        _commandQ.enq(command);
     }
+
 }

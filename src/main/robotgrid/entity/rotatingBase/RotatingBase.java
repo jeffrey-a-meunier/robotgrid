@@ -1,6 +1,6 @@
 package robotgrid.entity.rotatingBase;
 
-import robotgrid.entity.Command;
+import robotgrid.entity.Entity;
 import robotgrid.entity.PoweredEntity;
 
 public class RotatingBase extends PoweredEntity {
@@ -22,14 +22,27 @@ public class RotatingBase extends PoweredEntity {
 
     // Instance methods =======================================================
 
-    public void rotateLeft(final Command command) {
-        // TODO
-        command.setErrorMessage( "RotatingBase.rotateLeft is not implemented");
+    @Override
+    public void rotateLeft() {
+        delay();
+        Entity payload = payload();
+        if (payload != null) {
+            payload.rotateLeft();
+        }
     }
 
-    public void rotateRight(final Command command) {
-        // TODO
-        command.setErrorMessage("RotatingBase.rotateLeft is not implemented");
+    @Override
+    public void rotateRight() {
+        delay();
+        Entity payload = payload();
+        if (payload != null) {
+            payload.rotateRight();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "RotatingBase{" + name + '}';
     }
 
 }
