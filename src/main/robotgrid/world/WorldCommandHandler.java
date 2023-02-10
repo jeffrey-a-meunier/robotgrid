@@ -1,10 +1,13 @@
 package robotgrid.world;
 
+import java.util.List;
+
 import robotgrid.entity.Entity;
 import robotgrid.world.commands.Exit;
-import robotgrid.world.commands.ListEntities;
+import robotgrid.world.commands.Entities;
 import robotgrid.world.commands.NewArm;
 import robotgrid.world.commands.NewConveyor;
+import robotgrid.world.commands.NewGroup;
 import robotgrid.world.commands.NewMovingBase;
 import robotgrid.world.commands.NewRotatingBase;
 import robotgrid.world.commands.NewTable;
@@ -27,10 +30,11 @@ public class WorldCommandHandler extends Entity {
 
     public WorldCommandHandler() {
         super("World");
+        addCommandHandler("Entities", new Entities());
         addCommandHandler("Exit", new Exit());
-        addCommandHandler("ListEntities", new ListEntities());
         addCommandHandler("NewArm", new NewArm());
         addCommandHandler("NewConveyor", new NewConveyor());
+        addCommandHandler("NewGroup", new NewGroup());
         addCommandHandler("NewMovingBase", new NewMovingBase());
         addCommandHandler("NewRotatingBase", new NewRotatingBase());
         addCommandHandler("NewTable", new NewTable());
@@ -38,6 +42,14 @@ public class WorldCommandHandler extends Entity {
     }
 
     // Instance methods =======================================================
+
+    @Override
+    public void info(final List<String> strings) {
+        strings.add("Type=" + getClass().getSimpleName());
+        List<String> names = Entity.names();
+        strings.add("Entities=" + names);
+        strings.add("Count=" + names.size());
+    }
 
     @Override
     public String typeName() {

@@ -1,4 +1,4 @@
-package robotgrid.entity;
+package robotgrid.entity.abstractEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,14 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import robotgrid.graphics.Graphics;
-import robotgrid.scene.Cell;
-import robotgrid.scene.Direction;
-import robotgrid.server.Client;
+import robotgrid.entity.Command;
+import robotgrid.entity.CommandHandler;
+import robotgrid.entity.IContainer;
 import robotgrid.utils.Logger;
 import robotgrid.world.World;
 
-public abstract class Entity implements IContainer {
+public abstract class AbstractEntity implements IContainer {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -25,14 +24,14 @@ public abstract class Entity implements IContainer {
      */
     protected static float _STANDARD_LATENCY = 1000.0f;  // milliseconds
 
-    protected static final Map<String, Entity> _ALL_ENTITIES = new HashMap<>();
+    protected static final Map<String, AbstractEntity> _ALL_ENTITIES = new HashMap<>();
 
-    private Logger _LOGGER = new Logger(Entity.class);
+    private Logger _LOGGER = new Logger(AbstractEntity.class);
 
     // Static initializer =====================================================
     // Static methods =========================================================
 
-    public static Entity lookup(final String name) {
+    public static AbstractEntity lookup(final String name) {
         return _ALL_ENTITIES.get(name);
     }
 
@@ -47,87 +46,22 @@ public abstract class Entity implements IContainer {
     // Instance variables =====================================================
 
     public final String name;
-    public final int height;
-
-    protected View _view;
-    protected IContainer _container;
-    protected Direction _heading = Direction.North;
-    protected Entity _payload;
 
     protected Map<String, CommandHandler> _commandHandlers = new HashMap<>();
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Entity(final String name) {
-        this(name, 0);
-    }
-
-    public Entity(final String name, final int height) {
+    public AbstractEntity(final String name) {
         this.name = name;
-        this.height = height;
-        Entity_Commands.setup(this);
+        _Commands.setup(this);
         _ALL_ENTITIES.put(name, this);
-    }
-
-    public Entity setHeading(final Direction heading) {
-        _heading = heading;
-        if (_view != null) {
-            _view.setAngle(_heading.getAngle());
-        }
-        return this;
-    }
-
-    public Entity setView(final View view) {
-        _view = view;
-        _view.setAngle(_heading.getAngle());
-        return this;
     }
 
     // Instance methods =======================================================
 
     public void addCommandHandler(final String name, final CommandHandler handler) {
         _commandHandlers.put(name, handler);
-    }
-
-    public synchronized boolean addPayload(final Entity payload) {
-        if (_payload != null) {
-            return false;
-        }
-        _payload = payload;
-        payload.setContainer(this);
-        Client.INFO.payloadNotice(this, payload);
-        return true;
-    }
-
-    public Entity removePayload() {
-        Entity entity = _payload;
-        _payload = null;
-        Client.INFO.payloadNotice(this, null);
-        return entity;
-    }
-
-    public Entity payload() {
-        return _payload;
-    }
-
-    public Cell cell() {
-        IContainer container = _container;
-        while (true) {
-            if (container == null) {
-                return null;
-            }
-            if (container instanceof Cell) {
-                return (Cell)container;
-            }
-            else if (container instanceof Entity) {
-                container = ((Entity)container)._container;
-            }
-        }
-    }
-
-    public void setContainer(final IContainer container) {
-        _container = container;
     }
 
     /**
@@ -144,29 +78,19 @@ public abstract class Entity implements IContainer {
         }
     }
 
+
     public float deviceLatency() {
         return _STANDARD_LATENCY;
     }
 
-    public void draw(final Graphics graphics, final int layerNum) {
-        _view.draw(graphics, layerNum);
-    }
-
     public void info(final List<String> strings) {
         strings.add("Type=" + getClass().getSimpleName());
-        strings.add("Heading=" + _heading);
-        strings.add("Payload=" + ((_payload == null) ? "No" : "Yes"));
-        Cell cell = cell();
-        strings.add("Coordinate=" + cell.row() + ',' + cell.col());
     }
 
-    public Direction heading() {
-        return _heading;
-    }
-
-    /**
+     /**
      * Only a PoweredEntity can have its power switched on or off, but putting
      * this method in this class simplifies command handling in the Server class.
+     * The server does not deliver command messages to an entity if it is not on.
      */
     public boolean isOn() {
         return true;
@@ -184,25 +108,6 @@ public abstract class Entity implements IContainer {
     public CommandHandler locateCommandHandler(final String name) {
         return _commandHandlers.get(name);
     }
-
-    public void rotateLeft() {
-        delay();
-        rotateLeft_immediate();
-    }
-
-    public void rotateLeft_immediate() {
-        setHeading(_heading.turnLeft());
-    }
-
-    public void rotateRight() {
-        delay();
-        rotateRight_immediate();
-    }
-
-    public void rotateRight_immediate() {
-        setHeading(_heading.turnRight());
-    }
-
 
     public void sendCommand(final Command command) {
         command.execute();

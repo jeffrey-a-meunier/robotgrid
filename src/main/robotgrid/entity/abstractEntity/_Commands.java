@@ -1,38 +1,19 @@
-package robotgrid.world.commands;
+package robotgrid.entity.abstractEntity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import robotgrid.entity.Command;
-import robotgrid.entity.CommandHandler;
-import robotgrid.entity.Entity;
-import robotgrid.server.Client;
-
-public class ListEntities extends CommandHandler {
+public class _Commands {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
     // Static initializer =====================================================
     // Static methods =========================================================
+
+    public static void setup(final AbstractEntity entity) {
+    }
+
     // Instance inner classes =================================================
     // Instance variables =====================================================
     // Instance initializer ===================================================
     // Constructors ===========================================================
-
-    public ListEntities() {
-        setImmeidate(true);
-    }
-
     // Instance methods =======================================================
-    
-    @Override
-    public void execute(final Command command) {
-        List<String> allNames = new ArrayList<>(Entity.names());
-        Collections.sort(allNames);
-        for (String name : allNames) {
-            Client.COMMAND_REPLY.write(name);
-        }
-    }
 
 }

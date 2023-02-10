@@ -30,7 +30,7 @@ public class NewWidget extends CommandHandler {
         try {
             String name = getStringArg("name", args, 0);
             if (name == null) {
-                command.setErrorMessage("Entity name required");
+                command.setErrorMessage("Widget name required");
                 return;
             }
             int row = getIntArg("row", args, 1, 0);

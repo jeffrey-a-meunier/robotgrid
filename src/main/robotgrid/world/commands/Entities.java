@@ -1,10 +1,15 @@
 package robotgrid.world.commands;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import robotgrid.entity.Command;
 import robotgrid.entity.CommandHandler;
-import robotgrid.entity.group.Group;
+import robotgrid.entity.Entity;
+import robotgrid.server.Client;
 
-public class NewGroup extends CommandHandler {
+public class Entities extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -15,26 +20,17 @@ public class NewGroup extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public NewGroup() {
+    public Entities() {
         setImmeidate(true);
     }
 
     // Instance methods =======================================================
-
+    
     @Override
-    public void execute(Command command) {
-        String[] args = command.arguments();
-        try {
-            String name = getStringArg("name", args, 0);
-            if (name == null) {
-                command.setErrorMessage("Group name required");
-                return;
-            }
-            new Group(name);
-        }
-        catch (final ArgumentException exn) {
-            command.setErrorMessage("Argument exception: " + exn);
-        }
+    public void execute(final Command command) {
+        List<String> allNames = new ArrayList<>(Entity.names());
+        Collections.sort(allNames);
+        Client.COMMAND_REPLY.writeLines(allNames);
     }
 
 }

@@ -140,9 +140,6 @@ public class Server {
                 }
             }
         }
-        else {
-            Client.COMMAND_REPLY.error("Invalid command");
-        }
     }
 
     protected void _handleCommandSocket(final Socket clientSocket) {
@@ -174,6 +171,7 @@ public class Server {
     protected void _handleInfoSocket(final Socket clientSocket) {
         try {
             _infoSocketPrintWriter = new PrintWriter(clientSocket.getOutputStream());
+            Client.setInfoChannel(_infoSocketPrintWriter);
             // TODO how to detect when the client closes this connection?
             // Client.setInfoChannel(null);
         }

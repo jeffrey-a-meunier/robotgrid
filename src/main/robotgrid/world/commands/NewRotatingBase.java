@@ -29,7 +29,7 @@ public class NewRotatingBase extends CommandHandler {
         try {
             String name = getStringArg("name", args, 0);
             if (name == null) {
-                command.setErrorMessage("Entity name required");
+                command.setErrorMessage("RotatingBase name required");
                 return;
             }
             int row = getIntArg("row", args, 1, 0);

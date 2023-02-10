@@ -21,7 +21,6 @@ public class Command {
     protected Entity _entity;
     protected CommandHandler _handler;
     protected String[] _arguments;
-
     protected Optional<String> _errorMessage = Optional.empty();
 
     // Instance initializer ===================================================

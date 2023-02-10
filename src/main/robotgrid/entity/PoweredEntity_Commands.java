@@ -6,8 +6,8 @@ class PoweredEntity_Commands {
 
     // Static inner classes ===================================================
 
-    protected static class _IsOn extends CommandHandler {
-        public _IsOn() { setImmeidate(true); }
+    protected static class _Power extends CommandHandler {
+        public _Power() { setImmeidate(true); }
         @Override
         public void execute(final Command command) {
             PoweredEntity poweredEntity = (PoweredEntity)command.entity();
@@ -38,7 +38,7 @@ class PoweredEntity_Commands {
     // Static methods =========================================================
 
     public static void setup(final Entity entity) {
-        entity.addCommandHandler("IsOn", new _IsOn());
+        entity.addCommandHandler("Power", new _Power());
         entity.addCommandHandler("PowerOn", new _PowerOn());
         entity.addCommandHandler("PowerOff", new _PowerOff());
     }

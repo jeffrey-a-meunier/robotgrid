@@ -17,10 +17,10 @@ World NewConveyor Conveyor3 5 3 West
 World NewTable Table1 5 2
 World NewWidget Widget1 5 2
 
-#R1 PowerOn
-#Base1 PowerOn
-#Arm1 PowerOn
-#Base2 PowerOn
-#Arm2 PowerOn
+R1 PowerOn
+Base1 PowerOn
+Arm1 PowerOn
+Base2 PowerOn
+Arm2 PowerOn
 
 # ConveyorGroup1 PowerOn

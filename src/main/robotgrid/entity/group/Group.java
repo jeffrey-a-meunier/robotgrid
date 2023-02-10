@@ -1,10 +1,8 @@
-package robotgrid.world.commands;
+package robotgrid.entity.group;
 
-import robotgrid.entity.Command;
-import robotgrid.entity.CommandHandler;
-import robotgrid.entity.group.Group;
+import robotgrid.entity.PoweredEntity;
 
-public class NewGroup extends CommandHandler {
+public class Group extends PoweredEntity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -15,26 +13,17 @@ public class NewGroup extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public NewGroup() {
-        setImmeidate(true);
+    public Group(final String name) {
+        super(name, 0);
+        setView(new _View(this));
+        _Commands.setup(this);
     }
 
     // Instance methods =======================================================
 
     @Override
-    public void execute(Command command) {
-        String[] args = command.arguments();
-        try {
-            String name = getStringArg("name", args, 0);
-            if (name == null) {
-                command.setErrorMessage("Group name required");
-                return;
-            }
-            new Group(name);
-        }
-        catch (final ArgumentException exn) {
-            command.setErrorMessage("Argument exception: " + exn);
-        }
+    public String typeName() {
+        return "Group";
     }
 
 }
