@@ -43,6 +43,7 @@ public abstract class PoweredEntity extends Entity implements Runnable {
      * otherwise known as inertia.
      */
     public void delay() {
+        System.out.println("PoweredEntity.delay() called on entity " + this);
         long delay = (long)(deviceLatency() / World.SIMULATION_SPEED);
         try {
             Thread.sleep(delay);

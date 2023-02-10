@@ -27,7 +27,7 @@ public class RotatingBase extends PoweredEntity {
         delay();
         Entity payload = payload();
         if (payload != null) {
-            payload.rotateLeft();
+            payload.rotateLeft_immediate();
         }
     }
 
@@ -36,7 +36,7 @@ public class RotatingBase extends PoweredEntity {
         delay();
         Entity payload = payload();
         if (payload != null) {
-            payload.rotateRight();
+            payload.rotateRight_immediate();
         }
     }
 

@@ -171,13 +171,22 @@ public abstract class Entity implements IContainer {
 
     public void rotateLeft() {
         delay();
+        rotateLeft_immediate();
+    }
+
+    public void rotateLeft_immediate() {
         setHeading(_heading.turnLeft());
     }
 
     public void rotateRight() {
         delay();
+        rotateRight_immediate();
+    }
+
+    public void rotateRight_immediate() {
         setHeading(_heading.turnRight());
     }
+
 
     public void sendCommand(final Command command) {
         command.execute();
