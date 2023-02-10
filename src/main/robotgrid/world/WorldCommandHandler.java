@@ -39,4 +39,9 @@ public class WorldCommandHandler extends Entity {
 
     // Instance methods =======================================================
 
+    @Override
+    public String typeName() {
+        return "World";
+    }
+
 }

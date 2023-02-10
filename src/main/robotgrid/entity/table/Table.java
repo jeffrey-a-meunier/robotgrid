@@ -22,4 +22,9 @@ public class Table extends Entity {
         setView(new _View(this));
     }
 
+    @Override
+    public String typeName() {
+        return "Table";
+    }
+
 }

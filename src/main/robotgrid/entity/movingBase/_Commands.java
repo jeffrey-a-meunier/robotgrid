@@ -27,7 +27,6 @@ class _Commands {
         @Override
         public void execute(final Command command) {
             MovingBase base = (MovingBase)command.entity();
-            System.out.println("Entity._RotateLeft.execute called");
             base.rotateLeft();
         }
     }

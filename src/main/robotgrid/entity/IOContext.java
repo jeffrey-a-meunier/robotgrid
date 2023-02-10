@@ -74,6 +74,11 @@ public class IOContext {
         }
     }
 
+    public void entityIsOff(final Command command) {
+        Entity entity = command.entity();
+        _commandReply(_PREFIX + "OFF " + entity);
+    }
+
     // info channel methods ---------------------------------------------------
 
     public void infoStrings(final String ... strings) {

@@ -41,8 +41,8 @@ public class RotatingBase extends PoweredEntity {
     }
 
     @Override
-    public String toString() {
-        return "RotatingBase{" + name + '}';
+    public String typeName() {
+        return "RotatingBase";
     }
 
 }

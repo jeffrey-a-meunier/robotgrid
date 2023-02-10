@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import robotgrid.entity.Command;
+import robotgrid.entity.Entity;
 import robotgrid.entity.IOContext;
 import robotgrid.utils.Logger;
 
@@ -194,8 +195,14 @@ public class Server {
                 _ioContext.commandSuccessOrfailure(command);
             }
             else {
-                command.entity().sendCommand(command);
-                _ioContext.commandStarted(command);
+                Entity entity = command.entity();
+                if (entity.isOn()) {
+                    command.entity().sendCommand(command);
+                    _ioContext.commandStarted(command);
+                }
+                else {
+                    _ioContext.entityIsOff(command);
+                }
             }
         }
         else {

@@ -19,4 +19,9 @@ public class Conveyor extends Entity {
         _Commands.setup(this);
     }
 
+    @Override
+    public String typeName() {
+        return "Conveyor";
+    }
+
 }

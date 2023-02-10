@@ -25,13 +25,16 @@ public class MovingBase extends PoweredEntity {
     public void moveForward(final Command command) {
         delay();
         cell().grid().move(this, _heading);
-        command.ioContext.infoSuccess(command);
     }
 
     public void moveBackward(final Command command) {
         delay();
         cell().grid().move(this, _heading.opposite());
-        command.ioContext.infoSuccess(command);
+    }
+
+    @Override
+    public String typeName() {
+        return "MovingBase";
     }
 
 }

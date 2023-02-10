@@ -20,4 +20,9 @@ public class SquareWidget extends Widget {
 
     // Instance methods =======================================================
 
+    @Override
+    public String typeName() {
+        return "SquareWidget";
+    }
+
 }

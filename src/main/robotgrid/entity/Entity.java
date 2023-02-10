@@ -127,7 +127,7 @@ public abstract class Entity implements IContainer {
         _container = container;
     }
 
-        /**
+    /**
      * This method is used by subclasses to simulate real-world latency of motion.
      * I guess that's called inertia.
      */
@@ -154,6 +154,14 @@ public abstract class Entity implements IContainer {
         strings.add("Type=" + getClass().getSimpleName());
         strings.add("Heading=" + _heading);
         strings.add("Payload=" + ((_payload == null) ? "No" : "Yes"));
+    }
+
+    /**
+     * Only a PoweredEntity can have its power switched on or off, but putting
+     * this method in this class simplifies command handling in the Server class.
+     */
+    public boolean isOn() {
+        return true;
     }
 
     public void listCommands(final List<String> strings) {
@@ -191,5 +199,12 @@ public abstract class Entity implements IContainer {
     public void sendCommand(final Command command) {
         command.execute();
     }
+
+    @Override
+    public String toString() {
+        return typeName() + '{' + name + '}';
+    }
+
+    public abstract String typeName();
 
 }

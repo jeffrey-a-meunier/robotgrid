@@ -72,8 +72,8 @@ public class Arm extends PoweredEntity {
     }
 
     @Override
-    public String toString() {
-        return "Arm{" + name + '}';
+    public String typeName() {
+        return "Arm";
     }
 
 }
