@@ -63,7 +63,7 @@ public class ClientChannel {
     public void showResult(final Command command) {
         Optional<String> errorMessage = command.errorMessage();
         if (errorMessage.isEmpty()) {
-            write(_PREFIX, "OK " + command.uid + " [" + command.string + ']');
+            write(_PREFIX, "OK " + command.uid + ' ' + command.string);
         }
         else {
             write(_PREFIX, "ERROR " + command.errorMessage().get());

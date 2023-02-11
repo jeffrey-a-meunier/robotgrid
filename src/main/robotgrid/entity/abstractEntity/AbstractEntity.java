@@ -9,11 +9,10 @@ import java.util.Set;
 
 import robotgrid.entity.Command;
 import robotgrid.entity.CommandHandler;
-import robotgrid.entity.IContainer;
 import robotgrid.utils.Logger;
 import robotgrid.world.World;
 
-public abstract class AbstractEntity implements IContainer {
+public abstract class AbstractEntity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -64,6 +63,23 @@ public abstract class AbstractEntity implements IContainer {
         _commandHandlers.put(name, handler);
     }
 
+    public void listCommands(final List<String> strings) {
+        Set<String> nameSet = _commandHandlers.keySet();
+        List<String> nameList = new ArrayList<>(nameSet);
+        Collections.sort(nameList);
+        for (String name : nameList) {
+            strings.add(name);
+        }
+    }
+
+    public CommandHandler locateCommandHandler(final String name) {
+        return _commandHandlers.get(name);
+    }
+
+    public void sendCommand(final Command command) {
+        command.execute();
+    }
+
     /**
      * This method is used by subclasses to simulate real-world latency of motion.
      * I guess that's called inertia.
@@ -94,23 +110,6 @@ public abstract class AbstractEntity implements IContainer {
      */
     public boolean isOn() {
         return true;
-    }
-
-    public void listCommands(final List<String> strings) {
-        Set<String> nameSet = _commandHandlers.keySet();
-        List<String> nameList = new ArrayList<>(nameSet);
-        Collections.sort(nameList);
-        for (String name : nameList) {
-            strings.add(name);
-        }
-    }
-
-    public CommandHandler locateCommandHandler(final String name) {
-        return _commandHandlers.get(name);
-    }
-
-    public void sendCommand(final Command command) {
-        command.execute();
     }
 
     @Override

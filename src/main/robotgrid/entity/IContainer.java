@@ -1,5 +1,7 @@
 package robotgrid.entity;
 
+import java.util.Optional;
+
 public interface IContainer {
 
     // Static inner classes ===================================================
@@ -11,5 +13,10 @@ public interface IContainer {
     // Instance initializer ===================================================
     // Constructors ===========================================================
     // Instance methods =======================================================
+
+    public boolean addPayload(final Entity entity);
+    public int payloadCount();
+    public Optional<Entity> peekPayload();
+    public Optional<Entity> removePayload();
 
 }

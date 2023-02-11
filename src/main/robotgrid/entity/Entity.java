@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
+import robotgrid.entity.abstractEntity.AbstractEntity;
 import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
@@ -14,7 +16,7 @@ import robotgrid.server.Client;
 import robotgrid.utils.Logger;
 import robotgrid.world.World;
 
-public abstract class Entity implements IContainer {
+public abstract class Entity extends AbstractEntity implements IContainer {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -46,15 +48,12 @@ public abstract class Entity implements IContainer {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    public final String name;
     public final int height;
-
     protected View _view;
     protected IContainer _container;
     protected Direction _heading = Direction.North;
-    protected Entity _payload;
-
-    protected Map<String, CommandHandler> _commandHandlers = new HashMap<>();
+    protected List<Entity> _payload = new ArrayList<>();
+    protected int _maxPayload = 1;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -64,7 +63,7 @@ public abstract class Entity implements IContainer {
     }
 
     public Entity(final String name, final int height) {
-        this.name = name;
+        super(name);
         this.height = height;
         Entity_Commands.setup(this);
         _ALL_ENTITIES.put(name, this);
@@ -86,29 +85,43 @@ public abstract class Entity implements IContainer {
 
     // Instance methods =======================================================
 
-    public void addCommandHandler(final String name, final CommandHandler handler) {
-        _commandHandlers.put(name, handler);
-    }
-
-    public synchronized boolean addPayload(final Entity payload) {
-        if (_payload != null) {
+    @Override  // from IContainer
+    public boolean addPayload(final Entity payload) {
+        synchronized (_payload) {
+            if (_payload.size() < _maxPayload) {
+                _payload.add(payload);
+                payload.setContainer(this);
+                Client.INFO.payloadNotice(this, payload);
+                return true;
+            }
             return false;
         }
-        _payload = payload;
-        payload.setContainer(this);
-        Client.INFO.payloadNotice(this, payload);
-        return true;
     }
 
-    public Entity removePayload() {
-        Entity entity = _payload;
-        _payload = null;
-        Client.INFO.payloadNotice(this, null);
-        return entity;
+    @Override  // from IContainer
+    public int payloadCount() {
+        synchronized (_payload) {
+            return _payload.size();
+        }
     }
 
-    public Entity payload() {
-        return _payload;
+    public Optional<Entity> peekPayload() {
+        if (_payload.size() > 0) {
+            return Optional.of(_payload.get(0));
+        }
+        return Optional.empty();
+    }
+
+    @Override  // from IContainer
+    public Optional<Entity> removePayload() {
+        synchronized (_payload) {
+            if (_payload.size() > 0) {
+                Entity payload = (Entity) _payload.remove(0);
+                Client.INFO.payloadNotice(this, null);
+                return Optional.of(payload);
+            }
+            return Optional.empty();
+        }
     }
 
     public Cell cell() {
@@ -179,10 +192,6 @@ public abstract class Entity implements IContainer {
         for (String name : nameList) {
             strings.add(name);
         }
-    }
-
-    public CommandHandler locateCommandHandler(final String name) {
-        return _commandHandlers.get(name);
     }
 
     public void rotateLeft() {

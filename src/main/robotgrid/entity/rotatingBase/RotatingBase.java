@@ -1,5 +1,7 @@
 package robotgrid.entity.rotatingBase;
 
+import java.util.Optional;
+
 import robotgrid.entity.Entity;
 import robotgrid.entity.PoweredEntity;
 
@@ -25,8 +27,9 @@ public class RotatingBase extends PoweredEntity {
     @Override
     public void rotateLeft() {
         delay();
-        Entity payload = payload();
-        if (payload != null) {
+        Optional<Entity> payload_opt = peekPayload();
+        if (payload_opt.isPresent()) {
+            Entity payload = payload_opt.get();
             payload.rotateLeft_immediate();
         }
     }
@@ -34,8 +37,9 @@ public class RotatingBase extends PoweredEntity {
     @Override
     public void rotateRight() {
         delay();
-        Entity payload = payload();
-        if (payload != null) {
+        Optional<Entity> payload_opt = peekPayload();
+        if (payload_opt.isPresent()) {
+            Entity payload = payload_opt.get();
             payload.rotateRight_immediate();
         }
     }

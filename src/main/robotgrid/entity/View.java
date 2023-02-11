@@ -1,5 +1,7 @@
 package robotgrid.entity;
 
+import java.util.Optional;
+
 import processing.core.PMatrix;
 import processing.core.PMatrix2D;
 import robotgrid.graphics.Graphics;
@@ -40,6 +42,14 @@ public abstract class View {
             graphics.translate(_x, _y);
         }
         graphics.rotate(_angle);
+    }
+
+    protected void _drawPayload(final Graphics graphics, final int layerNum) {
+        Optional<Entity> payload_opt = _entity.peekPayload();
+        if (payload_opt.isPresent()) {
+            Entity payload = payload_opt.get();
+            payload.draw(graphics, layerNum);
+        }
     }
 
     public void setAngle(final float angle) {

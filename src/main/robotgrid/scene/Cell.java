@@ -1,5 +1,7 @@
 package robotgrid.scene;
 
+import java.util.Optional;
+
 import processing.core.PGraphics;
 import robotgrid.entity.Entity;
 import robotgrid.entity.IContainer;
@@ -81,7 +83,21 @@ public class Cell implements IContainer {
         return _entity.addPayload(payload);
     }
 
-    public synchronized Entity removePayload() {
+    public int payloadCount() {
+        if (_entity == null) {
+            return 0;
+        }
+        return _entity.payloadCount();
+    }
+
+    public Optional<Entity> peekPayload() {
+        if (_entity == null) {
+            return Optional.empty();
+        }
+        return _entity.peekPayload();
+    }
+
+    public synchronized Optional<Entity> removePayload() {
         if (_entity == null) {
             return null;
         }

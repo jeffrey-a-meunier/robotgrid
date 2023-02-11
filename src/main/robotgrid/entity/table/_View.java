@@ -30,10 +30,7 @@ class _View extends View {
         float size = Cell.SIZE * 0.9f;
         float pos = -size / 2.0f;
         layer.rect(pos, pos, size, size);
-        Entity payload = _entity.payload();
-        if (payload != null) {
-            payload.draw(graphics, layerNum + 1);
-        }
+        _drawPayload(graphics, layerNum + 1);
     }
 
 }

@@ -1,5 +1,7 @@
 package robotgrid.entity.widget;
 
+import java.util.Optional;
+
 import robotgrid.entity.Entity;
 import robotgrid.shape.Shape;
 
@@ -27,8 +29,8 @@ public abstract class Widget extends Entity {
     }
 
     @Override
-    public Entity removePayload() {
-        return this;
+    public Optional<Entity> removePayload() {
+        return Optional.of(this);
     }
 
 }

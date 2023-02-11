@@ -1,8 +1,8 @@
 package robotgrid.entity.group;
 
-import robotgrid.entity.PoweredEntity;
+import robotgrid.entity.abstractEntity.AbstractEntity;
 
-public class Group extends PoweredEntity {
+public class Group extends AbstractEntity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -14,8 +14,7 @@ public class Group extends PoweredEntity {
     // Constructors ===========================================================
 
     public Group(final String name) {
-        super(name, 0);
-        setView(new _View(this));
+        super(name);
         _Commands.setup(this);
     }
 

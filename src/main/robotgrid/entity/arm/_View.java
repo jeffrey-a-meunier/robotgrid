@@ -1,5 +1,7 @@
 package robotgrid.entity.arm;
 
+import java.util.Optional;
+
 import processing.core.PGraphics;
 import robotgrid.entity.Entity;
 import robotgrid.entity.View;
@@ -33,11 +35,11 @@ class _View extends View {
     protected float _payloadY = 0.0f;
 
     protected void _drawArm(final Graphics graphics, final int layerNum) {
+        Arm arm = (Arm)_entity;
         PGraphics layer = graphics.layer(layerNum);
         float armWidth = Cell.SIZE / 3.0f;
         float armWidth2 = armWidth / 2.0f;
         float armLength;
-        Arm arm = (Arm)_entity;
         if (arm.isExtended()) {
             armLength = Cell.SIZE - armWidth2;
         }
@@ -47,10 +49,11 @@ class _View extends View {
         layer.rect(-armWidth2, armWidth2, armWidth, -armLength);
         _eoatPos = -armLength + armWidth2;
         _payloadY = _eoatPos - armWidth;
-        _drawGripper(arm, graphics, layerNum);
+        _drawGripper(graphics, layerNum);
     }
 
-    protected void _drawGripper(final Arm arm, final Graphics graphics, final int layerNum) {
+    protected void _drawGripper(final Graphics graphics, final int layerNum) {
+        Arm arm = (Arm)_entity;
         PGraphics layer = graphics.layer(layerNum);
         float armWidth = Cell.SIZE / 3.0f;
         float armWidth2 = armWidth / 2.0f;
@@ -78,14 +81,17 @@ class _View extends View {
         layer.line(-x2, y2, -x3, y3);
         layer.strokeWeight(1.0f);
         graphics.translate(0, y3);
-        _drawPayload(arm, graphics, layerNum - 1);
+        _drawPayload(graphics, layerNum - 1);
     }
 
-    protected void _drawPayload(final Arm arm, final Graphics graphics, final int layerNum) {
-        Entity payload = arm.payload();
-        if (payload != null) {
+    @Override
+    protected void _drawPayload(final Graphics graphics, final int layerNum) {
+        Arm arm = (Arm)_entity;
+        Optional<Entity> payload_opt = arm.peekPayload();
+        if (payload_opt.isPresent()) {
             PGraphics layer = graphics.layer(layerNum);
             layer.translate(0.0f, _payloadY);
+            Entity payload = payload_opt.get();
             payload.draw(graphics, layerNum);
         }
     }

@@ -37,10 +37,7 @@ class _View extends View {
         super.draw(graphics, layerNum);
         _body.draw(graphics.layer(layerNum));
         _indicator.draw(graphics.layer(layerNum));
-        Entity payload = _entity.payload();
-        if (payload != null) {
-            payload.draw(graphics, layerNum + 1);
-        }
+        _drawPayload(graphics, layerNum);
     }
 
 }

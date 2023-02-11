@@ -31,10 +31,7 @@ class _View extends View {
         float pos = -size / 2.0f;
         layer.rect(pos, pos, size, size);
         layer.circle(0.0f, 0.0f, Cell.SIZE * 0.7f);
-        Entity payload = _entity.payload();
-        if (payload != null) {
-            payload.draw(graphics, layerNum + 1);
-        }
+        _drawPayload(graphics, layerNum);
     }
 
 }

@@ -30,10 +30,7 @@ class _View extends View {
         float pos = -Cell.SIZE / 2.0f;
         layer.rect(pos, pos, Cell.SIZE, Cell.SIZE);
         _drawLines(layer);
-        Entity payload = _entity.payload();
-        if (payload != null) {
-            payload.draw(graphics, layerNum + 1);
-        }
+        _drawPayload(graphics, layerNum + 1);
     }
 
     protected void _drawLines(final PGraphics layer) {

@@ -1,5 +1,7 @@
 package robotgrid.entity.arm;
 
+import java.util.Optional;
+
 import robotgrid.entity.Entity;
 import robotgrid.entity.PoweredEntity;
 import robotgrid.scene.Cell;
@@ -47,9 +49,9 @@ public class Arm extends PoweredEntity {
         if (_isExtended && !_isGripping) {
             if(_payload == null) {
                 Cell adjacentCell = cell().getAdjacent(_heading);
-                Entity payload = adjacentCell.removePayload();
-                if (payload != null) {
-                    addPayload(payload);
+                Optional<Entity> payload_opt = adjacentCell.removePayload();
+                if (payload_opt.isPresent()) {
+                    addPayload(payload_opt.get());
                 }
             }
         }
@@ -58,11 +60,11 @@ public class Arm extends PoweredEntity {
 
     public void release() {
         delay();
-        if (_isExtended && _payload != null) {
+        if (_isExtended && _payload.size() > 0) {
             Cell adjacentCell = cell().getAdjacent(_heading);
-            if (adjacentCell.add(_payload)) {
-                _payload = null;
-                _isGripping = false;
+            Entity payload = removePayload().get();
+            if (adjacentCell.addPayload(payload)) {
+                _isGripping = _payload.size() == 0;
             }
         }
     }
