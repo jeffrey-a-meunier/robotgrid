@@ -16,7 +16,7 @@ public class Arm extends PoweredEntity {
     // Instance variables =====================================================
 
     protected boolean _isExtended = false;
-    protected boolean _isGripping = false;
+    protected boolean _isGrippingPayload = false;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -46,7 +46,7 @@ public class Arm extends PoweredEntity {
 
     public void grip() {
         delay();
-        if (_isExtended && !_isGripping) {
+        if (_isExtended && !_isGrippingPayload) {
             if(_payload == null) {
                 Cell adjacentCell = cell().getAdjacent(_heading);
                 Optional<Entity> payload_opt = adjacentCell.removePayload();
@@ -55,7 +55,7 @@ public class Arm extends PoweredEntity {
                 }
             }
         }
-        _isGripping = true;
+        _isGrippingPayload = true;
     }
 
     public void release() {
@@ -64,13 +64,13 @@ public class Arm extends PoweredEntity {
             Cell adjacentCell = cell().getAdjacent(_heading);
             Entity payload = removePayload().get();
             if (adjacentCell.addPayload(payload)) {
-                _isGripping = _payload.size() == 0;
+                _isGrippingPayload = _payload.size() == 0;
             }
         }
     }
 
     public boolean isGripping() {
-        return _isGripping;
+        return _isGrippingPayload;
     }
 
     @Override

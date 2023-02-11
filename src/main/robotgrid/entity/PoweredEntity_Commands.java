@@ -11,7 +11,7 @@ class PoweredEntity_Commands {
         @Override
         public void execute(final Command command) {
             PoweredEntity poweredEntity = (PoweredEntity)command.entity();
-            Client.COMMAND_REPLY.write((poweredEntity.isOn() ? "True" : "False"));
+            Client.COMMAND_REPLY.write((poweredEntity.isOn() ? "On" : "Off"));
         }
     }
 

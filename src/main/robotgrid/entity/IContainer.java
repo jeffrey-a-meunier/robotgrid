@@ -14,8 +14,8 @@ public interface IContainer {
     // Constructors ===========================================================
     // Instance methods =======================================================
 
-    public boolean addPayload(final Entity entity);
     public int payloadCount();
+    public boolean addPayload(final Entity payload);
     public Optional<Entity> peekPayload();
     public Optional<Entity> removePayload();
 

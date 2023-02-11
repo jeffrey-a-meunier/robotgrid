@@ -8,6 +8,7 @@ import robotgrid.world.commands.Exit;
 import robotgrid.world.commands.Entities;
 import robotgrid.world.commands.NewArm;
 import robotgrid.world.commands.NewConveyor;
+import robotgrid.world.commands.NewDrone;
 import robotgrid.world.commands.NewGroup;
 import robotgrid.world.commands.NewMovingBase;
 import robotgrid.world.commands.NewRotatingBase;
@@ -35,6 +36,7 @@ public class WorldCommandHandler extends AbstractEntity {
         addCommandHandler("Exit", new Exit());
         addCommandHandler("NewArm", new NewArm());
         addCommandHandler("NewConveyor", new NewConveyor());
+        addCommandHandler("NewDrone", new NewDrone());
         addCommandHandler("NewGroup", new NewGroup());
         addCommandHandler("NewMovingBase", new NewMovingBase());
         addCommandHandler("NewRotatingBase", new NewRotatingBase());

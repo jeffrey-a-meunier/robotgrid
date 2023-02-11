@@ -24,7 +24,7 @@ public class CircleShape extends Shape {
     @Override
     public void draw(final PGraphics graphics) {
         super.draw(graphics);
-        graphics.circle(0f, 0f, _diameter);
+        graphics.circle(0.0f, 0.0f, _diameter);
     }
 
 }

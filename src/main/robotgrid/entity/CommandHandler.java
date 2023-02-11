@@ -65,6 +65,18 @@ public abstract class CommandHandler {
         return direction;
     }
 
+    public Direction getDirectionArg_required(final Command command, final String paramName, final int index) {
+        String[] arguments = command.arguments();
+        String arg = getStringArg(paramName, arguments, index);
+        if (arg != null) {
+            Direction direction = Direction.parse(arguments[index]);
+            if (direction != null) {
+                return direction;
+            }
+        }
+        throw new ArgumentException("Direction required for parameter '" + paramName + "'");
+    }
+
     public String getStringArg(final String paramName, final String[] arguments, final int index) {
         if (index >= arguments.length) {
             throw new ArgumentException("Please provide a value for parameter '" + paramName + "'");
