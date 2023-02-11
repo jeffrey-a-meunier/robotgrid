@@ -31,7 +31,7 @@ public abstract class PoweredEntity extends Entity implements Runnable {
 
     public void info(final List<String> infoStrings) {
         super.info(infoStrings);
-        infoStrings.add("PoweredOn=" + (_isOn ? "True" : "False"));
+        infoStrings.add("Power=" + (_isOn ? "On" : "Off"));
     }
 
     @Override

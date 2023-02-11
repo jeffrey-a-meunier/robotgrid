@@ -1,6 +1,10 @@
 package robotgrid.entity.conveyor;
 
+import java.util.Optional;
+
+import robotgrid.entity.Entity;
 import robotgrid.entity.PoweredEntity;
+import robotgrid.scene.Cell;
 
 public class Conveyor extends PoweredEntity {
 
@@ -17,6 +21,32 @@ public class Conveyor extends PoweredEntity {
         super(name, 1);
         setView(new _View(this));
         _Commands.setup(this);
+    }
+
+    // Instance methods =======================================================
+
+    @Override
+    public boolean addPayload(final Entity payload) {
+        return super.addPayload(payload);
+    }
+
+    public void reverse() {
+        _heading = _heading.opposite();
+    }
+
+    @Override
+    public void run() {
+        while (!Thread.currentThread().isInterrupted()) {
+            Optional<Entity> payload_opt = peekPayload();
+            if (payload_opt.isPresent()) {
+                delay();
+                Cell adjacentCell = cell().getAdjacent(_heading);
+                if (adjacentCell.addPayload(payload_opt.get())) {
+                    removePayload();
+                }
+            }
+        }
+        _isOn = false;
     }
 
     @Override

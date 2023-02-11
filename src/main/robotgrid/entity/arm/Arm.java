@@ -46,13 +46,10 @@ public class Arm extends PoweredEntity {
 
     public void grip() {
         delay();
-        System.out.println("Arm.grip() got here 1, isExtended = " + _isExtended + " _isGripping = " + _isGrippingPayload);
         if (_isExtended && !_isGrippingPayload) {
-            System.out.println("Arm.grip() got here 2");
             if(_payload.size() == 0) {
                 Cell adjacentCell = cell().getAdjacent(_heading);
                 Optional<Entity> payload_opt = adjacentCell.removePayload();
-                System.out.println("Arm.grip() payload = " + payload_opt);
                 if (payload_opt.isPresent()) {
                     addPayload(payload_opt.get());
                 }

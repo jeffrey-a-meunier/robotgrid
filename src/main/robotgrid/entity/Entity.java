@@ -49,7 +49,6 @@ public abstract class Entity extends AbstractEntity implements IContainer {
     protected Direction _heading = Direction.North;
     protected List<Entity> _payload = new ArrayList<>();
     protected int _maxPayload = 1;
-    protected Entity _payloadReservation = null;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -88,7 +87,6 @@ public abstract class Entity extends AbstractEntity implements IContainer {
                 _payload.add(payload);
                 payload.setContainer(this);
                 Client.INFO.payloadNotice(this, payload);
-                _payloadReservation = null;
                 return true;
             }
             return false;
