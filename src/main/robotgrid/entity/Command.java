@@ -19,7 +19,9 @@ public class Command {
     public final String string;
     public final UID uid;
 
+    protected String _entityName;
     protected AbstractEntity _entity;
+    protected String _commandName;
     protected CommandHandler _handler;
     protected String[] _arguments;
     protected Optional<String> _errorMessage = Optional.empty();
@@ -32,7 +34,30 @@ public class Command {
         this.uid = new UID();
     }
 
+    public Command copyWithEntityName(final String name) {
+        String commandString = name + " " + _commandName + " " + String.join(" ", _arguments);
+        return new Command(commandString);
+    }
+
     // Instance methods =======================================================
+
+    public void performLifecycle() {
+        if (validate()) {
+            if (_handler.isImmediate()) {
+                _handler.execute(this);
+                Client.COMMAND_REPLY.showResult(this);
+            }
+            else {
+                if (_entity.isOn()) {
+                    _entity.sendCommand(this);
+                    Client.COMMAND_REPLY.commandStarted(this);
+                }
+                else {
+                    Client.COMMAND_REPLY.entityIsPoweredOff(this);
+                }
+            }
+        }
+    }
 
     public boolean validate() {
         String[] parts = string.split(" ");
@@ -40,16 +65,16 @@ public class Command {
             Client.COMMAND_REPLY.error("No command action specified");
             return false;
         }
-        String entityName = parts[0];
-        _entity = AbstractEntity.lookup(entityName);
+        _entityName = parts[0];
+        _entity = AbstractEntity.lookup(_entityName);
         if (_entity == null) {
-            Client.COMMAND_REPLY.error("Entity '" + entityName + "' not found");
+            Client.COMMAND_REPLY.error("Entity '" + _entityName + "' not found");
             return false;
         }
-        String commandName = parts[1];
-        _handler = _entity.locateCommandHandler(commandName);
+        _commandName = parts[1];
+        _handler = _entity.locateCommandHandler(_commandName);
         if (_handler == null) {
-            Client.COMMAND_REPLY.error("Command '" + commandName + "' not found for entity '" + entityName + "'");
+            Client.COMMAND_REPLY.error("Command '" + _commandName + "' not found for entity '" + _entityName + "'");
             return false;
         }
         _arguments = Arrays.copyOfRange(parts, 2, parts.length);
@@ -62,6 +87,10 @@ public class Command {
 
     public String[] arguments() {
         return _arguments;
+    }
+
+    public String commandName() {
+        return _commandName;
     }
 
     public AbstractEntity entity() {

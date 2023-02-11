@@ -1,7 +1,5 @@
 package robotgrid.entity;
 
-import java.util.Arrays;
-
 import robotgrid.scene.Direction;
 
 public abstract class CommandHandler {

@@ -8,7 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import robotgrid.entity.Command;
-import robotgrid.entity.abstractEntity.AbstractEntity;
 import robotgrid.utils.Logger;
 
 public class Server {
@@ -124,22 +123,23 @@ public class Server {
 
     public void handleCommandString(final String commandString) {
         Command command = new Command(commandString);
-        if (command.validate()) {
-            if (command.handler().isImmediate()) {
-                command.handler().execute(command);
-                Client.COMMAND_REPLY.showResult(command);
-            }
-            else {
-                AbstractEntity entity = command.entity();
-                if (entity.isOn()) {
-                    command.entity().sendCommand(command);
-                    Client.COMMAND_REPLY.commandStarted(command);
-                }
-                else {
-                    Client.COMMAND_REPLY.entityIsPoweredOff(command);
-                }
-            }
-        }
+        // if (command.validate()) {
+        //     if (command.handler().isImmediate()) {
+        //         command.handler().execute(command);
+        //         Client.COMMAND_REPLY.showResult(command);
+        //     }
+        //     else {
+        //         AbstractEntity entity = command.entity();
+        //         if (entity.isOn()) {
+        //             command.entity().sendCommand(command);
+        //             Client.COMMAND_REPLY.commandStarted(command);
+        //         }
+        //         else {
+        //             Client.COMMAND_REPLY.entityIsPoweredOff(command);
+        //         }
+        //     }
+        // }
+        command.performLifecycle();
     }
 
     protected void _handleCommandSocket(final Socket clientSocket) {
