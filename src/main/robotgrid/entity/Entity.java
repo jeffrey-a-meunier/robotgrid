@@ -48,7 +48,7 @@ public abstract class Entity extends AbstractEntity implements IContainer {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    public final int height;
+    protected int _height;
     protected View _view;
     protected IContainer _container;
     protected Direction _heading = Direction.North;
@@ -64,7 +64,7 @@ public abstract class Entity extends AbstractEntity implements IContainer {
 
     public Entity(final String name, final int height) {
         super(name);
-        this.height = height;
+        this._height = height;
         Entity_Commands.setup(this);
         _ALL_ENTITIES.put(name, this);
     }

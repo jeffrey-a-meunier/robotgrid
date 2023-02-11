@@ -45,7 +45,7 @@ public class WorldCommandHandler extends Entity {
 
     @Override
     public void info(final List<String> strings) {
-        strings.add("Type=" + getClass().getSimpleName());
+        super.info(strings);
         List<String> names = Entity.names();
         strings.add("Entities=" + names);
         strings.add("Count=" + names.size());
