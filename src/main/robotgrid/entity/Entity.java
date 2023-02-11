@@ -2,9 +2,8 @@ package robotgrid.entity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,16 +26,12 @@ public abstract class Entity extends AbstractEntity implements IContainer {
      */
     protected static float _STANDARD_LATENCY = 1000.0f;  // milliseconds
 
-    protected static final Map<String, Entity> _ALL_ENTITIES = new HashMap<>();
+    // protected static final Map<String, Entity> _ALL_ENTITIES = new HashMap<>();
 
     private Logger _LOGGER = new Logger(Entity.class);
 
     // Static initializer =====================================================
     // Static methods =========================================================
-
-    public static Entity lookup(final String name) {
-        return _ALL_ENTITIES.get(name);
-    }
 
     public static List<String> names() {
         Set<String> nameSet = _ALL_ENTITIES.keySet();

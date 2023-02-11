@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import robotgrid.entity.Command;
-import robotgrid.entity.Entity;
+import robotgrid.entity.abstractEntity.AbstractEntity;
 import robotgrid.utils.Logger;
 
 public class Server {
@@ -130,7 +130,7 @@ public class Server {
                 Client.COMMAND_REPLY.showResult(command);
             }
             else {
-                Entity entity = command.entity();
+                AbstractEntity entity = command.entity();
                 if (entity.isOn()) {
                     command.entity().sendCommand(command);
                     Client.COMMAND_REPLY.commandStarted(command);

@@ -1,8 +1,5 @@
 package robotgrid.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import robotgrid.scene.Cell;
 import robotgrid.server.Client;
 
@@ -14,7 +11,7 @@ class Entity_Commands {
         public _Coordinate() { setImmeidate(true); }
         @Override
         public void execute(final Command command) {
-            Entity entity = command.entity();
+            Entity entity = (Entity)command.entity();
             Cell cell = entity.cell();
             if (cell != null) {
                 Client.COMMAND_REPLY.write("Row=", cell.row());
@@ -30,27 +27,8 @@ class Entity_Commands {
         public _Heading() { setImmeidate(true); }
         @Override
         public void execute(final Command command) {
-            Client.COMMAND_REPLY.write(command.entity().heading());
-        }
-    }
-
-    protected static class _Info extends CommandHandler {
-        public _Info() { setImmeidate(true); }
-        @Override
-        public void execute(final Command command) {
-            List<String> strings = new ArrayList<>();
-            command.entity().info(strings);
-            Client.COMMAND_REPLY.writeLines(strings);
-        }
-    }
-
-    protected static class _Commands extends CommandHandler {
-        public _Commands() { setImmeidate(true); }
-        @Override
-        public void execute(final Command command) {
-            List<String> commandNames = new ArrayList<>();
-            command.entity().listCommands(commandNames);
-            Client.COMMAND_REPLY.writeLines(commandNames);
+            Entity entity = (Entity)command.entity();
+            Client.COMMAND_REPLY.write(entity.heading());
         }
     }
 
@@ -61,8 +39,6 @@ class Entity_Commands {
     public static void setup(final Entity entity) {
         entity.addCommandHandler("Coordinate", new _Coordinate());
         entity.addCommandHandler("Heading", new _Heading());
-        entity.addCommandHandler("Info", new _Info());
-        entity.addCommandHandler("Commands", new _Commands());
     }
 
     // Instance inner classes =================================================

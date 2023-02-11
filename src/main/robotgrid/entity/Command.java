@@ -3,6 +3,7 @@ package robotgrid.entity;
 import java.util.Arrays;
 import java.util.Optional;
 
+import robotgrid.entity.abstractEntity.AbstractEntity;
 import robotgrid.server.Client;
 import robotgrid.utils.UID;
 
@@ -18,7 +19,7 @@ public class Command {
     public final String string;
     public final UID uid;
 
-    protected Entity _entity;
+    protected AbstractEntity _entity;
     protected CommandHandler _handler;
     protected String[] _arguments;
     protected Optional<String> _errorMessage = Optional.empty();
@@ -40,7 +41,7 @@ public class Command {
             return false;
         }
         String entityName = parts[0];
-        _entity = Entity.lookup(entityName);
+        _entity = AbstractEntity.lookup(entityName);
         if (_entity == null) {
             Client.COMMAND_REPLY.error("Entity '" + entityName + "' not found");
             return false;
@@ -63,7 +64,7 @@ public class Command {
         return _arguments;
     }
 
-    public Entity entity() {
+    public AbstractEntity entity() {
         return _entity;
     }
 
