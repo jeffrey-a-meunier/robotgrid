@@ -2,11 +2,12 @@ package robotgrid.world.commands;
 
 import robotgrid.entity.Command;
 import robotgrid.entity.CommandHandler;
-import robotgrid.entity.drone.Drone;
+import robotgrid.entity.conveyor.Conveyor;
+import robotgrid.scene.Direction;
 import robotgrid.scene.Grid;
 import robotgrid.world.World;
 
-public class NewDrone extends CommandHandler {
+public class CreateConveyor extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -17,8 +18,8 @@ public class NewDrone extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public NewDrone() {
-        setImmeidate(true);
+    public CreateConveyor() {
+         setImmeidate(true);
     }
 
     // Instance methods =======================================================
@@ -29,14 +30,17 @@ public class NewDrone extends CommandHandler {
         try {
             String name = getStringArg("name", args, 0);
             if (name == null) {
-                command.setErrorMessage("Drone name required");
+                command.setErrorMessage("Conveyor name required");
                 return;
             }
             int row = getIntArg("row", args, 1, 0);
             int col = getIntArg("col", args, 2, 0);
-            Drone drone = new Drone(name);
+            Direction heading = getDirectionArg("heading", args, 3, Direction.North);
+            Conveyor conveyor = (Conveyor)new Conveyor(name)
+                .setHeading(heading)
+                ;
             Grid grid = World.THE_WORLD.currentScene().grid();
-            if (!grid.addEntity(row, col, drone)) {
+            if (!grid.addEntity(row, col, conveyor)) {
                 command.setErrorMessage("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
             }
         }

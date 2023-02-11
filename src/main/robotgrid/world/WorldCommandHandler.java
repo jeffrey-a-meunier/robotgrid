@@ -6,14 +6,14 @@ import robotgrid.entity.Entity;
 import robotgrid.entity.abstractEntity.AbstractEntity;
 import robotgrid.world.commands.Exit;
 import robotgrid.world.commands.Entities;
-import robotgrid.world.commands.NewArm;
-import robotgrid.world.commands.NewConveyor;
-import robotgrid.world.commands.NewDrone;
-import robotgrid.world.commands.NewGroup;
-import robotgrid.world.commands.NewMovingBase;
-import robotgrid.world.commands.NewRotatingBase;
-import robotgrid.world.commands.NewTable;
-import robotgrid.world.commands.NewWidget;
+import robotgrid.world.commands.CreateArm;
+import robotgrid.world.commands.CreateConveyor;
+import robotgrid.world.commands.CreateDrone;
+import robotgrid.world.commands.CreateGroup;
+import robotgrid.world.commands.CreateMovingBase;
+import robotgrid.world.commands.CreateRotatingBase;
+import robotgrid.world.commands.CreateTable;
+import robotgrid.world.commands.CreateWidget;
 
 /**
  * The World class is already a subclass of PApplet, so this class is used
@@ -34,14 +34,14 @@ public class WorldCommandHandler extends AbstractEntity {
         super("World");
         addCommandHandler("Entities", new Entities());
         addCommandHandler("Exit", new Exit());
-        addCommandHandler("NewArm", new NewArm());
-        addCommandHandler("NewConveyor", new NewConveyor());
-        addCommandHandler("NewDrone", new NewDrone());
-        addCommandHandler("NewGroup", new NewGroup());
-        addCommandHandler("NewMovingBase", new NewMovingBase());
-        addCommandHandler("NewRotatingBase", new NewRotatingBase());
-        addCommandHandler("NewTable", new NewTable());
-        addCommandHandler("NewWidget", new NewWidget());
+        addCommandHandler("CreateArm", new CreateArm());
+        addCommandHandler("CreateConveyor", new CreateConveyor());
+        addCommandHandler("CreateDrone", new CreateDrone());
+        addCommandHandler("CreateGroup", new CreateGroup());
+        addCommandHandler("CreateMovingBase", new CreateMovingBase());
+        addCommandHandler("CreateRotatingBase", new CreateRotatingBase());
+        addCommandHandler("CreateTable", new CreateTable());
+        addCommandHandler("CreateWidget", new CreateWidget());
     }
 
     // Instance methods =======================================================

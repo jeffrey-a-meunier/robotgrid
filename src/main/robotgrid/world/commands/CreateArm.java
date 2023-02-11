@@ -7,7 +7,7 @@ import robotgrid.scene.Direction;
 import robotgrid.scene.Grid;
 import robotgrid.world.World;
 
-public class NewArm extends CommandHandler {
+public class CreateArm extends CommandHandler {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -18,7 +18,7 @@ public class NewArm extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public NewArm() {
+    public CreateArm() {
         setImmeidate(true);
     }
 
