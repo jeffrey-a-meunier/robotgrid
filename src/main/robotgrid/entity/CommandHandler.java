@@ -69,7 +69,7 @@ public abstract class CommandHandler {
 
     public String getStringArg(final String paramName, final String[] arguments, final int index) {
         if (index >= arguments.length) {
-            throw new ArgumentException("Index " + index + " is out of bounds for argument list " + Arrays.toString(arguments));
+            throw new ArgumentException("Please provide a value for parameter '" + paramName + "'");
         }
         return arguments[index];
     }
