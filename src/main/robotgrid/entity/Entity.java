@@ -12,7 +12,6 @@ import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
 import robotgrid.server.Client;
-import robotgrid.utils.Logger;
 import robotgrid.world.World;
 
 public abstract class Entity extends AbstractEntity implements IContainer {
@@ -26,11 +25,7 @@ public abstract class Entity extends AbstractEntity implements IContainer {
      */
     protected static float _STANDARD_LATENCY = 1000.0f;  // milliseconds
 
-    // protected static final Map<String, Entity> _ALL_ENTITIES = new HashMap<>();
-
-    private Logger _LOGGER = new Logger(Entity.class);
-
-    // Static initializer =====================================================
+     // Static initializer =====================================================
     // Static methods =========================================================
 
     public static List<String> names() {
@@ -148,7 +143,7 @@ public abstract class Entity extends AbstractEntity implements IContainer {
             Thread.sleep(delay);
         }
         catch (final InterruptedException exn) {
-            _LOGGER.warn("delay(", delay, "): thread interrupted for object " + this);
+            // _LOGGER.warn("delay(", delay, "): thread interrupted for object " + this);
         }
     }
 

@@ -31,7 +31,7 @@ public class Conveyor extends PoweredEntity {
     }
 
     public void reverse() {
-        _heading = _heading.opposite();
+        setHeading(_heading.opposite());
     }
 
     @Override
