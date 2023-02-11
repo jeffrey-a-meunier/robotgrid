@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import robotgrid.entity.Command;
 import robotgrid.entity.Entity;
+import robotgrid.scene.Cell;
 
 public class ClientChannel {
 
@@ -58,6 +59,11 @@ public class ClientChannel {
     public void payloadNotice(final Entity entity, final Entity payload) {
         String payloadString = payload == null ? "None" : payload.name;
         write(_PREFIX, "PAYLOAD ", entity.name, ' ', payloadString);
+    }
+
+    public void payloadNotice(final Cell cell, final Entity payload) {
+        String payloadString = payload == null ? "None" : payload.name;
+        write(_PREFIX, "PAYLOAD ", cell.name(), ' ', payloadString);
     }
 
     public void showResult(final Command command) {

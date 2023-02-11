@@ -74,7 +74,7 @@ class _View extends View {
             x3 = x2;
             y3 = y2 - armWidth2;
         }
-        layer.strokeWeight(2.0f);
+        layer.strokeWeight(3.0f);
         layer.line(x1, y1, x2, y2);
         layer.line(x2, y2, x3, y3);
         layer.line(-x1, y1, -x2, y2);

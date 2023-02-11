@@ -45,7 +45,7 @@ public class Grid {
     public boolean addEntity(final int rowNum, final int colNum, final Entity entity) {
         Cell cell = getCell(rowNum, colNum);
         if (cell != null) {
-            return cell.add(entity);
+            return cell.addPayload(entity);
         }
         return false;
     }
@@ -74,8 +74,8 @@ public class Grid {
         Cell cell = entity.cell();
         Cell nextCell = cell.getAdjacent(direction);
         if (nextCell != null) {
-            if (nextCell.add(entity)) {
-                cell.remove(entity);
+            if (nextCell.addPayload(entity)) {
+                cell.removePayload();
             }
         }
     }

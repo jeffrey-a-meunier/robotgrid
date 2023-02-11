@@ -1,8 +1,8 @@
 package robotgrid.entity.conveyor;
 
-import robotgrid.entity.Entity;
+import robotgrid.entity.PoweredEntity;
 
-public class Conveyor extends Entity {
+public class Conveyor extends PoweredEntity {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -14,7 +14,7 @@ public class Conveyor extends Entity {
     // Constructors ===========================================================
 
     public Conveyor(final String name) {
-        super(name);
+        super(name, 1);
         setView(new _View(this));
         _Commands.setup(this);
     }

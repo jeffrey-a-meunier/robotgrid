@@ -5,8 +5,10 @@ import java.util.Optional;
 import processing.core.PGraphics;
 import robotgrid.entity.Entity;
 import robotgrid.entity.IContainer;
+import robotgrid.entity.widget.Widget;
 import robotgrid.graphics.Graphics;
 import robotgrid.graphics.Pen;
+import robotgrid.server.Client;
 
 public class Cell implements IContainer {
 
@@ -50,34 +52,36 @@ public class Cell implements IContainer {
 
     // Instance methods =======================================================
 
-    public boolean add(final Entity entity) {
-        if (_entity == null) {
-            _entity = entity;
-            entity.setContainer(this);
-            return true;
-        }
-        else {
-            return _entity.addPayload(entity);
-        }
-    }
+    // public boolean add(final Entity entity) {
+    //     if (_entity == null) {
+    //         _entity = entity;
+    //         entity.setContainer(this);
+    //         return true;
+    //     }
+    //     else {
+    //         return _entity.addPayload(entity);
+    //     }
+    // }
 
-    public Entity remove() {
-        Entity entity = _entity;
-        _entity = null;
-        return entity;
-    }
+    // public Entity remove() {
+    //     Entity entity = _entity;
+    //     _entity = null;
+    //     return entity;
+    // }
 
-    public boolean remove(final Entity entity) {
-        if (entity == _entity) {
-            remove();
-            return true;
-        }
-        return false;
-    }
+    // public boolean remove(final Entity entity) {
+    //     if (entity == _entity) {
+    //         remove();
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     public synchronized boolean addPayload(final Entity payload) {
         if (_entity == null) {
             _entity = payload;
+            payload.setContainer(this);
+            Client.INFO.payloadNotice(this, payload);
             return true;
         }
         return _entity.addPayload(payload);
@@ -99,9 +103,19 @@ public class Cell implements IContainer {
 
     public synchronized Optional<Entity> removePayload() {
         if (_entity == null) {
-            return null;
+            return Optional.empty();
+        }
+        if (_entity instanceof Widget) {
+            Entity widget = _entity;
+            _entity = null;
+            Client.INFO.payloadNotice(this, null);
+            return Optional.of(widget);
         }
         return _entity.removePayload();
+    }
+
+    public String name() {
+        return "Cell{" + _rowNum + ',' + _colNum + '}';
     }
 
     public void draw(final Graphics graphics) {
