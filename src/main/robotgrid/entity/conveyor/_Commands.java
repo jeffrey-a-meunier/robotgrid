@@ -8,6 +8,7 @@ class _Commands {
     // Static inner classes ===================================================
 
     protected static class _Reverse extends CommandHandler {
+        public _Reverse() { setImmeidate(true); }
         @Override
         public void execute(final Command command) {
             Conveyor conveyor = (Conveyor)command.entity();
