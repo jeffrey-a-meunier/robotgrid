@@ -162,6 +162,7 @@ public abstract class Entity extends AbstractEntity implements IContainer {
         strings.add("Payload=" + ((_payload == null) ? "No" : "Yes"));
         Cell cell = cell();
         strings.add("Coordinate=" + cell.row() + ',' + cell.col());
+        strings.add("Layer=" + cell.grid().layerType());
     }
 
     public Direction heading() {

@@ -1,5 +1,6 @@
 package robotgrid.scene;
 
+import java.util.List;
 import java.util.Optional;
 
 import processing.core.PGraphics;
@@ -72,6 +73,9 @@ public class Cell implements IContainer {
     public Optional<Entity> peekPayload() {
         if (_entity == null) {
             return Optional.empty();
+        }
+        if (_entity instanceof Widget) {
+            return Optional.of(_entity);
         }
         return _entity.peekPayload();
     }
@@ -154,6 +158,12 @@ public class Cell implements IContainer {
 
     public int col() {
         return _colNum;
+    }
+
+    public void info(final List<String> strings) {
+        String layerTypeString = "" + _grid.layerType();
+        String entityString = _entity == null ? "None" : _entity.toString();
+        strings.add(layerTypeString + "Entity=" + entityString);
     }
 
     @Override

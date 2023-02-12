@@ -60,6 +60,12 @@ public class Scene {
         _graphics.drawAllLayers(0, 0);
     }
 
+    public Cell cellBelow(final Cell airCell) {
+        int rowNum = airCell.row();
+        int colNum = airCell.col();
+        return _groundGrid.getCell(rowNum, colNum);
+    }
+
     public void moveFromAirToGround(final Entity entity) {
         Cell airCell = entity.cell();
         int rowNum = airCell.row();

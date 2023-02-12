@@ -56,7 +56,6 @@ public class Grid {
     }
 
     public Grid setLayerType(final LayerType layerType) {
-        System.out.println("Grid.setLayerType " + this + " " + layerType);
         _layerType = layerType;
         return this;
     }

@@ -6,7 +6,6 @@ import robotgrid.entity.Entity;
 import robotgrid.entity.PoweredEntity;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
-import robotgrid.scene.Grid;
 import robotgrid.scene.Scene;
 
 public class Drone extends PoweredEntity {
@@ -32,7 +31,7 @@ public class Drone extends PoweredEntity {
         delay();
         synchronized (_payload) {
             if (_payload.size() < _maxPayload) {
-                Cell cell = cell();
+                Cell cell = cellBelow();
                 Optional<Entity> payload_opt = cell.peekPayload();
                 if (payload_opt.isPresent()) {
                     if (addPayload(payload_opt.get())) {
@@ -47,7 +46,7 @@ public class Drone extends PoweredEntity {
         delay();
         synchronized (_payload) {
             if (_payload.size() > 0) {
-                Cell cell = cell();
+                Cell cell = cellBelow();
                 Entity payload = peekPayload().get();
                 if (cell.addPayload(payload)) {
                     removePayload();
@@ -58,10 +57,6 @@ public class Drone extends PoweredEntity {
 
     public void move(final Direction direction) {
         delay();
-        {
-            Grid grid = cell().grid();
-            System.out.println("Drone.move layer type = " + grid.layerType());
-        }
         cell().grid().move(this, direction);
     }
 
@@ -88,5 +83,9 @@ public class Drone extends PoweredEntity {
     public String typeName() {
         return "Drone";
     }
-    
+
+    protected Cell cellBelow() {
+        return cell().grid().scene().cellBelow(cell());
+    }
+
 }

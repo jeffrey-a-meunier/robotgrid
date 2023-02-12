@@ -19,10 +19,11 @@ World CreateGroup ConveyorGroup1
 ConveyorGroup1 Add Conveyor1 Conveyor2 Conveyor3
 #ConveyorGroup1 PowerOn
 
-World CreateWidget Widget2 5 5
+#World CreateWidget Widget1 5 5
 
 World CreateTable Table1 5 2
-World CreateWidget Widget1 5 2
+#World CreateWidget Widget2 5 2
 
-World CreateDrone D1 1 1
+World CreateDrone D1 5 0
 D1 PowerOn
+World CreateWidget Widget3 5 1

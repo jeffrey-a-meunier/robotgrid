@@ -36,13 +36,10 @@ public class _Commands {
         public _WhoHandles() { setImmeidate(true); }
         @Override
         public void execute(final Command command) {
-            System.out.println("_Who called " + command);
             Group group = (Group)command.entity();
             String[] args = command.arguments();
             for (String commandName : args) {
-                System.out.println("_Who got command name '" + commandName + "'");
                 Set<AbstractEntity> entities = group.whoHandles(commandName);
-                System.out.println("  entities = " + entities);
                 if (entities == null) {
                     Client.COMMAND_REPLY.write("None");
                 }
