@@ -2,13 +2,25 @@ package robotgrid.scene;
 
 import robotgrid.entity.Entity;
 import robotgrid.graphics.Graphics;
+import robotgrid.utils.Logger;
 
 public class Grid {
 
     // Static inner classes ===================================================
+
+    public static enum LayerType {
+        Ground("Ground"), Air("Air");
+        public final String name;
+        private LayerType(final String name) {
+            this.name = name;
+        }
+    }
+
     // Static variables =======================================================
 
     protected static int _NEXT_INDEX = 0;
+
+    private static Logger _LOGGER = new Logger(Grid.class);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -22,11 +34,14 @@ public class Grid {
     protected int _cellHeight;
 
     protected Cell[][] _cells;
+    protected Scene _scene;
+    protected LayerType _layerType;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Grid(final int nRows, final int nCols, int cellWidth, int cellHeight) {
+    public Grid(final Scene scene, final int nRows, final int nCols, int cellWidth, int cellHeight) {
+        _scene = scene;
         _name = "Grid-" + (_NEXT_INDEX++);
         _nRows = nRows;
         _nCols = nCols;
@@ -38,6 +53,12 @@ public class Grid {
                 _cells[rowNum][colNum] = new Cell(this, rowNum, colNum);
             }
         }
+    }
+
+    public Grid setLayerType(final LayerType layerType) {
+        System.out.println("Grid.setLayerType " + this + " " + layerType);
+        _layerType = layerType;
+        return this;
     }
 
     // Instance methods =======================================================
@@ -70,18 +91,36 @@ public class Grid {
         return _cells[rowNum][colNum];
     }
 
+    public Cell getEmptyCellNear(final int rowNum, final int colNum) {
+        Cell cell = _cells[rowNum][colNum];
+        if (cell.peekPayload().isEmpty()) {
+            return cell;
+        }
+        // TODO finish this
+        _LOGGER.fatal("getEmptyCellNear() is incomplete");
+        return null;
+    }
+
+    public LayerType layerType() {
+        return _layerType;
+    }
+
     public void move(final Entity entity, final Direction direction) {
         Cell cell = entity.cell();
         Cell nextCell = cell.getAdjacent(direction);
         if (nextCell != null) {
             if (nextCell.addPayload(entity)) {
-                cell.removePayload();
+                cell.removeEntity(entity);
             }
         }
     }
 
     public String name() {
         return _name;
+    }
+
+    public Scene scene() {
+        return _scene;
     }
 
 }

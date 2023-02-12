@@ -40,15 +40,19 @@ public abstract class PoweredEntity extends Entity implements Runnable {
     }
 
     public void powerOn() {
-        _thread = new Thread(this);
-        _thread.start();
-        _isOn = true;
+        if (!_isOn) {
+            _thread = new Thread(this);
+            _thread.start();
+            _isOn = true;
+        }
     }
 
     public void powerOff() {
-        _isOn = false;
-        _thread.interrupt();
-        _commandQ.clear();
+        if (_isOn) {
+            _isOn = false;
+            _thread.interrupt();
+            _commandQ.clear();
+        }
     }
 
     @Override

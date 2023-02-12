@@ -39,7 +39,7 @@ public class CreateConveyor extends CommandHandler {
             Conveyor conveyor = (Conveyor)new Conveyor(name)
                 .setHeading(heading)
                 ;
-            Grid grid = World.THE_WORLD.currentScene().grid();
+            Grid grid = World.THE_WORLD.currentScene().groundGrid();
             if (!grid.addEntity(row, col, conveyor)) {
                 command.setErrorMessage("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
             }

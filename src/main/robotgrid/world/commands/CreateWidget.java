@@ -36,7 +36,7 @@ public class CreateWidget extends CommandHandler {
             int row = getIntArg("row", args, 1, 0);
             int col = getIntArg("col", args, 2, 0);
             Widget widget = new SquareWidget(name);
-            Grid grid = World.THE_WORLD.currentScene().grid();
+            Grid grid = World.THE_WORLD.currentScene().groundGrid();
             if (!grid.addEntity(row, col, widget)) {
                 command.setErrorMessage("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
             }

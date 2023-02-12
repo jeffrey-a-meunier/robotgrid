@@ -39,7 +39,7 @@ public class CreateMovingBase extends CommandHandler {
             MovingBase base = (MovingBase)new MovingBase(name)
                 .setHeading(heading)
                 ;
-            Grid grid = World.THE_WORLD.currentScene().grid();
+            Grid grid = World.THE_WORLD.currentScene().groundGrid();
             if (!grid.addEntity(row, col, base)) {
                 command.setErrorMessage("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
             }

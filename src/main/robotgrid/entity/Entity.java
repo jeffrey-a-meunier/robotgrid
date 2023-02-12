@@ -116,6 +116,7 @@ public abstract class Entity extends AbstractEntity implements IContainer {
 
     public Cell cell() {
         IContainer container = _container;
+        // TODO I wrote this iteratively even though it might be better written recursively
         while (true) {
             if (container == null) {
                 return null;

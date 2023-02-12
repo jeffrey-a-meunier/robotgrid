@@ -18,5 +18,8 @@ public interface IContainer {
     public boolean addPayload(final Entity payload);
     public Optional<Entity> peekPayload();
     public Optional<Entity> removePayload();
+    public default Optional<Entity> removePayload(final Entity payload) {
+        return removePayload();
+    }
 
 }

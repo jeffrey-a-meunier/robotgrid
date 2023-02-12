@@ -1,6 +1,7 @@
 package robotgrid.scene;
 
 import processing.core.PApplet;
+import robotgrid.entity.Entity;
 import robotgrid.graphics.Graphics;
 
 public class Scene {
@@ -12,7 +13,8 @@ public class Scene {
     // Instance inner classes =================================================
     // Instance variables =====================================================
 
-    protected Grid _grid;
+    protected Grid _groundGrid;
+    protected Grid _airGrid;
     protected Graphics _graphics;
 
     protected int _lastMouseX = -1;
@@ -27,22 +29,53 @@ public class Scene {
         _graphics = new Graphics(applet);
     }
 
-    // Instance methods =======================================================
-
-    public void setGrid(final Grid grid) {
-        _grid = grid;
+    public void setGroundGrid(final Grid grid) {
+        _groundGrid = grid;
+        _groundGrid.setLayerType(Grid.LayerType.Ground);
     }
 
-    public Grid grid() {
-        return _grid;
+    public void setAirGrid(final Grid grid) {
+        _airGrid = grid;
+        _airGrid.setLayerType(Grid.LayerType.Air);
+    }
+
+    // Instance methods =======================================================
+
+    public Grid airGrid() {
+        return _airGrid;
+    }
+
+    public Grid groundGrid() {
+        return _groundGrid;
     }
 
     public void draw(final PApplet applet) {
         applet.background(0, 0, 0);
-        if (_grid != null) {
-            _grid.draw(_graphics);
-            _graphics.drawAllLayers(0, 0);
+        if (_groundGrid != null) {
+            _groundGrid.draw(_graphics);
         }
+        if (_airGrid != null) {
+            _airGrid.draw(_graphics);
+        }
+        _graphics.drawAllLayers(0, 0);
+    }
+
+    public void moveFromAirToGround(final Entity entity) {
+        Cell airCell = entity.cell();
+        int rowNum = airCell.row();
+        int colNum = airCell.col();
+        Cell groundCell = _groundGrid.getEmptyCellNear(rowNum, colNum);
+        airCell.removeEntity(entity);
+        groundCell.addPayload(entity);
+    }
+
+    public void moveFromGroundToAir(final Entity entity) {
+        Cell groundCell = entity.cell();
+        int rowNum = groundCell.row();
+        int colNum = groundCell.col();
+        Cell airCell = _airGrid.getCell(rowNum, colNum);
+        groundCell.removeEntity(entity);
+        airCell.addPayload(entity);
     }
 
 }

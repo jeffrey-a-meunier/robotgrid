@@ -11,7 +11,7 @@ public class Exit extends CommandHandler {
     // Static inner classes ===================================================
     // Static variables =======================================================
 
-    private static Logger _logger = new Logger(Exit.class);
+    private static Logger _LOGGER = new Logger(Exit.class);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -30,7 +30,7 @@ public class Exit extends CommandHandler {
     public void execute(final Command command) {
         String message = "World exiting";
         Client.INFO.write(message);
-        _logger.info(message);
+        _LOGGER.info(message);
         World.THE_WORLD.exit();
     }
 

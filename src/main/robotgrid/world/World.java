@@ -24,7 +24,7 @@ public class World extends PApplet {
     // Use a larger number for a faster simulation.
     public static float SIMULATION_SPEED = 1.0f;
 
-    private static Logger _logger = new Logger(World.class);
+    private static Logger _LOGGER = new Logger(World.class);
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -45,16 +45,18 @@ public class World extends PApplet {
     public World() {
         THE_WORLD = this;
         Result<Properties, String> result = ConfigFile.read(CONFIG_FILE);
-        Properties properties;
-        if (result.isSuccess) {
-            properties = result.successValue();
-            Grid grid = _createGridFromProperties(properties);
-            Scene scene1 = new Scene(this);
-            scene1.setGrid(grid);
-            String gridName = grid.name();
-            addScene(grid.name(), scene1);
-            setCurrentScene(gridName);
+        if (!result.isSuccess) {
+            _LOGGER.fatal("Unable to load configuration file '" + CONFIG_FILE + "'");
         }
+        Scene scene = new Scene(this);
+        Properties properties = result.successValue();
+        Grid groundGrid = _createGridFromProperties(scene, properties);
+        Grid airGrid = _createGridFromProperties(scene, properties);
+        scene.setGroundGrid(groundGrid);
+        scene.setAirGrid(airGrid);
+        String gridName = groundGrid.name();
+        addScene(gridName, scene);
+        setCurrentScene(gridName);
         // WorldSetup.setup(this);
         _commandHandler = new WorldCommandHandler();
         Server.setup();
@@ -77,7 +79,7 @@ public class World extends PApplet {
     public void setCurrentScene(final String sceneName) {
         Scene scene = _scenes.get(sceneName);
         if (scene == null) {
-            _logger.fatal("Scene not found: '", sceneName, "'");
+            _LOGGER.fatal("Scene not found: '", sceneName, "'");
         }
         else {
             _currentScene = scene;
@@ -99,16 +101,16 @@ public class World extends PApplet {
         surface.setTitle(_name);
     }
 
-    protected Grid _createGridFromProperties(final Properties properties) {
+    protected Grid _createGridFromProperties(final Scene scene, final Properties properties) {
         _name = properties.getProperty("name", "World");
         int nRows = Integer.parseInt(properties.getProperty("nRows", "9"));
         int nCols = Integer.parseInt(properties.getProperty("nCols", "9"));
         int cellSize = Integer.parseInt(properties.getProperty("cellSize", "50"));
-        _logger.info("Got config properties nRows=", nRows, ", nCols=", nCols, ", cellSize=", cellSize);
+        _LOGGER.info("Got config properties nRows=", nRows, ", nCols=", nCols, ", cellSize=", cellSize);
         _worldWidth = cellSize * nCols;
         _worldHeight = cellSize * nRows;
         Cell.setSize(cellSize);
-        Grid grid = new Grid(nRows, nCols, cellSize, cellSize);
+        Grid grid = new Grid(scene, nRows, nCols, cellSize, cellSize);
         return grid;
     }
 

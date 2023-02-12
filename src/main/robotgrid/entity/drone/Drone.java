@@ -6,6 +6,8 @@ import robotgrid.entity.Entity;
 import robotgrid.entity.PoweredEntity;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
+import robotgrid.scene.Grid;
+import robotgrid.scene.Scene;
 
 public class Drone extends PoweredEntity {
 
@@ -56,7 +58,30 @@ public class Drone extends PoweredEntity {
 
     public void move(final Direction direction) {
         delay();
+        {
+            Grid grid = cell().grid();
+            System.out.println("Drone.move layer type = " + grid.layerType());
+        }
         cell().grid().move(this, direction);
+    }
+
+    @Override
+    public void powerOn() {
+        if (_isOn) {
+            return;
+        }
+        super.powerOn();
+        delay();
+        Scene scene = cell().grid().scene();
+        scene.moveFromGroundToAir(this);
+    }
+
+    @Override
+    public void powerOff() {
+        super.powerOff();
+        delay();
+        Scene scene = cell().grid().scene();
+        scene.moveFromAirToGround(this);
     }
 
     @Override

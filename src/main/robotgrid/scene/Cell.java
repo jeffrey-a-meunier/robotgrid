@@ -52,31 +52,6 @@ public class Cell implements IContainer {
 
     // Instance methods =======================================================
 
-    // public boolean add(final Entity entity) {
-    //     if (_entity == null) {
-    //         _entity = entity;
-    //         entity.setContainer(this);
-    //         return true;
-    //     }
-    //     else {
-    //         return _entity.addPayload(entity);
-    //     }
-    // }
-
-    // public Entity remove() {
-    //     Entity entity = _entity;
-    //     _entity = null;
-    //     return entity;
-    // }
-
-    // public boolean remove(final Entity entity) {
-    //     if (entity == _entity) {
-    //         remove();
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
     public synchronized boolean addPayload(final Entity payload) {
         if (_entity == null) {
             _entity = payload;
@@ -101,6 +76,14 @@ public class Cell implements IContainer {
         return _entity.peekPayload();
     }
 
+    public synchronized boolean removeEntity(final Entity entity) {
+        if (_entity == entity) {
+            _entity = null;
+            return true;
+        }
+        return false;
+    }
+
     public synchronized Optional<Entity> removePayload() {
         if (_entity == null) {
             return Optional.empty();
@@ -112,6 +95,10 @@ public class Cell implements IContainer {
             return Optional.of(widget);
         }
         return _entity.removePayload();
+    }
+
+    public Optional<Entity> removePayload(final Entity payload) {
+        return removePayload();
     }
 
     public String name() {
