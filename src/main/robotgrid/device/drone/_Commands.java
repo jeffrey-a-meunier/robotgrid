@@ -24,6 +24,22 @@ class _Commands {
         }
     }
 
+    protected static class _PowerOn extends CommandHandler {
+        @Override
+        public void execute(final Command command) {
+            Drone drone = (Drone)command.device();
+            drone.powerOn();
+        }
+    }
+
+    protected static class _PowerOff extends CommandHandler {
+        @Override
+        public void execute(final Command command) {
+            Drone drone = (Drone)command.device();
+            drone.powerOff();
+        }
+    }
+
     protected static class _Move extends CommandHandler {
         protected Direction _direction;
         public _Move(final Direction heading) {

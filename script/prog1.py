@@ -8,11 +8,11 @@ import time
 SERVER = '127.0.0.1'
 PORT = 43210
 
-SETUP = [
+SETUP_1 = [
     "World CreateMovingBase R1 3 2 East"
 ]
 
-SETUP_1 = [
+SETUP = [
     "World CreateMovingBase R1 3 2 East",
     "R1 PowerOn",
     "World CreateRotatingBase Base1 4 2",
@@ -44,16 +44,16 @@ class Asynchronous:
 IMMED = Immediate()
 ASYNC = Asynchronous()
 
-PROGRAM = [
+PROGRAM_1 = [
     ("R1 PowerOn", IMMED),
     ("R1 MoveForward", ASYNC),
     ("R1 MoveForward", ASYNC),
-    ("R1 RotateRight", ASYNC),
+    ("R1 RotateLeft", ASYNC),
     ("R1 MoveForward", ASYNC),
     ("R1 MoveForward", ASYNC)
 ]
 
-PROGRAM_1 = [
+PROGRAM = [
     ("D1 PowerOn", IMMED),
     ("D1 MoveEast", ASYNC),
     ("D1 PickUp", ASYNC),
@@ -166,6 +166,8 @@ class Server:
                 self.handleInfoString(line)
         except Exception as exn:
             print("Info socket exception:", exn)
+        finally:
+            print("handleInfoSocket: Socket connection terminated")
 
     def handleInfoString(self, infoString):
         parts = infoString.split()

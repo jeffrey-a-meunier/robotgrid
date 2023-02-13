@@ -66,12 +66,14 @@ public class Drone extends PoweredDevice {
             return;
         }
         super.powerOn();
+        delay();
         Scene scene = cell().grid().scene();
         scene.moveFromGroundToAir(this);
     }
 
     @Override
     public void powerOff() {
+        delay();
         super.powerOff();
         Scene scene = cell().grid().scene();
         scene.moveFromAirToGround(this);
