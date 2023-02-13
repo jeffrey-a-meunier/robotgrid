@@ -123,22 +123,6 @@ public class Server {
 
     public void handleCommandString(final String commandString) {
         Command command = new Command(commandString);
-        // if (command.validate()) {
-        //     if (command.handler().isImmediate()) {
-        //         command.handler().execute(command);
-        //         Client.COMMAND_REPLY.showResult(command);
-        //     }
-        //     else {
-        //         AbstractEntity entity = command.entity();
-        //         if (entity.isOn()) {
-        //             command.entity().sendCommand(command);
-        //             Client.COMMAND_REPLY.commandStarted(command);
-        //         }
-        //         else {
-        //             Client.COMMAND_REPLY.entityIsPoweredOff(command);
-        //         }
-        //     }
-        // }
         command.performLifecycle();
     }
 

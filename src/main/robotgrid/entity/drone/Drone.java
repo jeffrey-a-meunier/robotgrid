@@ -66,7 +66,6 @@ public class Drone extends PoweredEntity {
             return;
         }
         super.powerOn();
-        delay();
         Scene scene = cell().grid().scene();
         scene.moveFromGroundToAir(this);
     }
@@ -74,7 +73,6 @@ public class Drone extends PoweredEntity {
     @Override
     public void powerOff() {
         super.powerOff();
-        delay();
         Scene scene = cell().grid().scene();
         scene.moveFromAirToGround(this);
     }

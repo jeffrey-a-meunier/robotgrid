@@ -25,11 +25,14 @@ class _Commands {
     }
 
     protected static class _Move extends CommandHandler {
+        protected Direction _direction;
+        public _Move(final Direction heading) {
+            _direction = heading;
+        }
         @Override
         public void execute(final Command command) {
             Drone drone = (Drone)command.entity();
-            Direction direction = getDirectionArg_required(command, "heading", 0);
-            drone.move(direction);
+            drone.move(_direction);
         }
     }
 
@@ -40,7 +43,10 @@ class _Commands {
     public static void setup(final Drone drone) {
         drone.addCommandHandler("Drop", new _Drop());
         drone.addCommandHandler("PickUp", new _PickUp());
-        drone.addCommandHandler("Move", new _Move());
+        drone.addCommandHandler("MoveNorth", new _Move(Direction.North));
+        drone.addCommandHandler("MoveEast", new _Move(Direction.East));
+        drone.addCommandHandler("MoveSouth", new _Move(Direction.South));
+        drone.addCommandHandler("MoveWest", new _Move(Direction.West));
 
     }
 

@@ -33,19 +33,21 @@ public class ClientChannel {
     // Instance methods =======================================================
 
     public void commandSuccess(final Command command) {
-        write(_PREFIX + "OK [", command, "]");
+        System.out.println("ClientChannel.commandSuccess");
+        write(_PREFIX, "OK ", command.uid, " [", command, "]");
     }
 
     public void commandError(final Command command, final String message) {
-        write(_PREFIX, "ERROR [", command, "] ", message);
+        write(_PREFIX, "ERROR ", command.uid, " [", command, "] ", message);
     }
 
     public void commandStarted(final Command command) {
-        write(_PREFIX, "STARTED [", command, "]");
+        System.out.println("ClientChannel.commandStarted");
+        write(_PREFIX, "STARTED ", command.uid, " [", command, "]");
     }
 
     public void entityIsPoweredOff(final Command command) {
-        write(_PREFIX, "OFF ", command.entity().name);
+        write(_PREFIX, "OFF ", command.uid, " [", command , "]");
     }
 
     public void error(final String message) {
@@ -69,10 +71,10 @@ public class ClientChannel {
     public void showResult(final Command command) {
         Optional<String> errorMessage = command.errorMessage();
         if (errorMessage.isEmpty()) {
-            write(_PREFIX, "OK " + command.uid + ' ' + command.string);
+            write(_PREFIX, "OK ", command.uid, " [", command.string, "]");
         }
         else {
-            write(_PREFIX, "ERROR " + command.errorMessage().get());
+            write(_PREFIX, "ERROR ", command.uid, " [", command.string, "] ", command.errorMessage().get());
         }
     }
 
