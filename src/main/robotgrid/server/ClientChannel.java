@@ -4,8 +4,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
-import robotgrid.entity.Command;
-import robotgrid.entity.Entity;
+import robotgrid.device.Command;
+import robotgrid.device.Device;
 import robotgrid.scene.Cell;
 
 public class ClientChannel {
@@ -46,7 +46,7 @@ public class ClientChannel {
         write(_PREFIX, "STARTED ", command.uid, " [", command, "]");
     }
 
-    public void entityIsPoweredOff(final Command command) {
+    public void deviceIsPoweredOff(final Command command) {
         write(_PREFIX, "OFF ", command.uid, " [", command , "]");
     }
 
@@ -58,12 +58,12 @@ public class ClientChannel {
         write(_PREFIX, "NOTICE ", message);
     }
 
-    public void payloadNotice(final Entity entity, final Entity payload) {
+    public void payloadNotice(final Device device, final Device payload) {
         String payloadString = payload == null ? "None" : payload.name;
-        write(_PREFIX, "PAYLOAD ", entity.name, ' ', payloadString);
+        write(_PREFIX, "PAYLOAD ", device.name, ' ', payloadString);
     }
 
-    public void payloadNotice(final Cell cell, final Entity payload) {
+    public void payloadNotice(final Cell cell, final Device payload) {
         String payloadString = payload == null ? "None" : payload.name;
         write(_PREFIX, "PAYLOAD ", cell.name(), ' ', payloadString);
     }

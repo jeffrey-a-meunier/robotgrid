@@ -1,10 +1,8 @@
-package robotgrid.world.commands;
+package robotgrid.device;
 
-import robotgrid.device.Command;
-import robotgrid.device.CommandHandler;
-import robotgrid.device.group.Group;
+import java.util.Optional;
 
-public class CreateGroup extends CommandHandler {
+public interface IContainer {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -14,27 +12,14 @@ public class CreateGroup extends CommandHandler {
     // Instance variables =====================================================
     // Instance initializer ===================================================
     // Constructors ===========================================================
-
-    public CreateGroup() {
-        setImmeidate(true);
-    }
-
     // Instance methods =======================================================
 
-    @Override
-    public void execute(Command command) {
-        String[] args = command.arguments();
-        try {
-            String name = getStringArg("name", args, 0);
-            if (name == null) {
-                command.setErrorMessage("Group name required");
-                return;
-            }
-            new Group(name);
-        }
-        catch (final ArgumentException exn) {
-            command.setErrorMessage("Argument exception: " + exn);
-        }
+    public int payloadCount();
+    public boolean addPayload(final Device payload);
+    public Optional<Device> peekPayload();
+    public Optional<Device> removePayload();
+    public default Optional<Device> removePayload(final Device payload) {
+        return removePayload();
     }
 
 }

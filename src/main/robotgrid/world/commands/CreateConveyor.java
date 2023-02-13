@@ -1,8 +1,8 @@
 package robotgrid.world.commands;
 
-import robotgrid.entity.Command;
-import robotgrid.entity.CommandHandler;
-import robotgrid.entity.conveyor.Conveyor;
+import robotgrid.device.Command;
+import robotgrid.device.CommandHandler;
+import robotgrid.device.conveyor.Conveyor;
 import robotgrid.scene.Direction;
 import robotgrid.scene.Grid;
 import robotgrid.world.World;
@@ -40,7 +40,7 @@ public class CreateConveyor extends CommandHandler {
                 .setHeading(heading)
                 ;
             Grid grid = World.THE_WORLD.currentScene().groundGrid();
-            if (!grid.addEntity(row, col, conveyor)) {
+            if (!grid.addDevice(row, col, conveyor)) {
                 command.setErrorMessage("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
             }
         }

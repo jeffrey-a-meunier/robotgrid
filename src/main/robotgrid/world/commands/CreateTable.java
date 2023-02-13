@@ -1,8 +1,8 @@
 package robotgrid.world.commands;
 
-import robotgrid.entity.Command;
-import robotgrid.entity.CommandHandler;
-import robotgrid.entity.table.Table;
+import robotgrid.device.Command;
+import robotgrid.device.CommandHandler;
+import robotgrid.device.table.Table;
 import robotgrid.scene.Grid;
 import robotgrid.world.World;
 
@@ -36,7 +36,7 @@ public class CreateTable extends CommandHandler {
             int col = getIntArg("col", args, 2, 0);
             Table table = new Table(name);
             Grid grid = World.THE_WORLD.currentScene().groundGrid();
-            if (!grid.addEntity(row, col, table)) {
+            if (!grid.addDevice(row, col, table)) {
                 command.setErrorMessage("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
             }
         }

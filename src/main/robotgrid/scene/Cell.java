@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import processing.core.PGraphics;
-import robotgrid.entity.Entity;
-import robotgrid.entity.IContainer;
-import robotgrid.entity.widget.Widget;
+import robotgrid.device.Device;
+import robotgrid.device.IContainer;
+import robotgrid.device.widget.Widget;
 import robotgrid.graphics.Graphics;
 import robotgrid.graphics.Pen;
 import robotgrid.server.Client;
@@ -38,7 +38,7 @@ public class Cell implements IContainer {
 
     protected int _rowNum;
     protected int _colNum;
-    protected Entity _entity;
+    protected Device _device;
     protected Grid _grid;
     protected Pen _pen = new Pen(_FILL_COLOR, _LINE_COLOR, _LINE_WIDTH);  // TODO separate view from model
     
@@ -53,55 +53,55 @@ public class Cell implements IContainer {
 
     // Instance methods =======================================================
 
-    public synchronized boolean addPayload(final Entity payload) {
-        if (_entity == null) {
-            _entity = payload;
+    public synchronized boolean addPayload(final Device payload) {
+        if (_device == null) {
+            _device = payload;
             payload.setContainer(this);
             Client.INFO.payloadNotice(this, payload);
             return true;
         }
-        return _entity.addPayload(payload);
+        return _device.addPayload(payload);
     }
 
     public int payloadCount() {
-        if (_entity == null) {
+        if (_device == null) {
             return 0;
         }
-        return _entity.payloadCount();
+        return _device.payloadCount();
     }
 
-    public Optional<Entity> peekPayload() {
-        if (_entity == null) {
+    public Optional<Device> peekPayload() {
+        if (_device == null) {
             return Optional.empty();
         }
-        if (_entity instanceof Widget) {
-            return Optional.of(_entity);
+        if (_device instanceof Widget) {
+            return Optional.of(_device);
         }
-        return _entity.peekPayload();
+        return _device.peekPayload();
     }
 
-    public synchronized boolean removeEntity(final Entity entity) {
-        if (_entity == entity) {
-            _entity = null;
+    public synchronized boolean removeDevice(final Device device) {
+        if (_device == device) {
+            _device = null;
             return true;
         }
         return false;
     }
 
-    public synchronized Optional<Entity> removePayload() {
-        if (_entity == null) {
+    public synchronized Optional<Device> removePayload() {
+        if (_device == null) {
             return Optional.empty();
         }
-        if (_entity instanceof Widget) {
-            Entity widget = _entity;
-            _entity = null;
+        if (_device instanceof Widget) {
+            Device widget = _device;
+            _device = null;
             Client.INFO.payloadNotice(this, null);
             return Optional.of(widget);
         }
-        return _entity.removePayload();
+        return _device.removePayload();
     }
 
-    public Optional<Entity> removePayload(final Entity payload) {
+    public Optional<Device> removePayload(final Device payload) {
         return removePayload();
     }
 
@@ -111,8 +111,8 @@ public class Cell implements IContainer {
 
     public void draw(final Graphics graphics) {
         _drawBackground(graphics.layer(0));
-        if (_entity != null) {
-            _entity.draw(graphics, 1);
+        if (_device != null) {
+            _device.draw(graphics, 1);
         }
     }
 
@@ -121,8 +121,8 @@ public class Cell implements IContainer {
         graphics.square(-SIZE2, -SIZE2, SIZE1);
     }
 
-    public Entity entity() {
-        return _entity;
+    public Device device() {
+        return _device;
     }
 
     public Cell getAdjacent(final Direction direction) {
@@ -162,8 +162,8 @@ public class Cell implements IContainer {
 
     public void info(final List<String> strings) {
         String layerTypeString = "" + _grid.layerType();
-        String entityString = _entity == null ? "None" : _entity.toString();
-        strings.add(layerTypeString + "Entity=" + entityString);
+        String deviceString = _device == null ? "None" : _device.toString();
+        strings.add(layerTypeString + "Device=" + deviceString);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package robotgrid.world.commands;
 
-import robotgrid.entity.Command;
-import robotgrid.entity.CommandHandler;
-import robotgrid.entity.widget.SquareWidget;
-import robotgrid.entity.widget.Widget;
+import robotgrid.device.Command;
+import robotgrid.device.CommandHandler;
+import robotgrid.device.widget.SquareWidget;
+import robotgrid.device.widget.Widget;
 import robotgrid.scene.Grid;
 import robotgrid.world.World;
 
@@ -37,7 +37,7 @@ public class CreateWidget extends CommandHandler {
             int col = getIntArg("col", args, 2, 0);
             Widget widget = new SquareWidget(name);
             Grid grid = World.THE_WORLD.currentScene().groundGrid();
-            if (!grid.addEntity(row, col, widget)) {
+            if (!grid.addDevice(row, col, widget)) {
                 command.setErrorMessage("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
             }
         }

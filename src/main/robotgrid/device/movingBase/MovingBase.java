@@ -1,10 +1,9 @@
-package robotgrid.world.commands;
+package robotgrid.device.movingBase;
 
 import robotgrid.device.Command;
-import robotgrid.device.CommandHandler;
-import robotgrid.device.group.Group;
+import robotgrid.device.PoweredDevice;
 
-public class CreateGroup extends CommandHandler {
+public class MovingBase extends PoweredDevice {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -15,26 +14,27 @@ public class CreateGroup extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public CreateGroup() {
-        setImmeidate(true);
+    public MovingBase(final String name) {
+        super(name, 1);
+        setView(new _View(this));
+        _Commands.setup(this);
     }
 
     // Instance methods =======================================================
 
+    public void moveForward(final Command command) {
+        delay();
+        cell().grid().move(this, _heading);
+    }
+
+    public void moveBackward(final Command command) {
+        delay();
+        cell().grid().move(this, _heading.opposite());
+    }
+
     @Override
-    public void execute(Command command) {
-        String[] args = command.arguments();
-        try {
-            String name = getStringArg("name", args, 0);
-            if (name == null) {
-                command.setErrorMessage("Group name required");
-                return;
-            }
-            new Group(name);
-        }
-        catch (final ArgumentException exn) {
-            command.setErrorMessage("Argument exception: " + exn);
-        }
+    public String typeName() {
+        return "MovingBase";
     }
 
 }

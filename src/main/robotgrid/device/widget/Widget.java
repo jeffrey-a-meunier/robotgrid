@@ -1,10 +1,11 @@
-package robotgrid.world.commands;
+package robotgrid.device.widget;
 
-import robotgrid.device.Command;
-import robotgrid.device.CommandHandler;
-import robotgrid.device.group.Group;
+import java.util.Optional;
 
-public class CreateGroup extends CommandHandler {
+import robotgrid.device.Device;
+import robotgrid.shape.Shape;
+
+public abstract class Widget extends Device {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -15,26 +16,21 @@ public class CreateGroup extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public CreateGroup() {
-        setImmeidate(true);
+    public Widget(final String name, final Shape shape) {
+        super(name);
+        setView(new _View(this, shape));
     }
 
     // Instance methods =======================================================
 
     @Override
-    public void execute(Command command) {
-        String[] args = command.arguments();
-        try {
-            String name = getStringArg("name", args, 0);
-            if (name == null) {
-                command.setErrorMessage("Group name required");
-                return;
-            }
-            new Group(name);
-        }
-        catch (final ArgumentException exn) {
-            command.setErrorMessage("Argument exception: " + exn);
-        }
+    public boolean addPayload(final Device payload) {
+        return false;
+    }
+
+    @Override
+    public Optional<Device> removePayload() {
+        return Optional.of(this);
     }
 
 }

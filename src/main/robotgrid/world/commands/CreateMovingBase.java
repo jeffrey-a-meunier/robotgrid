@@ -1,8 +1,8 @@
 package robotgrid.world.commands;
 
-import robotgrid.entity.Command;
-import robotgrid.entity.CommandHandler;
-import robotgrid.entity.movingBase.MovingBase;
+import robotgrid.device.Command;
+import robotgrid.device.CommandHandler;
+import robotgrid.device.movingBase.MovingBase;
 import robotgrid.scene.Direction;
 import robotgrid.scene.Grid;
 import robotgrid.world.World;
@@ -40,7 +40,7 @@ public class CreateMovingBase extends CommandHandler {
                 .setHeading(heading)
                 ;
             Grid grid = World.THE_WORLD.currentScene().groundGrid();
-            if (!grid.addEntity(row, col, base)) {
+            if (!grid.addDevice(row, col, base)) {
                 command.setErrorMessage("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
             }
         }

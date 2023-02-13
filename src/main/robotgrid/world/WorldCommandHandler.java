@@ -2,10 +2,10 @@ package robotgrid.world;
 
 import java.util.List;
 
-import robotgrid.entity.Entity;
-import robotgrid.entity.abstractEntity.AbstractEntity;
 import robotgrid.world.commands.Exit;
-import robotgrid.world.commands.Entities;
+import robotgrid.world.commands.Devices;
+import robotgrid.device.Device;
+import robotgrid.device.abstractDevice.AbstractDevice;
 import robotgrid.world.commands.CellInfo;
 import robotgrid.world.commands.CreateArm;
 import robotgrid.world.commands.CreateConveyor;
@@ -18,9 +18,9 @@ import robotgrid.world.commands.CreateWidget;
 
 /**
  * The World class is already a subclass of PApplet, so this class is used
- * as the command handling Entity.
+ * as the Device instance that handles commands.
  */
-public class WorldCommandHandler extends AbstractEntity {
+public class WorldCommandHandler extends AbstractDevice {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -33,7 +33,7 @@ public class WorldCommandHandler extends AbstractEntity {
 
     public WorldCommandHandler() {
         super("World");
-        addCommandHandler("Entities", new Entities());
+        addCommandHandler("Devices", new Devices());
         addCommandHandler("Exit", new Exit());
         addCommandHandler("CellInfo", new CellInfo());
         addCommandHandler("CreateArm", new CreateArm());
@@ -51,8 +51,8 @@ public class WorldCommandHandler extends AbstractEntity {
     @Override
     public void info(final List<String> strings) {
         super.info(strings);
-        List<String> names = Entity.names();
-        strings.add("Entities=" + names);
+        List<String> names = Device.names();
+        strings.add("Devices=" + names);
         strings.add("Count=" + names.size());
     }
 

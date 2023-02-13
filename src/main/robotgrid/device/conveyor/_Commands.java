@@ -1,40 +1,33 @@
-package robotgrid.world.commands;
+package robotgrid.device.conveyor;
 
 import robotgrid.device.Command;
 import robotgrid.device.CommandHandler;
-import robotgrid.device.group.Group;
 
-public class CreateGroup extends CommandHandler {
+class _Commands {
 
     // Static inner classes ===================================================
+
+    protected static class _Reverse extends CommandHandler {
+        public _Reverse() { setImmeidate(true); }
+        @Override
+        public void execute(final Command command) {
+            Conveyor conveyor = (Conveyor)command.device();
+            conveyor.reverse();
+        }
+    }
+
     // Static variables =======================================================
     // Static initializer =====================================================
     // Static methods =========================================================
+
+    public static void setup(final Conveyor conveyor) {
+        conveyor.addCommandHandler("Reverse", new _Reverse());
+    }
+
     // Instance inner classes =================================================
     // Instance variables =====================================================
     // Instance initializer ===================================================
     // Constructors ===========================================================
-
-    public CreateGroup() {
-        setImmeidate(true);
-    }
-
     // Instance methods =======================================================
-
-    @Override
-    public void execute(Command command) {
-        String[] args = command.arguments();
-        try {
-            String name = getStringArg("name", args, 0);
-            if (name == null) {
-                command.setErrorMessage("Group name required");
-                return;
-            }
-            new Group(name);
-        }
-        catch (final ArgumentException exn) {
-            command.setErrorMessage("Argument exception: " + exn);
-        }
-    }
 
 }

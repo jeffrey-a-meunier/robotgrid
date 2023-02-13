@@ -1,7 +1,7 @@
 package robotgrid.scene;
 
 import processing.core.PApplet;
-import robotgrid.entity.Entity;
+import robotgrid.device.Device;
 import robotgrid.graphics.Graphics;
 
 public class Scene {
@@ -66,22 +66,22 @@ public class Scene {
         return _groundGrid.getCell(rowNum, colNum);
     }
 
-    public void moveFromAirToGround(final Entity entity) {
-        Cell airCell = entity.cell();
+    public void moveFromAirToGround(final Device device) {
+        Cell airCell = device.cell();
         int rowNum = airCell.row();
         int colNum = airCell.col();
         Cell groundCell = _groundGrid.getEmptyCellNear(rowNum, colNum);
-        airCell.removeEntity(entity);
-        groundCell.addPayload(entity);
+        airCell.removeDevice(device);
+        groundCell.addPayload(device);
     }
 
-    public void moveFromGroundToAir(final Entity entity) {
-        Cell groundCell = entity.cell();
+    public void moveFromGroundToAir(final Device device) {
+        Cell groundCell = device.cell();
         int rowNum = groundCell.row();
         int colNum = groundCell.col();
         Cell airCell = _airGrid.getCell(rowNum, colNum);
-        groundCell.removeEntity(entity);
-        airCell.addPayload(entity);
+        groundCell.removeDevice(device);
+        airCell.addPayload(device);
     }
 
 }

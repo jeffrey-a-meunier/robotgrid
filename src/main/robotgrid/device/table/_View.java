@@ -1,10 +1,12 @@
-package robotgrid.world.commands;
+package robotgrid.device.table;
 
-import robotgrid.device.Command;
-import robotgrid.device.CommandHandler;
-import robotgrid.device.group.Group;
+import processing.core.PGraphics;
+import robotgrid.device.Device;
+import robotgrid.device.View;
+import robotgrid.graphics.Graphics;
+import robotgrid.scene.Cell;
 
-public class CreateGroup extends CommandHandler {
+class _View extends View {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -15,26 +17,20 @@ public class CreateGroup extends CommandHandler {
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public CreateGroup() {
-        setImmeidate(true);
+    public _View(final Device device) {
+        super(device);
     }
 
     // Instance methods =======================================================
 
     @Override
-    public void execute(Command command) {
-        String[] args = command.arguments();
-        try {
-            String name = getStringArg("name", args, 0);
-            if (name == null) {
-                command.setErrorMessage("Group name required");
-                return;
-            }
-            new Group(name);
-        }
-        catch (final ArgumentException exn) {
-            command.setErrorMessage("Argument exception: " + exn);
-        }
+    public void draw(final Graphics graphics, final int layerNum) {
+        super.draw(graphics, layerNum);
+        PGraphics layer = graphics.layer(layerNum);
+        float size = Cell.SIZE * 0.9f;
+        float pos = -size / 2.0f;
+        layer.rect(pos, pos, size, size);
+        _drawPayload(graphics, layerNum + 1);
     }
 
 }

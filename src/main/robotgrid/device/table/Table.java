@@ -1,37 +1,30 @@
-package robotgrid.world.commands;
+package robotgrid.device.table;
 
-import robotgrid.device.Command;
-import robotgrid.device.CommandHandler;
-import robotgrid.server.Client;
-import robotgrid.utils.Logger;
-import robotgrid.world.World;
+import robotgrid.device.Device;
 
-public class Exit extends CommandHandler {
+public class Table extends Device {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
-
-    private static Logger _LOGGER = new Logger(Exit.class);
-
     // Static initializer =====================================================
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
+
+    protected int _lineColor2 = 0xFF_80_80_80;
+    protected float _lineSize = 1.0f;
+
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public Exit() {
-        setImmeidate(true);
+    public Table(final String name) {
+        super(name);
+        setView(new _View(this));
     }
 
-    // Instance methods =======================================================
-
     @Override
-    public void execute(final Command command) {
-        String message = "World exiting";
-        Client.INFO.write(message);
-        _LOGGER.info(message);
-        World.THE_WORLD.exit();
+    public String typeName() {
+        return "Table";
     }
 
 }

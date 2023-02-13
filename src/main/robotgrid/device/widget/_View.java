@@ -1,10 +1,12 @@
-package robotgrid.world.commands;
+package robotgrid.device.widget;
 
-import robotgrid.device.Command;
-import robotgrid.device.CommandHandler;
-import robotgrid.device.group.Group;
+import processing.core.PGraphics;
+import robotgrid.device.Device;
+import robotgrid.device.View;
+import robotgrid.graphics.Graphics;
+import robotgrid.shape.Shape;
 
-public class CreateGroup extends CommandHandler {
+class _View extends View {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -12,29 +14,24 @@ public class CreateGroup extends CommandHandler {
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
+
+    protected Shape _shape;
+
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
-    public CreateGroup() {
-        setImmeidate(true);
+    public _View(final Device device, final Shape shape) {
+        super(device);
+        _shape = shape;
     }
 
     // Instance methods =======================================================
 
-    @Override
-    public void execute(Command command) {
-        String[] args = command.arguments();
-        try {
-            String name = getStringArg("name", args, 0);
-            if (name == null) {
-                command.setErrorMessage("Group name required");
-                return;
-            }
-            new Group(name);
-        }
-        catch (final ArgumentException exn) {
-            command.setErrorMessage("Argument exception: " + exn);
-        }
+        @Override
+    public void draw(final Graphics graphics, final int layerNum) {
+        super.draw(graphics, layerNum);
+        PGraphics layer = graphics.layer(layerNum);
+        _shape.draw(layer);
     }
 
 }

@@ -1,8 +1,8 @@
 package robotgrid.world.commands;
 
-import robotgrid.entity.Command;
-import robotgrid.entity.CommandHandler;
-import robotgrid.entity.rotatingBase.RotatingBase;
+import robotgrid.device.Command;
+import robotgrid.device.CommandHandler;
+import robotgrid.device.rotatingBase.RotatingBase;
 import robotgrid.scene.Grid;
 import robotgrid.world.World;
 
@@ -36,7 +36,7 @@ public class CreateRotatingBase extends CommandHandler {
             int col = getIntArg("col", args, 2, 0);
             RotatingBase base = (RotatingBase)new RotatingBase(name);
             Grid grid = World.THE_WORLD.currentScene().groundGrid();
-            if (!grid.addEntity(row, col, base)) {
+            if (!grid.addDevice(row, col, base)) {
                 command.setErrorMessage("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
             }
         }
