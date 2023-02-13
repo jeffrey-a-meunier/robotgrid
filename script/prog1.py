@@ -5,6 +5,7 @@ import sys
 import threading
 import time
 
+SERVER = '127.0.0.1'
 PORT = 43210
 
 SETUP = [
@@ -32,11 +33,6 @@ SETUP_1 = [
     "World CreateWidget Widget3 5 1"
 ]
 
-PROGRAM = [
-    "R1 PowerOn",
-    "R1 MoveForward"
-]
-
 class Immediate:
     def apply(self, cmd):
         cmd.isAsync = False
@@ -47,6 +43,15 @@ class Asynchronous:
 
 IMMED = Immediate()
 ASYNC = Asynchronous()
+
+PROGRAM = [
+    ("R1 PowerOn", IMMED),
+    ("R1 MoveForward", ASYNC),
+    ("R1 MoveForward", ASYNC),
+    ("R1 RotateRight", ASYNC),
+    ("R1 MoveForward", ASYNC),
+    ("R1 MoveForward", ASYNC)
+]
 
 PROGRAM_1 = [
     ("D1 PowerOn", IMMED),
@@ -113,6 +118,10 @@ class Command:
             with self.condition:
                 self.condition.wait()
 
+    def notify(self):
+        with self.condition:
+            self.condition.notify()
+
     def __str__(self):
         return "Command{" + str(self.string) + \
             ", isStarted=" + str(self.isStarted) + \
@@ -127,38 +136,56 @@ class Server:
         self.cmdSocket = socket.socket()
         self.cmdSocketIsConnected = False
         try:
-            print("Server opening connection to", host, port)
             self.cmdSocket.connect((host, port))
             self.cmdSocketIsConnected = True
-            print("Server starting info thread")
             self.infoThread = threading.Thread(target=self.handleInfoSocket, args=(host, port+1))
             self.infoThread.start()
         except:
             print("Unable to connect to simulation on port", port)
 
+    def readLine(self, skt):
+        chars = []
+        while True:
+            # the server had better send utf-8
+            char = skt.recv(1).decode('utf-8')
+            if char == '\n':
+                break
+            if char == '':
+                return None
+            chars.append(char)
+        return ''.join(chars)
+
     def handleInfoSocket(self, host, port):
-        print("handleInfoSocket called with", host, port)
         self.infoSocket = socket.socket()
         try:
             self.infoSocket.connect((host, port))
-            print("handleInfoSocket Connected to simulation on port", port)
             while True:
-                infoBytes = self.infoSocket.recv(1024)
-                infoString = infoBytes.decode('utf-8')
-                print("handleInfoSocket got infoString", infoString)
-                if not infoString:
+                line = self.readLine(self.infoSocket)
+                if not line:
                     break
-                self.decodeInfoString(infoString)
+                self.handleInfoString(line)
         except Exception as exn:
-            print("Info socket exception", exn)
+            print("Info socket exception:", exn)
 
-    def decodeInfoString(self, infoString):
-        print("Server.decodeInfoString got string '", infoString, "'", sep='')
+    def handleInfoString(self, infoString):
+        parts = infoString.split()
+        replyType = parts[0]
+        if replyType == ':OK':
+            commandId = parts[1]
+            command = Server.ASYNC_COMMANDS[commandId]
+            if command:
+                command.isComplete = True
+                command.notify()
+                # TODO synchronize access to ASYNC_COMMANDS
+                del Server.ASYNC_COMMANDS[commandId]
+            else:
+                print("handleInfoString did not find command", commandId)
+        else:
+            print("handleInfoString unhandled reply type '", replyType, "'", sep='');
 
     def sendCommand(self, command):
         cmdBytes = str.encode(command.string + '\n')
-        sendRes = self.cmdSocket.send(cmdBytes)
-        print("sendCommand res =", sendRes)
+        self.cmdSocket.send(cmdBytes)
         replyBytes = self.cmdSocket.recv(1024)
         replyString = replyBytes.decode('utf-8')
         if replyString.startswith(':OK'):
@@ -167,11 +194,11 @@ class Server:
         elif replyString.startswith(':STARTED'):
             replyStringParts = replyString.split()
             commandNumber = replyStringParts[1]
-            ASYNC_COMMANDS[commandNumber] = command
+            Server.ASYNC_COMMANDS[commandNumber] = command
             command.isStarted = True
         elif replyString.startswith(':ERROR'):
             command.isError = True
-        elif relpyString.startsWith(':OFF'):
+        elif replyString.startsWith(':OFF'):
             command.isError = True
             command.errorMessage = "Device is off"
         else:
@@ -192,8 +219,9 @@ def runProgram(server):
         cmd.wait()
 
 def main(args):
-    server = Server('127.0.0.1', PORT)
+    server = Server(SERVER, PORT)
     if not server.cmdSocketIsConnected:
+        print("Unable to connect to server at", SERVER, PORT);
         exit(1)
     setup(server)
     time.sleep(1)

@@ -33,7 +33,6 @@ public class ClientChannel {
     // Instance methods =======================================================
 
     public void commandSuccess(final Command command) {
-        System.out.println("ClientChannel.commandSuccess");
         write(_PREFIX, "OK ", command.uid, " [", command, "]");
     }
 
@@ -42,7 +41,6 @@ public class ClientChannel {
     }
 
     public void commandStarted(final Command command) {
-        System.out.println("ClientChannel.commandStarted");
         write(_PREFIX, "STARTED ", command.uid, " [", command, "]");
     }
 
