@@ -13,12 +13,21 @@ public abstract class Widget extends Device {
     // Static methods =========================================================
     // Instance inner classes =================================================
     // Instance variables =====================================================
+
+    protected Shape _shape;
+
     // Instance initializer ===================================================
     // Constructors ===========================================================
 
     public Widget(final String name, final Shape shape) {
         super(name);
-        setView(new _View(this, shape));
+        _shape = shape;
+        setView(new _View(this, _shape));
+    }
+
+    public Widget setColor(final int color) {
+        _shape.setFillColor(color);
+        return this;
     }
 
     // Instance methods =======================================================
