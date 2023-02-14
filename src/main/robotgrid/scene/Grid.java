@@ -65,7 +65,7 @@ public class Grid {
     public boolean addDevice(final int rowNum, final int colNum, final Device device) {
         Cell cell = getCell(rowNum, colNum);
         if (cell != null) {
-            return cell.addPayload(device);
+            return cell.addContent(device);
         }
         return false;
     }
@@ -92,7 +92,7 @@ public class Grid {
 
     public Cell getEmptyCellNear(final int rowNum, final int colNum) {
         Cell cell = _cells[rowNum][colNum];
-        if (cell.peekPayload().isEmpty()) {
+        if (cell.peekContent().isEmpty()) {
             return cell;
         }
         // TODO finish this
@@ -108,7 +108,7 @@ public class Grid {
         Cell cell = device.cell();
         Cell nextCell = cell.getAdjacent(direction);
         if (nextCell != null) {
-            if (nextCell.addPayload(device)) {
+            if (nextCell.addContent(device)) {
                 cell.removeDevice(device);
             }
         }

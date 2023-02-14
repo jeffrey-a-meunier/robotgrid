@@ -11,6 +11,7 @@ import robotgrid.device.abstractDevice.AbstractDevice;
 import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
+import robotgrid.scene.Grid;
 import robotgrid.server.Client;
 import robotgrid.world.World;
 
@@ -76,12 +77,12 @@ public abstract class Device extends AbstractDevice implements IContainer {
     // Instance methods =======================================================
 
     @Override  // from IContainer
-    public boolean addPayload(final Device payload) {
+    public boolean addContent(final Device payload) {
         synchronized (_payload) {
             if (_payload.size() < _maxPayload) {
                 _payload.add(payload);
                 payload.setContainer(this);
-                Client.INFO.payloadNotice(this, payload);
+                Client.INFO.payloadNotice(this, _container.layerType(), payload);
                 return true;
             }
             return false;
@@ -89,13 +90,13 @@ public abstract class Device extends AbstractDevice implements IContainer {
     }
 
     @Override  // from IContainer
-    public int payloadCount() {
+    public int contentCount() {
         synchronized (_payload) {
             return _payload.size();
         }
     }
 
-    public Optional<Device> peekPayload() {
+    public Optional<Device> peekContent() {
         if (_payload.size() > 0) {
             return Optional.of(_payload.get(0));
         }
@@ -103,11 +104,11 @@ public abstract class Device extends AbstractDevice implements IContainer {
     }
 
     @Override  // from IContainer
-    public Optional<Device> removePayload() {
+    public Optional<Device> removeContent() {
         synchronized (_payload) {
             if (_payload.size() > 0) {
                 Device payload = (Device) _payload.remove(0);
-                Client.INFO.payloadNotice(this, null);
+                Client.INFO.payloadNotice(this, _container.layerType(), null);
                 return Optional.of(payload);
             }
             return Optional.empty();
@@ -167,6 +168,11 @@ public abstract class Device extends AbstractDevice implements IContainer {
 
     public Direction heading() {
         return _heading;
+    }
+
+    @Override
+    public Grid.LayerType layerType() {
+        return _container.layerType();
     }
 
     public void listCommands(final List<String> strings) {

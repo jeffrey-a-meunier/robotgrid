@@ -49,9 +49,9 @@ public class Arm extends PoweredDevice {
         if (_isExtended && !_isGrippingPayload) {
             if(_payload.size() == 0) {
                 Cell adjacentCell = cell().getAdjacent(_heading);
-                Optional<Device> payload_opt = adjacentCell.removePayload();
+                Optional<Device> payload_opt = adjacentCell.removeContent();
                 if (payload_opt.isPresent()) {
-                    addPayload(payload_opt.get());
+                    addContent(payload_opt.get());
                 }
             }
         }
@@ -62,9 +62,9 @@ public class Arm extends PoweredDevice {
         delay();
         if (_isExtended) {
             Cell adjacentCell = cell().getAdjacent(_heading);
-            Optional<Device> payload_opt = removePayload();
+            Optional<Device> payload_opt = removeContent();
             if (payload_opt.isPresent()) {
-                adjacentCell.addPayload(payload_opt.get());
+                adjacentCell.addContent(payload_opt.get());
             }
         }
         _isGrippingPayload = false;

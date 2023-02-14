@@ -7,6 +7,7 @@ import java.util.Optional;
 import robotgrid.device.Command;
 import robotgrid.device.Device;
 import robotgrid.scene.Cell;
+import robotgrid.scene.Grid;
 
 public class ClientChannel {
 
@@ -56,14 +57,19 @@ public class ClientChannel {
         write(_PREFIX, "NOTICE ", message);
     }
 
-    public void payloadNotice(final Device device, final Device payload) {
-        String payloadString = payload == null ? "None" : payload.name;
-        write(_PREFIX, "PAYLOAD ", device.name, ' ', payloadString);
+    public void deviceNotice(final Cell cell, final Grid.LayerType layerType, final Device device) {
+        String deviceString = device == null ? "None" : device.toString();
+        write(_PREFIX, "DEVICE ", layerType, ' ', cell.name(), ' ', deviceString);
     }
 
-    public void payloadNotice(final Cell cell, final Device payload) {
-        String payloadString = payload == null ? "None" : payload.name;
-        write(_PREFIX, "PAYLOAD ", cell.name(), ' ', payloadString);
+    public void payloadNotice(final Device device, final Grid.LayerType layerType, final Device payload) {
+        String payloadString = payload == null ? "None" : payload.toString();
+        write(_PREFIX, "PAYLOAD ", layerType, ' ', device.name, ' ', payloadString);
+    }
+
+    public void payloadNotice(final Cell cell, final Grid.LayerType layerType, final Device payload) {
+        String payloadString = payload == null ? "None" : payload.toString();
+        write(_PREFIX, "PAYLOAD ", layerType, ' ', cell.name(), ' ', payloadString);
     }
 
     public void showResult(final Command command) {

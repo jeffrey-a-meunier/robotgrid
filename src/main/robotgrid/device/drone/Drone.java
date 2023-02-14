@@ -32,10 +32,10 @@ public class Drone extends PoweredDevice {
         synchronized (_payload) {
             if (_payload.size() < _maxPayload) {
                 Cell cell = cellBelow();
-                Optional<Device> payload_opt = cell.peekPayload();
+                Optional<Device> payload_opt = cell.peekContent();
                 if (payload_opt.isPresent()) {
-                    if (addPayload(payload_opt.get())) {
-                        cell.removePayload();
+                    if (addContent(payload_opt.get())) {
+                        cell.removeContent();
                     }
                 }
             }
@@ -47,9 +47,9 @@ public class Drone extends PoweredDevice {
         synchronized (_payload) {
             if (_payload.size() > 0) {
                 Cell cell = cellBelow();
-                Device payload = peekPayload().get();
-                if (cell.addPayload(payload)) {
-                    removePayload();
+                Device payload = peekContent().get();
+                if (cell.addContent(payload)) {
+                    removeContent();
                 }
             }
         }

@@ -72,7 +72,7 @@ public class Scene {
         int colNum = airCell.col();
         Cell groundCell = _groundGrid.getEmptyCellNear(rowNum, colNum);
         airCell.removeDevice(device);
-        groundCell.addPayload(device);
+        groundCell.addContent(device);
     }
 
     public void moveFromGroundToAir(final Device device) {
@@ -81,7 +81,7 @@ public class Scene {
         int colNum = groundCell.col();
         Cell airCell = _airGrid.getCell(rowNum, colNum);
         groundCell.removeDevice(device);
-        airCell.addPayload(device);
+        airCell.addContent(device);
     }
 
 }

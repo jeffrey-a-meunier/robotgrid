@@ -53,56 +53,62 @@ public class Cell implements IContainer {
 
     // Instance methods =======================================================
 
-    public synchronized boolean addPayload(final Device payload) {
+    public synchronized boolean addContent(final Device payload) {
         if (_device == null) {
             _device = payload;
             payload.setContainer(this);
-            Client.INFO.payloadNotice(this, payload);
+            if (payload instanceof Widget) {
+                Client.INFO.payloadNotice(this, _grid.layerType(), payload);
+            }
+            else {
+                Client.INFO.deviceNotice(this, _grid.layerType(), payload);
+            }
             return true;
         }
-        return _device.addPayload(payload);
+        return _device.addContent(payload);
     }
 
-    public int payloadCount() {
+    public int contentCount() {
         if (_device == null) {
             return 0;
         }
-        return _device.payloadCount();
+        return _device.contentCount();
     }
 
-    public Optional<Device> peekPayload() {
+    public Optional<Device> peekContent() {
         if (_device == null) {
             return Optional.empty();
         }
         if (_device instanceof Widget) {
             return Optional.of(_device);
         }
-        return _device.peekPayload();
+        return _device.peekContent();
     }
 
     public synchronized boolean removeDevice(final Device device) {
         if (_device == device) {
             _device = null;
+            Client.INFO.deviceNotice(this, _grid.layerType(), null);
             return true;
         }
         return false;
     }
 
-    public synchronized Optional<Device> removePayload() {
+    public synchronized Optional<Device> removeContent() {
         if (_device == null) {
             return Optional.empty();
         }
         if (_device instanceof Widget) {
             Device widget = _device;
             _device = null;
-            Client.INFO.payloadNotice(this, null);
+            Client.INFO.deviceNotice(this, _grid.layerType(), null);
             return Optional.of(widget);
         }
-        return _device.removePayload();
+        return _device.removeContent();
     }
 
-    public Optional<Device> removePayload(final Device payload) {
-        return removePayload();
+    public Optional<Device> removeContent(final Device payload) {
+        return removeContent();
     }
 
     public String name() {
@@ -164,6 +170,11 @@ public class Cell implements IContainer {
         String layerTypeString = "" + _grid.layerType();
         String deviceString = _device == null ? "None" : _device.toString();
         strings.add(layerTypeString + "Device=" + deviceString);
+    }
+
+    @Override
+    public Grid.LayerType layerType() {
+        return _grid.layerType();
     }
 
     @Override

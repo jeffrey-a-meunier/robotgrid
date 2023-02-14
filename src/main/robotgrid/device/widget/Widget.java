@@ -24,12 +24,12 @@ public abstract class Widget extends Device {
     // Instance methods =======================================================
 
     @Override
-    public boolean addPayload(final Device payload) {
+    public boolean addContent(final Device payload) {
         return false;
     }
 
     @Override
-    public Optional<Device> removePayload() {
+    public Optional<Device> removeContent() {
         return Optional.of(this);
     }
 

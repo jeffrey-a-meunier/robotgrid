@@ -2,6 +2,8 @@ package robotgrid.device;
 
 import java.util.Optional;
 
+import robotgrid.scene.Grid;
+
 public interface IContainer {
 
     // Static inner classes ===================================================
@@ -14,12 +16,13 @@ public interface IContainer {
     // Constructors ===========================================================
     // Instance methods =======================================================
 
-    public int payloadCount();
-    public boolean addPayload(final Device payload);
-    public Optional<Device> peekPayload();
-    public Optional<Device> removePayload();
-    public default Optional<Device> removePayload(final Device payload) {
-        return removePayload();
+    public int contentCount();
+    public boolean addContent(final Device payload);
+    public Optional<Device> peekContent();
+    public Optional<Device> removeContent();
+    public default Optional<Device> removeContent(final Device payload) {
+        return removeContent();
     }
+    public Grid.LayerType layerType();
 
 }

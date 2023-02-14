@@ -45,7 +45,7 @@ public abstract class View {
     }
 
     protected void _drawPayload(final Graphics graphics, final int layerNum) {
-        Optional<Device> payload_opt = _device.peekPayload();
+        Optional<Device> payload_opt = _device.peekContent();
         if (payload_opt.isPresent()) {
             Device payload = payload_opt.get();
             payload.draw(graphics, layerNum);

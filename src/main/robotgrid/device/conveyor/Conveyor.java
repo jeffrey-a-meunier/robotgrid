@@ -26,8 +26,8 @@ public class Conveyor extends PoweredDevice {
     // Instance methods =======================================================
 
     @Override
-    public boolean addPayload(final Device payload) {
-        return super.addPayload(payload);
+    public boolean addContent(final Device payload) {
+        return super.addContent(payload);
     }
 
     public void reverse() {
@@ -37,12 +37,12 @@ public class Conveyor extends PoweredDevice {
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
-            Optional<Device> payload_opt = peekPayload();
+            Optional<Device> payload_opt = peekContent();
             if (payload_opt.isPresent()) {
                 delay();
                 Cell adjacentCell = cell().getAdjacent(_heading);
-                if (adjacentCell.addPayload(payload_opt.get())) {
-                    removePayload();
+                if (adjacentCell.addContent(payload_opt.get())) {
+                    removeContent();
                 }
             }
         }

@@ -27,7 +27,7 @@ public class RotatingBase extends PoweredDevice {
     @Override
     public void rotateLeft() {
         delay();
-        Optional<Device> payload_opt = peekPayload();
+        Optional<Device> payload_opt = peekContent();
         if (payload_opt.isPresent()) {
             Device payload = payload_opt.get();
             payload.rotateLeft_immediate();
@@ -37,7 +37,7 @@ public class RotatingBase extends PoweredDevice {
     @Override
     public void rotateRight() {
         delay();
-        Optional<Device> payload_opt = peekPayload();
+        Optional<Device> payload_opt = peekContent();
         if (payload_opt.isPresent()) {
             Device payload = payload_opt.get();
             payload.rotateRight_immediate();

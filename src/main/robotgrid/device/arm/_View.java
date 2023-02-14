@@ -87,7 +87,7 @@ class _View extends View {
     @Override
     protected void _drawPayload(final Graphics graphics, final int layerNum) {
         Arm arm = (Arm)_device;
-        Optional<Device> payload_opt = arm.peekPayload();
+        Optional<Device> payload_opt = arm.peekContent();
         if (payload_opt.isPresent()) {
             PGraphics layer = graphics.layer(layerNum);
             layer.translate(0.0f, _payloadY);
