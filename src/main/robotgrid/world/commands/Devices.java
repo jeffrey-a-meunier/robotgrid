@@ -1,12 +1,11 @@
 package robotgrid.world.commands;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import robotgrid.device.Command;
 import robotgrid.device.CommandHandler;
-import robotgrid.device.Device;
+import robotgrid.device.abstractDevice.AbstractDevice;
 import robotgrid.server.Client;
 
 public class Devices extends CommandHandler {
@@ -28,7 +27,7 @@ public class Devices extends CommandHandler {
     
     @Override
     public void execute(final Command command) {
-        List<String> allNames = new ArrayList<>(Device.names());
+        List<String> allNames = AbstractDevice.list();
         Collections.sort(allNames);
         Client.COMMAND_REPLY.writeLines(allNames);
     }

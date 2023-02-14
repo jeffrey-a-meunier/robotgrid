@@ -28,14 +28,6 @@ public abstract class Device extends AbstractDevice implements IContainer {
 
      // Static initializer =====================================================
     // Static methods =========================================================
-
-    public static List<String> names() {
-        Set<String> nameSet = _ALL_DEVICES.keySet();
-        List<String> nameList = new ArrayList<>(nameSet);
-        Collections.sort(nameList);
-        return nameList;
-    }
-
     // Instance inner classes =================================================
     // Instance variables =====================================================
 

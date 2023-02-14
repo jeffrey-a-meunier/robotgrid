@@ -34,6 +34,14 @@ public abstract class AbstractDevice {
         return _ALL_DEVICES.get(name);
     }
 
+    public static List<String> list() {
+        List<String> list = new ArrayList<>();
+        for (AbstractDevice device : _ALL_DEVICES.values()) {
+            list.add(device.toString());
+        }
+        return list;
+    }
+
     public static List<String> names() {
         Set<String> nameSet = _ALL_DEVICES.keySet();
         List<String> nameList = new ArrayList<>(nameSet);
