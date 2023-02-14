@@ -1,10 +1,11 @@
 package robotgrid.scene;
 
+import processing.core.PApplet;
 import robotgrid.device.device.Device;
 import robotgrid.graphics.Graphics;
 import robotgrid.utils.Logger;
 
-public class Grid {
+public abstract class Grid {
 
     // Static inner classes ===================================================
 
@@ -39,8 +40,12 @@ public class Grid {
     protected Scene _scene;
     protected LayerType _layerType;
 
+    protected Graphics _graphics;
+
     // Instance initializer ===================================================
     // Constructors ===========================================================
+
+    public abstract Cell createCell(final Grid grid, final int rowNum, final int colNum);
 
     public Grid(final Scene scene, final int nRows, final int nCols, int cellWidth, int cellHeight) {
         _scene = scene;
@@ -52,13 +57,18 @@ public class Grid {
         _cells = new Cell[_nRows][_nCols];
         for (int rowNum=0; rowNum < _nRows; rowNum++) {
             for (int colNum=0; colNum < _nCols; colNum++) {
-                _cells[rowNum][colNum] = new Cell(this, rowNum, colNum);
+                _cells[rowNum][colNum] = createCell(this, rowNum, colNum);
             }
         }
     }
 
     public Grid setLayerType(final LayerType layerType) {
         _layerType = layerType;
+        return this;
+    }
+
+    public Grid createGraphics(final PApplet applet) {
+        _graphics = new Graphics(applet);
         return this;
     }
 
@@ -72,13 +82,13 @@ public class Grid {
         return false;
     }
 
-    public void draw(final Graphics graphics) {
+    public void draw() {
         float y = Cell.SIZE2;
         for (int rowNum=0; rowNum < _nRows; rowNum++) {
             float x = Cell.SIZE2;
             for (int colNum=0; colNum < _nCols; colNum++) {
-                graphics.resetMatrix().translate(x, y);
-                _cells[rowNum][colNum].draw(graphics);
+                _graphics.resetMatrix().translate(x, y);
+                _cells[rowNum][colNum].draw(_graphics);
                 x += Cell.SIZE;
             }
             y += Cell.SIZE;
@@ -100,6 +110,10 @@ public class Grid {
         // TODO finish this
         _LOGGER.error("getEmptyCellNear() is incomplete");
         return null;
+    }
+
+    public Graphics graphics() {
+        return _graphics;
     }
 
     public LayerType layerType() {

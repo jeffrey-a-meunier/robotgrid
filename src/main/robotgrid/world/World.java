@@ -5,8 +5,10 @@ import java.util.Properties;
 
 import processing.core.PApplet;
 import processing.event.MouseEvent;
+import robotgrid.scene.AirGrid;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Grid;
+import robotgrid.scene.GroundGrid;
 import robotgrid.scene.Scene;
 import robotgrid.utils.Logger;
 import robotgrid.utils.Result;
@@ -50,8 +52,8 @@ public class World extends PApplet {
         }
         Scene scene = new Scene(this);
         Properties properties = result.successValue();
-        Grid groundGrid = _createGridFromProperties(scene, properties);
-        Grid airGrid = _createGridFromProperties(scene, properties);
+        Grid groundGrid = _createGridFromProperties(scene, properties, Grid.LayerType.Ground);
+        Grid airGrid = _createGridFromProperties(scene, properties, Grid.LayerType.Air);
         scene.setGroundGrid(groundGrid);
         scene.setAirGrid(airGrid);
         String gridName = groundGrid.name();
@@ -101,7 +103,7 @@ public class World extends PApplet {
         surface.setTitle(_name);
     }
 
-    protected Grid _createGridFromProperties(final Scene scene, final Properties properties) {
+    protected Grid _createGridFromProperties(final Scene scene, final Properties properties, final Grid.LayerType layerType) {
         _name = properties.getProperty("name", "World");
         int nRows = Integer.parseInt(properties.getProperty("nRows", "9"));
         int nCols = Integer.parseInt(properties.getProperty("nCols", "9"));
@@ -110,7 +112,10 @@ public class World extends PApplet {
         _worldWidth = cellSize * nCols;
         _worldHeight = cellSize * nRows;
         Cell.setSize(cellSize);
-        Grid grid = new Grid(scene, nRows, nCols, cellSize, cellSize);
+        Grid grid = layerType == Grid.LayerType.Ground
+                  ? new GroundGrid(scene, nRows, nCols, cellSize, cellSize)
+                  : new AirGrid(scene, nRows, nCols, cellSize, cellSize)
+                  ;
         return grid;
     }
 

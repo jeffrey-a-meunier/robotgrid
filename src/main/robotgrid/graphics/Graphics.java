@@ -21,6 +21,7 @@ public class Graphics {
     protected List<PGraphics> _layers = new ArrayList<>();
     protected PMatrix _matrix = new PMatrix2D();
     protected Pen _pen = new Pen(0xFF_FF_FF_FF, 0xFF_00_00_00, 1.0f);
+    protected int _highestLayer = 0;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -41,14 +42,18 @@ public class Graphics {
         layer = _layers.get(layerNum);
         layer.setMatrix(_matrix);
         _pen.applyTo(layer);
+        if (layerNum > _highestLayer) {
+            _highestLayer = layerNum;
+        }
         return layer;
     }
 
-    public void drawAllLayers(final float x, final float y) {
+    public void drawAllLayers() {
         for (PGraphics layer : _layers) {
             layer.endDraw();
-            _applet.image(layer, x, y);
+            _applet.image(layer, 0, 0);
             layer.clear();
+            _highestLayer = 0;
             layer.beginDraw();
         }
     }

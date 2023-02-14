@@ -11,7 +11,7 @@ import robotgrid.graphics.Graphics;
 import robotgrid.graphics.Pen;
 import robotgrid.server.Client;
 
-public class Cell implements IContainer {
+public abstract class Cell implements IContainer {
 
     // Static inner classes ===================================================
     // Static variables =======================================================
@@ -53,19 +53,19 @@ public class Cell implements IContainer {
 
     // Instance methods =======================================================
 
-    public synchronized boolean addContent(final Device payload) {
+    public synchronized boolean addContent(final Device device) {
         if (_device == null) {
-            _device = payload;
-            payload.setContainer(this);
-            if (payload instanceof Widget) {
-                Client.INFO.payloadNotice(this, _grid.layerType(), payload);
+            _device = device;
+            device.setContainer(this);
+            if (device instanceof Widget) {
+                Client.INFO.payloadNotice(this, _grid.layerType(), device);
             }
             else {
-                Client.INFO.deviceNotice(this, _grid.layerType(), payload);
+                Client.INFO.deviceNotice(this, _grid.layerType(), device);
             }
             return true;
         }
-        return _device.addContent(payload);
+        return _device.addContent(device);
     }
 
     public int contentCount() {

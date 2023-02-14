@@ -2,7 +2,7 @@ package robotgrid.scene;
 
 import processing.core.PApplet;
 import robotgrid.device.device.Device;
-import robotgrid.graphics.Graphics;
+// import robotgrid.graphics.Graphics;
 
 public class Scene {
 
@@ -15,7 +15,8 @@ public class Scene {
 
     protected Grid _groundGrid;
     protected Grid _airGrid;
-    protected Graphics _graphics;
+    // protected Graphics _graphics;
+    protected PApplet _applet;
 
     protected int _lastMouseX = -1;
     protected int _lastMouseY = -1;
@@ -26,17 +27,20 @@ public class Scene {
     // Constructors ===========================================================
 
     public Scene(final PApplet applet) {
-        _graphics = new Graphics(applet);
+        // _graphics = new Graphics(applet);
+        _applet = applet;
     }
 
     public void setGroundGrid(final Grid grid) {
         _groundGrid = grid;
         _groundGrid.setLayerType(Grid.LayerType.Ground);
+        _groundGrid.createGraphics(_applet);
     }
 
     public void setAirGrid(final Grid grid) {
         _airGrid = grid;
         _airGrid.setLayerType(Grid.LayerType.Air);
+        _airGrid.createGraphics(_applet);
     }
 
     // Instance methods =======================================================
@@ -52,12 +56,13 @@ public class Scene {
     public void draw(final PApplet applet) {
         applet.background(0, 0, 0);
         if (_groundGrid != null) {
-            _groundGrid.draw(_graphics);
+            _groundGrid.draw();
         }
         if (_airGrid != null) {
-            _airGrid.draw(_graphics);
+            _airGrid.draw();
         }
-        _graphics.drawAllLayers(0, 0);
+        _groundGrid.graphics().drawAllLayers();
+        _airGrid.graphics().drawAllLayers();
     }
 
     public Cell cellBelow(final Cell airCell) {
