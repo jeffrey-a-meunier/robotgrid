@@ -8,10 +8,6 @@ import time
 SERVER = '127.0.0.1'
 PORT = 43210
 
-SETUP_1 = [
-    "World CreateMovingBase R1 3 2 East"
-]
-
 SETUP = [
     "World CreateMovingBase R1 3 2 East",
     "R1 PowerOn",
@@ -43,15 +39,6 @@ class Asynchronous:
 
 IMMED = Immediate()
 ASYNC = Asynchronous()
-
-PROGRAM_1 = [
-    ("R1 PowerOn", IMMED),
-    ("R1 MoveForward", ASYNC),
-    ("R1 MoveForward", ASYNC),
-    ("R1 RotateLeft", ASYNC),
-    ("R1 MoveForward", ASYNC),
-    ("R1 MoveForward", ASYNC)
-]
 
 PROGRAM = [
     ("D1 PowerOn", IMMED),
@@ -108,13 +95,13 @@ class Command:
         self.string = string
         self.isAsync = False
         self.isStarted = False
-        self.isComplete = False
+        self.isCompleted = False
         self.isError = False
         self.errorMessage = None
         self.condition = threading.Condition()
 
     def wait(self):
-        if self.isAsync and not self.isComplete:
+        if self.isAsync and not self.isCompleted:
             with self.condition:
                 self.condition.wait()
 
@@ -125,12 +112,12 @@ class Command:
     def __str__(self):
         return "Command{" + str(self.string) + \
             ", isStarted=" + str(self.isStarted) + \
-            ", isComplete=" + str(self.isComplete) + \
+            ", isCompleted=" + str(self.isCompleted) + \
             ", isError=" + str(self.isError) + \
             "}"
 
 class Server:
-    ASYNC_COMMANDS = {}
+    ASYNC_COMMANDS_STARTED = {}
 
     def __init__(self, host, port):
         self.cmdSocket = socket.socket()
@@ -174,12 +161,12 @@ class Server:
         replyType = parts[0]
         if replyType == ':OK':
             commandId = parts[1]
-            command = Server.ASYNC_COMMANDS[commandId]
+            command = Server.ASYNC_COMMANDS_STARTED[commandId]
             if command:
                 command.isComplete = True
                 command.notify()
                 # TODO synchronize access to ASYNC_COMMANDS
-                del Server.ASYNC_COMMANDS[commandId]
+                del Server.ASYNC_COMMANDS_STARTED[commandId]
             else:
                 print("handleInfoString did not find command", commandId)
         else:
@@ -196,7 +183,7 @@ class Server:
         elif replyString.startswith(':STARTED'):
             replyStringParts = replyString.split()
             commandNumber = replyStringParts[1]
-            Server.ASYNC_COMMANDS[commandNumber] = command
+            Server.ASYNC_COMMANDS_STARTED[commandNumber] = command
             command.isStarted = True
         elif replyString.startswith(':ERROR'):
             command.isError = True
