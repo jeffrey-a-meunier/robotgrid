@@ -2,7 +2,7 @@ package robotgrid.device.widget;
 
 import java.util.Optional;
 
-import robotgrid.device.Device;
+import robotgrid.device.device.Device;
 import robotgrid.shape.Shape;
 
 public abstract class Widget extends Device {

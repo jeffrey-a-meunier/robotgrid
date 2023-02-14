@@ -1,6 +1,6 @@
 package robotgrid.scene;
 
-import robotgrid.device.Device;
+import robotgrid.device.device.Device;
 import robotgrid.graphics.Graphics;
 import robotgrid.utils.Logger;
 
@@ -9,10 +9,12 @@ public class Grid {
     // Static inner classes ===================================================
 
     public static enum LayerType {
-        Ground("Ground"), Air("Air");
+        Ground("Ground", 0), Air("Air", 5);
         public final String name;
-        private LayerType(final String name) {
+        public final int graphicsLayer;
+        private LayerType(final String name, final int graphicsLayer) {
             this.name = name;
+            this.graphicsLayer = graphicsLayer;
         }
     }
 

@@ -1,4 +1,4 @@
-package robotgrid.device;
+package robotgrid.device.device;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import robotgrid.device.Command;
+import robotgrid.device.IContainer;
 import robotgrid.device.abstractDevice.AbstractDevice;
 import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
@@ -48,7 +50,7 @@ public abstract class Device extends AbstractDevice implements IContainer {
     public Device(final String name, final int height) {
         super(name);
         this._height = height;
-        Device_Commands.setup(this);
+        _Commands.setup(this);
         _ALL_DEVICES.put(name, this);
     }
 

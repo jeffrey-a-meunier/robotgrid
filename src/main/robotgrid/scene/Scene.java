@@ -1,7 +1,7 @@
 package robotgrid.scene;
 
 import processing.core.PApplet;
-import robotgrid.device.Device;
+import robotgrid.device.device.Device;
 import robotgrid.graphics.Graphics;
 
 public class Scene {

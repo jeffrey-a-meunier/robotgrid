@@ -1,6 +1,6 @@
 package robotgrid.device.table;
 
-import robotgrid.device.Device;
+import robotgrid.device.device.Device;
 
 public class Table extends Device {
 

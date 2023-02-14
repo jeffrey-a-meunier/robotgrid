@@ -1,4 +1,4 @@
-package robotgrid.device;
+package robotgrid.device.device;
 
 import java.util.Optional;
 

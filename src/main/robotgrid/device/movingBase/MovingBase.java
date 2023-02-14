@@ -1,7 +1,7 @@
 package robotgrid.device.movingBase;
 
 import robotgrid.device.Command;
-import robotgrid.device.PoweredDevice;
+import robotgrid.device.poweredDevice.PoweredDevice;
 
 public class MovingBase extends PoweredDevice {
 

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import robotgrid.device.Command;
-import robotgrid.device.Device;
+import robotgrid.device.device.Device;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Grid;
 

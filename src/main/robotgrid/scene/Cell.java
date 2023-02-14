@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import processing.core.PGraphics;
-import robotgrid.device.Device;
 import robotgrid.device.IContainer;
+import robotgrid.device.device.Device;
 import robotgrid.device.widget.Widget;
 import robotgrid.graphics.Graphics;
 import robotgrid.graphics.Pen;

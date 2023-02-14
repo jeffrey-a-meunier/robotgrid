@@ -1,9 +1,11 @@
-package robotgrid.device;
+package robotgrid.device.device;
 
+import robotgrid.device.Command;
+import robotgrid.device.CommandHandler;
 import robotgrid.scene.Cell;
 import robotgrid.server.Client;
 
-class Device_Commands {
+class _Commands {
 
     // Static inner classes ===================================================
 

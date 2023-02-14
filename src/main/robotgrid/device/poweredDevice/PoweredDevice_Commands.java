@@ -1,5 +1,8 @@
-package robotgrid.device;
+package robotgrid.device.poweredDevice;
 
+import robotgrid.device.Command;
+import robotgrid.device.CommandHandler;
+import robotgrid.device.device.Device;
 import robotgrid.server.Client;
 
 class PoweredDevice_Commands {

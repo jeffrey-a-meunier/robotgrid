@@ -1,8 +1,8 @@
 package robotgrid.device.widget;
 
 import processing.core.PGraphics;
-import robotgrid.device.Device;
-import robotgrid.device.View;
+import robotgrid.device.device.Device;
+import robotgrid.device.device.View;
 import robotgrid.graphics.Graphics;
 import robotgrid.shape.Shape;
 

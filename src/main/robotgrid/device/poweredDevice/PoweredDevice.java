@@ -1,8 +1,10 @@
-package robotgrid.device;
+package robotgrid.device.poweredDevice;
 
 import java.util.List;
 import java.util.Optional;
 
+import robotgrid.device.Command;
+import robotgrid.device.device.Device;
 import robotgrid.server.Client;
 import robotgrid.utils.SynQ;
 

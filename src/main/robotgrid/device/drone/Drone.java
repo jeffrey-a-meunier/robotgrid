@@ -2,8 +2,8 @@ package robotgrid.device.drone;
 
 import java.util.Optional;
 
-import robotgrid.device.Device;
-import robotgrid.device.PoweredDevice;
+import robotgrid.device.device.Device;
+import robotgrid.device.poweredDevice.PoweredDevice;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
 import robotgrid.scene.Scene;

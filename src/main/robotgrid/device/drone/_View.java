@@ -1,8 +1,8 @@
 package robotgrid.device.drone;
 
 import processing.core.PGraphics;
-import robotgrid.device.Device;
-import robotgrid.device.View;
+import robotgrid.device.device.Device;
+import robotgrid.device.device.View;
 import robotgrid.graphics.Graphics;
 import robotgrid.scene.Cell;
 import robotgrid.shape.Shape;

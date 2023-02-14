@@ -2,6 +2,7 @@ package robotgrid.device;
 
 import java.util.Optional;
 
+import robotgrid.device.device.Device;
 import robotgrid.scene.Grid;
 
 public interface IContainer {

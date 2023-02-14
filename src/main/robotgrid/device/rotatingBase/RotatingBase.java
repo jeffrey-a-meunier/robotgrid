@@ -2,8 +2,8 @@ package robotgrid.device.rotatingBase;
 
 import java.util.Optional;
 
-import robotgrid.device.Device;
-import robotgrid.device.PoweredDevice;
+import robotgrid.device.device.Device;
+import robotgrid.device.poweredDevice.PoweredDevice;
 
 public class RotatingBase extends PoweredDevice {
 

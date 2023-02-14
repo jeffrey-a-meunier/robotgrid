@@ -4,8 +4,8 @@ import java.util.List;
 
 import robotgrid.world.commands.Exit;
 import robotgrid.world.commands.Devices;
-import robotgrid.device.Device;
 import robotgrid.device.abstractDevice.AbstractDevice;
+import robotgrid.device.device.Device;
 import robotgrid.world.commands.CellInfo;
 import robotgrid.world.commands.CreateArm;
 import robotgrid.world.commands.CreateConveyor;
