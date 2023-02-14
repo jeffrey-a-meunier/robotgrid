@@ -96,7 +96,7 @@ public class Grid {
             return cell;
         }
         // TODO finish this
-        _LOGGER.fatal("getEmptyCellNear() is incomplete");
+        _LOGGER.error("getEmptyCellNear() is incomplete");
         return null;
     }
 
