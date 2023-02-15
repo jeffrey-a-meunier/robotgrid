@@ -7,7 +7,6 @@ import java.util.Optional;
 import robotgrid.device.Command;
 import robotgrid.device.IContainer;
 import robotgrid.device.device.Device;
-import robotgrid.scene.Cell;
 import robotgrid.scene.Grid;
 
 public class ClientChannel {
@@ -64,24 +63,6 @@ public class ClientChannel {
 
     public void contentRemovedNotice(final IContainer container, final Grid.LayerType layerType, final Device content) {
         write(_PREFIX, "REMOVED ", layerType, ' ', container.toString(), ' ', content.toString());
-    }
-
-    @Deprecated
-    public void deviceNotice(final Cell cell, final Grid.LayerType layerType, final Device device) {
-        String deviceString = device == null ? "None" : device.toString();
-        write(_PREFIX, "DEVICE ", layerType, ' ', cell.name(), ' ', deviceString);
-    }
-
-    @Deprecated
-    public void payloadNotice(final Device device, final Grid.LayerType layerType, final Device payload) {
-        String payloadString = payload == null ? "None" : payload.toString();
-        write(_PREFIX, "PAYLOAD ", layerType, ' ', device.name, ' ', payloadString);
-    }
-
-    @Deprecated
-    public void payloadNotice(final Cell cell, final Grid.LayerType layerType, final Device payload) {
-        String payloadString = payload == null ? "None" : payload.toString();
-        write(_PREFIX, "PAYLOAD ", layerType, ' ', cell.name(), ' ', payloadString);
     }
 
     public void showResult(final Command command) {
