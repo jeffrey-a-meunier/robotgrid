@@ -215,11 +215,12 @@ def setup(server):
         print("SETUP:", cmd)
         server.sendCommand(cmd)
 
+# This function runs each command synchronously
 def runProgram(server):
     for (cmdString, synchrony) in PROGRAM:
         cmd = Command(cmdString)
         synchrony.apply(cmd)
-        print("PROGRAM:", cmd)
+        # print("PROGRAM:", cmd)
         server.sendCommand(cmd)
         cmd.wait()
 
