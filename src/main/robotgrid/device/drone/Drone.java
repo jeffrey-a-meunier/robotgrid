@@ -6,6 +6,7 @@ import robotgrid.device.device.Device;
 import robotgrid.device.poweredDevice.PoweredDevice;
 import robotgrid.scene.Cell;
 import robotgrid.scene.Direction;
+import robotgrid.scene.Grid;
 import robotgrid.scene.Scene;
 
 public class Drone extends PoweredDevice {
@@ -29,13 +30,17 @@ public class Drone extends PoweredDevice {
 
     public void pickUp() {
         delay();
+        Cell cell = cell();
+        if (cell.layerType() == Grid.LayerType.Ground) {
+            return;
+        }
         synchronized (_payload) {
             if (_payload.size() < _maxPayload) {
-                Cell cell = cellBelow();
-                Optional<Device> payload_opt = cell.peekContent();
+                Cell cellBelow = cellBelow();
+                Optional<Device> payload_opt = cellBelow.peekContent();
                 if (payload_opt.isPresent()) {
                     if (addContent(payload_opt.get())) {
-                        cell.removeContent();
+                        cellBelow.removeContent();
                     }
                 }
             }

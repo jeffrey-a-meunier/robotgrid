@@ -41,8 +41,11 @@ public class Conveyor extends PoweredDevice {
             if (payload_opt.isPresent()) {
                 delay();
                 Cell adjacentCell = cell().getAdjacent(_heading);
-                if (adjacentCell.addContent(payload_opt.get())) {
-                    removeContent();
+                Device payload = payload_opt.get();
+                synchronized (payload) {
+                    if (adjacentCell.addContent(payload)) {
+                        removeContent();
+                    }
                 }
             }
         }

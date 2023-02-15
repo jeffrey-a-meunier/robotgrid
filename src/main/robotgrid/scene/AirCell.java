@@ -1,5 +1,7 @@
 package robotgrid.scene;
 
+import robotgrid.device.device.Device;
+import robotgrid.device.widget.Widget;
 import robotgrid.graphics.Graphics;
 
 public class AirCell extends Cell {
@@ -18,6 +20,19 @@ public class AirCell extends Cell {
     }
 
     // Instance methods =======================================================
+
+    public synchronized boolean addContent(final Device device) {
+        if (device instanceof Widget) {
+            Cell cell = cellBelow();
+            return cell.addContent(device);
+        }
+        return super.addContent(device);
+    }
+
+    protected Cell cellBelow() {
+        return grid().scene().cellBelow(this);
+    }
+    
 
     public void draw(final Graphics graphics) {
         if (_device != null) {

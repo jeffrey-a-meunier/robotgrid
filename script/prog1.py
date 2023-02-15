@@ -118,6 +118,11 @@ class Command:
 
 class Server:
     ASYNC_COMMANDS_STARTED = {}
+    ASYNC_COMMANDS_STARTED_LOCK = threading.Lock()
+    DEVICES = {}
+    DEVICE_SUBSCRIBERS = {}
+    CELLS = {}
+    CELL_SUBSCRIBERS = {}
 
     def __init__(self, host, port):
         self.cmdSocket = socket.socket()
@@ -158,19 +163,29 @@ class Server:
 
     def handleInfoString(self, infoString):
         parts = infoString.split()
-        replyType = parts[0]
-        if replyType == ':OK':
-            commandId = parts[1]
-            command = Server.ASYNC_COMMANDS_STARTED[commandId]
-            if command:
-                command.isComplete = True
-                command.notify()
-                # TODO synchronize access to ASYNC_COMMANDS
-                del Server.ASYNC_COMMANDS_STARTED[commandId]
-            else:
-                print("handleInfoString did not find command", commandId)
-        else:
-            print("handleInfoString unhandled reply type '", replyType, "'", sep='');
+        match parts:
+            case [':OK', commandId, *rest]:
+                command = Server.ASYNC_COMMANDS_STARTED[commandId]
+                if command:
+                    command.isComplete = True
+                    command.notify()
+                    # TODO synchronize access to ASYNC_COMMANDS
+                    with Server.ASYNC_COMMANDS_STARTED_LOCK:
+                        del Server.ASYNC_COMMANDS_STARTED[commandId]
+                else:
+                    print("handleInfoString did not find command", commandId)
+            case [':DEVICE', where, who, what, *rest]:
+                self.handleDevice(where, who, what)
+            case [':PAYLOAD', where, who, what, *rest]:
+                self.handlePayload(where, who, what)
+            case _:
+                print("handleInfoString unhandled command", parts)
+
+    def handleDevice(self, where, who, what):
+        print("handleDevice", where, who, what)
+
+    def handlePayload(self, where, who, what):
+        print("handlePayload", where, who, what)
 
     def sendCommand(self, command):
         cmdBytes = str.encode(command.string + '\n')
@@ -183,7 +198,8 @@ class Server:
         elif replyString.startswith(':STARTED'):
             replyStringParts = replyString.split()
             commandNumber = replyStringParts[1]
-            Server.ASYNC_COMMANDS_STARTED[commandNumber] = command
+            with Server.ASYNC_COMMANDS_STARTED_LOCK:
+                Server.ASYNC_COMMANDS_STARTED[commandNumber] = command
             command.isStarted = True
         elif replyString.startswith(':ERROR'):
             command.isError = True
