@@ -40,7 +40,7 @@ public class CreateWidget extends CommandHandler {
                 ;
             Grid grid = World.THE_WORLD.currentScene().groundGrid();
             if (!grid.addDevice(row, col, widget)) {
-                command.setErrorMessage("Unable to add " + this.getClass().getSimpleName() + " to grid at " + row + ", " + col);
+                command.setErrorMessage(this.getClass().getSimpleName() + " failed in cell at row " + row + ", col " + col);
             }
         }
         catch (final ArgumentException exn) {

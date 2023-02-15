@@ -44,6 +44,11 @@ public abstract class View {
         graphics.rotate(_angle);
     }
 
+    /**
+     * This draws a single payload object, if it exists. If a device is to
+     * contain more than one payload object then you need to override this
+     * method to draw them. See the Table class for an example.
+     */
     protected void _drawPayload(final Graphics graphics, final int layerNum) {
         Optional<Device> payload_opt = _device.peekContent();
         if (payload_opt.isPresent()) {

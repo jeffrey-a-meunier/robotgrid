@@ -20,6 +20,7 @@ public class Table extends Device {
     public Table(final String name) {
         super(name);
         setView(new _View(this));
+        _maxPayload = 9;
     }
 
     @Override

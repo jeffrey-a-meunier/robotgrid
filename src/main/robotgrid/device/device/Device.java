@@ -109,6 +109,10 @@ public abstract class Device extends AbstractDevice implements IContainer {
         }
     }
 
+    public List<Device> allContent() {
+        return _payload;
+    }
+
     public Cell cell() {
         IContainer container = _container;
         // TODO I wrote this iteratively even though it might be better written recursively
