@@ -76,7 +76,7 @@ public abstract class Device extends AbstractDevice implements IContainer {
             if (_payload.size() < _maxPayload) {
                 _payload.add(payload);
                 payload.setContainer(this);
-                Client.INFO.payloadNotice(this, _container.layerType(), payload);
+                Client.INFO.contentAddedNotice(this, _container.layerType(), payload);
                 return true;
             }
             return false;
@@ -102,7 +102,7 @@ public abstract class Device extends AbstractDevice implements IContainer {
         synchronized (_payload) {
             if (_payload.size() > 0) {
                 Device payload = (Device) _payload.remove(0);
-                Client.INFO.payloadNotice(this, _container.layerType(), null);
+                Client.INFO.contentRemovedNotice(this, _container.layerType(), payload);
                 return Optional.of(payload);
             }
             return Optional.empty();

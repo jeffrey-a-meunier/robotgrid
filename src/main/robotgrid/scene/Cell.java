@@ -57,12 +57,7 @@ public abstract class Cell implements IContainer {
         if (_device == null) {
             _device = device;
             device.setContainer(this);
-            if (device instanceof Widget) {
-                Client.INFO.payloadNotice(this, _grid.layerType(), device);
-            }
-            else {
-                Client.INFO.deviceNotice(this, _grid.layerType(), device);
-            }
+            Client.INFO.contentAddedNotice(this, _grid.layerType(), device);
             return true;
         }
         return _device.addContent(device);
@@ -88,7 +83,7 @@ public abstract class Cell implements IContainer {
     public synchronized boolean removeDevice(final Device device) {
         if (_device == device) {
             _device = null;
-            Client.INFO.deviceNotice(this, _grid.layerType(), null);
+            Client.INFO.contentRemovedNotice(this, _grid.layerType(), device);
             return true;
         }
         return false;
@@ -101,7 +96,7 @@ public abstract class Cell implements IContainer {
         if (_device instanceof Widget) {
             Device widget = _device;
             _device = null;
-            Client.INFO.deviceNotice(this, _grid.layerType(), null);
+            Client.INFO.contentRemovedNotice(this, _grid.layerType(), widget);
             return Optional.of(widget);
         }
         return _device.removeContent();
