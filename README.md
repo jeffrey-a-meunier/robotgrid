@@ -27,3 +27,25 @@ $ nc localhost 43210
 
 4. Send commands over the command socket:
     ArticulatedRobot1 ArmExtend
+
+---
+
+More specifically,
+
+1. Open a terminal window and run the application
+
+```
+#!/bin/bash
+
+main='robotgrid.Main'
+path='bin:lib/processing/core.jar'
+
+java $opts -cp $path $main
+```
+
+2. Run the main script. This will set up the grid and run a simple demo.
+
+```
+cd script
+python3 main.py
+```
