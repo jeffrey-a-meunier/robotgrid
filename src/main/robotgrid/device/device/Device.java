@@ -26,7 +26,7 @@ public abstract class Device extends AbstractDevice implements IContainer {
      * Any device that does not override the deviceLatency() method will use this
      * value for its latency.
      */
-    protected static float _STANDARD_LATENCY = 1000.0f;  // milliseconds
+    protected static float _STANDARD_LATENCY = 500.0f;  // milliseconds
 
      // Static initializer =====================================================
     // Static methods =========================================================
@@ -76,7 +76,7 @@ public abstract class Device extends AbstractDevice implements IContainer {
             if (_payload.size() < _maxPayload) {
                 _payload.add(payload);
                 payload.setContainer(this);
-                Client.INFO.contentAddedNotice(this, _container.layerType(), payload);
+                Client.FEEDBACK.contentAddedNotice(this, _container.layerType(), payload);
                 return true;
             }
             return false;
@@ -102,7 +102,7 @@ public abstract class Device extends AbstractDevice implements IContainer {
         synchronized (_payload) {
             if (_payload.size() > 0) {
                 Device payload = (Device) _payload.remove(0);
-                Client.INFO.contentRemovedNotice(this, _container.layerType(), payload);
+                Client.FEEDBACK.contentRemovedNotice(this, _container.layerType(), payload);
                 return Optional.of(payload);
             }
             return Optional.empty();

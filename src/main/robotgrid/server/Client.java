@@ -8,7 +8,7 @@ public class Client {
     // Static variables =======================================================
 
     public static ClientChannel COMMAND_REPLY = new ClientChannel(new PrintWriter(System.out));
-    public static ClientChannel INFO = new ClientChannel(new PrintWriter(System.out));
+    public static ClientChannel FEEDBACK = new ClientChannel(new PrintWriter(System.out));
 
     // Static initializer =====================================================
     // Static methods =========================================================
@@ -22,12 +22,12 @@ public class Client {
         }
     }
 
-    public static void setInfoChannel(final PrintWriter pw) {
+    public static void setFeedbackChannel(final PrintWriter pw) {
         if (pw == null) {
-            INFO = new ClientChannel(new PrintWriter(System.out));
+            FEEDBACK = new ClientChannel(new PrintWriter(System.out));
         }
         else {
-            INFO = new ClientChannel(pw);
+            FEEDBACK = new ClientChannel(pw);
         }
     }
 

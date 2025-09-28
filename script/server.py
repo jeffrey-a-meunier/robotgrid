@@ -8,26 +8,26 @@ import time
 SERVER = '127.0.0.1'
 PORT = 43210
 
-SETUP = [
-    "World CreateMovingBase R1 3 2 East",
-    "R1 PowerOn",
-    "World CreateRotatingBase Base1 4 2",
-    "World CreateArm Arm1 4 2 South",
-    "Base1 PowerOn",
-    "Arm1 PowerOn",
-    "World CreateRotatingBase Base2 4 5",
-    "World CreateArm Arm2 4 5 North",
-    "Base2 PowerOn",
-    "Arm2 PowerOn",
-    "World CreateConveyor Conveyor1 5 5 West",
-    "World CreateConveyor Conveyor2 5 4 West",
-    "World CreateConveyor Conveyor3 5 3 West",
-    "World CreateGroup ConveyorGroup1",
-    "ConveyorGroup1 Add Conveyor1 Conveyor2 Conveyor3",
-    "World CreateTable Table1 5 2",
-    "World CreateDrone D1 5 0",
-    "World CreateWidget Widget3 5 1"
-]
+# SETUP = [
+#     "World CreateMovingBase R1 3 2 East",
+#     "R1 PowerOn",
+#     "World CreateRotatingBase Base1 4 2",
+#     "World CreateArm Arm1 4 2 South",
+#     "Base1 PowerOn",
+#     "Arm1 PowerOn",
+#     "World CreateRotatingBase Base2 4 5",
+#     "World CreateArm Arm2 4 5 North",
+#     "Base2 PowerOn",
+#     "Arm2 PowerOn",
+#     "World CreateConveyor Conveyor1 5 5 West",
+#     "World CreateConveyor Conveyor2 5 4 West",
+#     "World CreateConveyor Conveyor3 5 3 West",
+#     "World CreateGroup ConveyorGroup1",
+#     "ConveyorGroup1 Add Conveyor1 Conveyor2 Conveyor3",
+#     "World CreateTable Table1 5 2",
+#     "World CreateDrone D1 5 0",
+#     "World CreateWidget Widget3 5 1"
+# ]
 
 class Immediate:
     def apply(self, cmd):
@@ -39,47 +39,6 @@ class Asynchronous:
 
 IMMED = Immediate()
 ASYNC = Asynchronous()
-
-PROGRAM = [
-    ("D1 PowerOn", IMMED),
-    ("D1 MoveEast", ASYNC),
-    ("D1 PickUp", ASYNC),
-    ("D1 MoveEast", ASYNC),
-    ("D1 Drop", ASYNC),
-    ("D1 MoveWest", ASYNC),
-    ("D1 PowerOff", IMMED),
-    ("Arm1 Extend", ASYNC),
-    ("Arm1 Grip", ASYNC),
-    ("Arm1 Retract", ASYNC),
-    ("Base1 RotateLeft", ASYNC),
-    ("Base1 RotateLeft", ASYNC),
-    ("Arm1 Extend", ASYNC),
-    ("Arm1 Release", ASYNC),
-    ("Arm1 Retract", ASYNC),
-    ("Base1 RotateRight", ASYNC),
-    ("Base1 RotateRight", ASYNC),
-    ("R1 MoveForward", ASYNC),
-    ("R1 MoveForward", ASYNC),
-    ("R1 MoveForward", ASYNC),
-    ("Arm2 Extend", ASYNC),
-    ("Arm2 Grip", ASYNC),
-    ("Arm2 Retract", ASYNC),
-    ("R1 RotateLeft", ASYNC),
-    ("R1 RotateLeft", ASYNC),
-    ("R1 MoveForward", ASYNC),
-    ("R1 MoveForward", ASYNC),
-    ("R1 MoveForward", ASYNC),
-    ("R1 RotateRight", ASYNC),
-    ("R1 RotateRight", ASYNC),
-    ("Base2 RotateRight", ASYNC),
-    ("Base2 RotateRight", ASYNC),
-    ("Arm2 Extend", ASYNC),
-    ("Arm2 Release", ASYNC),
-    ("Arm2 Retract", ASYNC),
-    ("Base2 RotateLeft", ASYNC),
-    ("Base2 RotateLeft", ASYNC),
-    ("ConveyorGroup1 PowerOn", IMMED)
-]
 
 class Success:
     pass
@@ -119,10 +78,10 @@ class Command:
 class Server:
     ASYNC_COMMANDS_STARTED = {}
     ASYNC_COMMANDS_STARTED_LOCK = threading.Lock()
-    DEVICES = {}
-    DEVICE_SUBSCRIBERS = {}
-    CELLS = {}
-    CELL_SUBSCRIBERS = {}
+    AIR_CONTENT = {}
+    AIR_SUBSCRIBERS = {}
+    GROUND_CONTENT = {}
+    GROUND_SUBSCRIBERS = {}
 
     def __init__(self, host, port):
         self.cmdSocket = socket.socket()
@@ -174,18 +133,18 @@ class Server:
                         del Server.ASYNC_COMMANDS_STARTED[commandId]
                 else:
                     print("handleInfoString did not find command", commandId)
-            case [':DEVICE', where, who, what, *rest]:
-                self.handleDevice(where, who, what)
-            case [':PAYLOAD', where, who, what, *rest]:
-                self.handlePayload(where, who, what)
+            case [':ADDED', where, who, what, *rest]:
+                self.handleContentAdded(where, who, what)
+            case [':REMOVED', where, who, what, *rest]:
+                self.handleContentRemoved(where, who, what)
             case _:
                 print("handleInfoString unhandled command", parts)
 
-    def handleDevice(self, where, who, what):
-        print("handleDevice", where, who, what)
+    def handleContentAdded(self, where, who, what):
+        print("handleContentAdded", where, who, what)
 
-    def handlePayload(self, where, who, what):
-        print("handlePayload", where, who, what)
+    def handleContentRemoved(self, where, who, what):
+        print("handleContentRemoved", where, who, what)
 
     def sendCommand(self, command):
         cmdBytes = str.encode(command.string + '\n')
@@ -208,30 +167,3 @@ class Server:
             command.errorMessage = "Device is off"
         else:
             print("Server.sendCommand did not understand reply:", replyString)
-
-def setup(server):
-    for cmdString in SETUP:
-        cmd = Command(cmdString)
-        print("SETUP:", cmd)
-        server.sendCommand(cmd)
-
-# This function runs each command synchronously
-def runProgram(server):
-    for (cmdString, synchrony) in PROGRAM:
-        cmd = Command(cmdString)
-        synchrony.apply(cmd)
-        # print("PROGRAM:", cmd)
-        server.sendCommand(cmd)
-        cmd.wait()
-
-def main(args):
-    server = Server(SERVER, PORT)
-    if not server.cmdSocketIsConnected:
-        print("Unable to connect to server at", SERVER, PORT);
-        exit(1)
-    setup(server)
-    time.sleep(1)
-    runProgram(server)
-
-if __name__ == '__main__':
-    main(sys.argv)

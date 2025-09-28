@@ -29,7 +29,7 @@ public class Exit extends CommandHandler {
     @Override
     public void execute(final Command command) {
         String message = "World exiting";
-        Client.INFO.write(message);
+        Client.FEEDBACK.write(message);
         _LOGGER.info(message);
         World.THE_WORLD.exit();
     }

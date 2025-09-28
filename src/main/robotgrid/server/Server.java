@@ -18,7 +18,7 @@ public class Server {
     public static final Server THE_SERVER = new Server();
 
     protected static final int _COMMAND_PORT = 43210;  // TODO read from config file
-    protected static final int _INFO_PORT = _COMMAND_PORT + 1;  // TODO read from config file
+    protected static final int _FEEDBACK_PORT = _COMMAND_PORT + 1;  // TODO read from config file
 
     private static Logger _LOGGER = new Logger(Server.class, Logger.Level.All);
 
@@ -37,9 +37,9 @@ public class Server {
     protected Thread _commandThread;
     protected PrintWriter _commandSocketPrintWriter;
 
-    protected ServerSocket _infoServerSocket;
-    protected Thread _infoThread;
-    protected PrintWriter _infoSocketPrintWriter;
+    protected ServerSocket _feedbackServerSocket;
+    protected Thread _feedbackThread;
+    protected PrintWriter _feedbackSocketPrintWriter;
 
     // Instance initializer ===================================================
     // Constructors ===========================================================
@@ -47,7 +47,7 @@ public class Server {
     public Server() {
         try {
             _commandServerSocket = new ServerSocket(_COMMAND_PORT);
-            _infoServerSocket = new ServerSocket(_INFO_PORT);
+            _feedbackServerSocket = new ServerSocket(_FEEDBACK_PORT);
         }
         catch (final Exception exn) {
             _LOGGER.fatal("Constructor caught exception ", exn.toString());
@@ -65,13 +65,13 @@ public class Server {
             _LOGGER.error("terminate() caught exception trying to close command server socket ", exn.toString());
         }
         try {
-            _infoServerSocket.close();
+            _feedbackServerSocket.close();
         }
         catch (final IOException exn) {
-            _LOGGER.error("terminate() caught exception trying to close info server socket ", exn.toString());
+            _LOGGER.error("terminate() caught exception trying to close feedback server socket ", exn.toString());
         }
         _commandThread.interrupt();
-        _infoThread.interrupt();
+        _feedbackThread.interrupt();
     }
 
     protected void _startThreads() {
@@ -82,15 +82,15 @@ public class Server {
             }
         };
         _commandThread.start();
-        // TODO I think the infoThread is no longer needed; the _infoSocketPrintWriter can be used
+        // TODO I think the _feedbackThread is no longer needed; the _feedbackSocketPrintWriter can be used
         // to write directly to the client.
-        _infoThread = new Thread() {
+        _feedbackThread = new Thread() {
             @Override
             public void run() {
-                _infoThreadHandler();
+                _feedbackThreadHandler();
             }
         };
-        _infoThread.start();
+        _feedbackThread.start();
     }
 
     protected void _commandThreadHandler() {
@@ -107,17 +107,17 @@ public class Server {
         }
     }
 
-    protected void _infoThreadHandler() {
-        _LOGGER.info("Info handler listening on port ", _INFO_PORT);
+    protected void _feedbackThreadHandler() {
+        _LOGGER.info("Feedback thread handler listening on port ", _FEEDBACK_PORT);
         try {
             while (!_commandThread.isInterrupted()) {
-                Socket clientSocket = _infoServerSocket.accept();
-                _LOGGER.info("Info handler got socket ", clientSocket);
-                _handleInfoSocket(clientSocket);
+                Socket clientSocket = _feedbackServerSocket.accept();
+                _LOGGER.info("Feedback thread handler got socket ", clientSocket);
+                _handleFeedbackSocket(clientSocket);
             }
         }
         catch (final IOException exn) {
-            _LOGGER.error("_commandThreadHandler caught exception ", exn.toString());
+            _LOGGER.error("_feedbackThreadHandler caught exception ", exn.toString());
         }
     }
 
@@ -152,10 +152,10 @@ public class Server {
         }
     }
 
-    protected void _handleInfoSocket(final Socket clientSocket) {
+    protected void _handleFeedbackSocket(final Socket clientSocket) {
         try {
-            _infoSocketPrintWriter = new PrintWriter(clientSocket.getOutputStream());
-            Client.setInfoChannel(_infoSocketPrintWriter);
+            _feedbackSocketPrintWriter = new PrintWriter(clientSocket.getOutputStream());
+            Client.setFeedbackChannel(_feedbackSocketPrintWriter);
             // TODO how to detect when the client closes this connection?
             // Client.setInfoChannel(null);
         }

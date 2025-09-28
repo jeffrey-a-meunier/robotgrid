@@ -68,10 +68,10 @@ public abstract class PoweredDevice extends Device implements Runnable {
             command.execute();
             Optional<String> errorMessage = command.errorMessage();
             if (errorMessage.isEmpty()) {
-                Client.INFO.commandSuccess(command);
+                Client.FEEDBACK.commandSuccess(command);
             }
             else {
-                Client.INFO.commandError(command, errorMessage.get());
+                Client.FEEDBACK.commandError(command, errorMessage.get());
             }
         }
     }
